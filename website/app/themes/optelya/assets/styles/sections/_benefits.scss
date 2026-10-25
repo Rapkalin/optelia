@@ -1,0 +1,60 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+.section--benefits {
+  background: $color-band;
+
+  .section-title {
+    max-width: $heading-max-width;
+  }
+}
+
+.benefits {
+  @include auto-grid(420px);
+
+  &__panel {
+    @include stack(20px);
+    padding: $panel-padding;
+    background: $color-white;
+    border-radius: $radius-card;
+
+    &--dark {
+      background: $color-ink;
+      color: $color-white;
+    }
+  }
+
+  &__reader {
+    @include eyebrow(0.1em);
+    color: $color-accent-dark;
+
+    .benefits__panel--dark & {
+      color: $color-accent-light;
+    }
+  }
+
+  &__list {
+    @include stack(18px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    @include stack(4px);
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: $font-size-lg;
+  }
+
+  &__text {
+    font-size: $font-size-base;
+    color: $color-text-muted;
+
+    .benefits__panel--dark & {
+      color: $color-on-ink-muted;
+    }
+  }
+}

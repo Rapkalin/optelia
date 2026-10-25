@@ -1,0 +1,34 @@
+# PHPStan — static analysis for the project's own PHP (theme + mu-plugins).
+# Level 6 enables missing-type-hint reporting (parameters + return types).
+# WordPress symbols come from a stub package so its functions are not reported
+# as undefined.
+includes:
+    - website/vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 6
+
+    # No `phpVersion`: PHPStan reads config.platform.php in composer.json, the
+    # single place the PHP version is declared (checked with `phpstan diagnose`).
+
+    paths:
+        - website/app/themes/optelya
+        - website/app/mu-plugins
+
+    # Third-party code we ship but do not own — excluded from analysis.
+    excludePaths:
+        - website/app/themes/optelya/dist/*
+        - website/app/themes/optelya/node_modules/*
+        - website/app/mu-plugins/bedrock-autoloader.php
+        - website/app/mu-plugins/bedrock-disallow-indexing/*
+
+    # ACF Pro is not installed by Composer (licence): its functions come from
+    # the stub package.
+    scanFiles:
+        - website/vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+
+    ignoreErrors:
+        # array<…> generics are intentionally out of scope: the project's type
+        # contract is the native `array` hint (see phpcs.xml). Element-type
+        # documentation is not required.
+        - identifier: missingType.iterableValue

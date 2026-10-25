@@ -1,0 +1,82 @@
+# Déploiement production — à chaque poussée sur main, ou d'un tag.
+#
+# ⚠️ TEMPORAIRE (décision du 25/10/2026, avant la mise en ligne) : chaque
+# poussée sur main part en production, sans geste de validation. À la mise en
+# ligne, retirer `branches: [main]` pour ne garder que les tags :
+#
+#   git tag -a x.y.z -m "…" && git push origin x.y.z   (x.y.z = version de composer.json)
+#
+# Rien n'est envoyé tant que la CI et CodeQL ne sont pas verts : les deux sont
+# appelés ici comme workflows réutilisables, et le job de déploiement les attend
+# via `needs`. Un `needs` non satisfait n'échoue pas le déploiement, il le
+# **saute** — aucune release partielle possible.
+
+name: Déploiement production
+
+on:
+  push:
+    branches: [main]
+    tags: ['*']
+
+# Un seul déploiement production à la fois. cancel-in-progress est à false :
+# interrompre un rsync en cours laisserait la release à moitié écrite.
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # Le tag doit être la version de composer.json (celle du pied de page et du
+  # CHANGELOG) et pointer sur un commit de main : un tag posé ailleurs, ou une
+  # version oubliée, n'atteint jamais la production.
+  release-tag:
+    name: Tag = version de composer.json, sur main
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Vérifier le tag
+        run: |
+          VERSION=$(jq -r .version composer.json)
+          if [ "$GITHUB_REF_NAME" != "$VERSION" ]; then
+            echo "::error::Le tag $GITHUB_REF_NAME ne correspond pas à la version $VERSION de composer.json."
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Le tag $GITHUB_REF_NAME ne pointe pas sur un commit de main."
+            exit 1
+          fi
+
+  ci:
+    name: Contrôles qualité
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  codeql:
+    name: Analyse de sécurité
+    uses: ./.github/workflows/codeql.yml
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+
+  # release-tag est SAUTÉ sur une poussée de main : sans cette condition, un
+  # `needs` sauté sauterait aussi le déploiement. Les contrôles, eux, restent
+  # obligatoires dans les deux cas.
+  deploy:
+    needs: [release-tag, ci, codeql]
+    if: >-
+      always()
+      && needs.ci.result == 'success'
+      && needs.codeql.result == 'success'
+      && (needs.release-tag.result == 'success' || needs.release-tag.result == 'skipped')
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: production
+      remote_path: prod-optelya
+    secrets: inherit

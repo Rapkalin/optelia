@@ -1,0 +1,61 @@
+// Design tokens of the homepage mockup (ux/accueil-ui/index.html).
+// ⚠️ "Example mood", not validated by the client: there is no Optelya brand
+// guide yet. Every colour and typeface of the theme is declared here and only
+// here, so that a palette change stays a one-file change.
+
+// Colours
+$color-ink: #0F1D2B;
+$color-ink-line: #22344A;
+$color-ink-raised: #16283B;
+$color-ink-grid: #22384F;
+$color-ink-border: #2C4058;
+$color-ink-control: #5B7189;
+$color-paper: #F5F6F3;
+$color-band: #E9ECE7;
+$color-white: #FFFFFF;
+$color-text-muted: #4D5A66;
+$color-on-ink: #DCE3EA;
+$color-on-ink-muted: #C9D3DD;
+$color-on-ink-faint: #8FA0B2;
+$color-accent: #C2410C;
+$color-accent-dark: #9A3412;
+$color-accent-light: #F2A57E;
+$color-card-border: #D9DDD8;
+$color-card-divider: #E6E9E5;
+$color-pill-border: #B9C0B8;
+$color-input-border: #9AA49A;
+
+// Typefaces — self-hosted, see app.scss
+$font-text: 'IBM Plex Sans Variable', system-ui, sans-serif;
+$font-display: 'Archivo Variable', sans-serif;
+$font-mono: 'IBM Plex Mono', monospace;
+
+// Type scale
+$font-size-2xs: 13px;
+$font-size-xs: 14px;
+$font-size-sm: 15px;
+$font-size-base: 16px;
+$font-size-md: 17px;
+$font-size-lg: 18px;
+$font-size-xl: 19px;
+$font-size-2xl: 20px;
+$font-size-3xl: 22px;
+$font-size-4xl: 24px;
+$font-size-title: 38px;
+$font-size-figure: 46px;
+$letter-spacing-wide: 0.08em;
+$underline-offset: 4px;
+
+// Layout
+$container-width: 1240px;
+$gutter: 24px;
+$radius-card: 10px;
+$radius-control: 6px;
+$header-offset: 80px;
+$card-padding: 30px;
+$panel-padding: 34px;
+$grid-gap: 24px;
+$section-space: 88px;
+$touch-target: 44px;
+$control-height-large: 52px;
+$heading-max-width: 720px;

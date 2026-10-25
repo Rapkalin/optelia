@@ -1,0 +1,33 @@
+@use '../basics/variables' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  border-radius: $radius-control;
+  background: $color-accent;
+  color: $color-white;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-white;
+  }
+
+  &--small {
+    min-height: $touch-target;
+    padding: 0 20px;
+    font-size: $font-size-sm;
+  }
+
+  &--large {
+    min-height: $control-height-large;
+    padding: 0 28px;
+    font-size: $font-size-md;
+  }
+}
+
+.text-link {
+  font-weight: 600;
+  font-size: $font-size-base;
+  text-underline-offset: $underline-offset;
+}

@@ -1,0 +1,22 @@
+{
+  "preset": "per",
+  "rules": {
+    "phpdoc_trim": true,
+    "yoda_style": {
+      "equal": false,
+      "identical": false,
+      "less_and_greater": false
+    }
+  },
+  "exclude": [
+    "shared",
+    "website/vendor",
+    "website/wordpress-core",
+    "website/app/plugins",
+    "website/app/languages",
+    "website/app/uploads",
+    "website/app/mu-plugins/bedrock-disallow-indexing",
+    "website/app/themes/optelya/dist",
+    "website/app/themes/optelya/node_modules"
+  ]
+}

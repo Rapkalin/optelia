@@ -1,0 +1,38 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+.section {
+  padding: $section-space $gutter;
+
+  &__inner {
+    @include container;
+    @include stack(36px);
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+  }
+}
+
+.section-heading {
+  @include stack(10px);
+  max-width: $heading-max-width;
+
+  &__intro {
+    margin: 0;
+    font-size: $font-size-lg;
+    color: $color-text-muted;
+  }
+}
+
+.section-title {
+  margin: 0;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: $font-size-title;
+  line-height: 1.15;
+}

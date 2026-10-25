@@ -1,0 +1,140 @@
+{
+    "key": "group_optelya_settings",
+    "title": "Configuration du site",
+    "fields": [
+        {
+            "key": "field_optelya_settings_tagline",
+            "label": "Accroche",
+            "name": "tagline",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Sous le logo, en pied de page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_settings_cta",
+            "label": "Bouton de l’en-tête",
+            "name": "header_cta",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_optelya_settings_phone_label",
+            "label": "Téléphone affiché",
+            "name": "phone_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Tel qu’il s’affiche, par exemple « 01 23 45 67 89 ».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_settings_phone_number",
+            "label": "Téléphone à composer",
+            "name": "phone_number",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Avec l’indicatif, par exemple « +33123456789 ». Sert au lien d’appel.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_settings_contact_title",
+            "label": "Titre de la colonne contact",
+            "name": "contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "En pied de page, au-dessus de l’adresse.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_settings_address",
+            "label": "Adresse",
+            "name": "address",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "optelya-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Réglages communs à toutes les pages.",
+    "show_in_rest": 0
+}

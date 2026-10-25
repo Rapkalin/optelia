@@ -1,0 +1,77 @@
+# CI — qualité, tests, sécurité des dépendances, secrets et build front.
+#
+# Les versions d'outils ne sont écrites qu'une fois, dans le dépôt :
+#   PHP  → composer.json, config.platform.php (lu par setup-php quand aucune
+#          `php-version` n'est passée) ;
+#   Node → website/app/themes/optelya/.nvmrc (lu par .github/actions/build-theme).
+
+name: CI
+
+on:
+  # Garde-fou de merge : chaque pull request est vérifiée.
+  pull_request:
+    branches: [main, develop]
+  # Garde-fou de déploiement : les workflows de déploiement appellent ce
+  # workflow et n'envoient rien tant qu'il n'est pas vert. Pas de déclencheur
+  # `push` : il ferait tourner la CI deux fois sur les branches déployées.
+  workflow_call:
+
+# Une nouvelle poussée sur une branche annule le run précédent encore en cours.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  php:
+    name: PHP (qualité, tests, CVE)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+
+      # composer.lock est committé → install déterministe.
+      - name: Installer les dépendances
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      # Enchaîne Pint (style) + PHPCS/Slevomat (types natifs) + PHPStan (analyse).
+      - name: composer check
+        run: composer check
+
+      - name: composer test
+        run: composer test
+
+      # --locked : audite composer.lock tel qu'il est committé ;
+      # --abandoned=ignore : un paquet abandonné (≠ vulnérable) ne fait pas
+      # échouer le contrôle.
+      - name: composer audit
+        run: composer audit --locked --no-interaction --abandoned=ignore
+
+  secret-scan:
+    name: Détection de secrets (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Nécessaire pour résoudre la plage de commits que gitleaks-action
+          # scanne (commits poussés ou de la PR, pas tout l'historique).
+          fetch-depth: 0
+
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # dist/ n'est pas versionné : ce job vérifie que le build passe toujours.
+  # Il ne publie aucun artefact — la compilation reste faite au déploiement.
+  build-front:
+    name: Build front (webpack)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-theme

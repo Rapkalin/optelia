@@ -1,0 +1,98 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+.contact {
+  @include container;
+  @include auto-grid(440px, 48px);
+  align-items: start;
+
+  &__intro {
+    @include stack(20px);
+  }
+
+  &__lead {
+    margin: 0;
+    font-size: $font-size-lg;
+    line-height: 1.5;
+    color: $color-text-muted;
+  }
+
+  &__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: $font-size-lg;
+    text-decoration: none;
+
+    .icon {
+      color: $color-accent;
+    }
+  }
+
+  &__steps {
+    @include stack(14px);
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__step {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    font-size: $font-size-base;
+  }
+
+  &__step-number {
+    font-family: $font-mono;
+    font-weight: 500;
+    color: $color-accent;
+  }
+}
+
+.contact-form {
+  @include stack(18px);
+  padding: $panel-padding;
+
+  &__field {
+    @include stack(6px);
+  }
+
+  &__label {
+    font-weight: 600;
+    font-size: $font-size-sm;
+  }
+
+  &__optional {
+    font-weight: 400;
+    color: $color-text-muted;
+  }
+
+  &__input {
+    min-height: 46px;
+    padding: 0 14px;
+    border: 1px solid $color-input-border;
+    border-radius: $radius-control;
+    font-size: $font-size-base;
+    background: $color-white;
+  }
+
+  &__submit {
+    min-height: $control-height-large;
+    border: 0;
+    border-radius: $radius-control;
+    background: $color-ink;
+    color: $color-white;
+    font: inherit;
+    font-weight: 600;
+    font-size: $font-size-md;
+    cursor: pointer;
+  }
+
+  &__notice {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+}

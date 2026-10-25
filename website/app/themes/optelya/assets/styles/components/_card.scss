@@ -1,0 +1,12 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+.card-grid {
+  @include auto-grid(300px);
+}
+
+.card {
+  background: $color-white;
+  border: 1px solid $color-card-border;
+  border-radius: $radius-card;
+}

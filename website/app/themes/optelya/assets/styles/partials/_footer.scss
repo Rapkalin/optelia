@@ -1,0 +1,57 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+.site-footer {
+  background: $color-ink;
+  color: $color-on-ink-muted;
+
+  &__columns {
+    @include container;
+    @include auto-grid(200px, 32px);
+    padding: 56px $gutter 40px;
+  }
+
+  &__identity {
+    @include stack(10px);
+    font-size: $font-size-xs;
+  }
+
+  &__brand {
+    font-size: $font-size-2xl;
+  }
+
+  &__column {
+    @include stack(8px);
+    font-size: $font-size-xs;
+  }
+
+  &__title {
+    font-weight: 600;
+    color: $color-white;
+  }
+
+  &__legal {
+    @include container;
+    padding: 18px $gutter 28px;
+    border-top: 1px solid $color-ink-line;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: $font-size-2xs;
+  }
+
+  &__column a,
+  &__legal a {
+    color: $color-on-ink-muted;
+
+    &:hover {
+      color: $color-on-ink-muted;
+    }
+  }
+
+  // Not in the mockup: the site version, required on every environment.
+  &__version {
+    margin-left: auto;
+    color: $color-on-ink-faint;
+  }
+}

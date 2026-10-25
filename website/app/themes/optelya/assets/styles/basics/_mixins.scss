@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+@mixin container {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+// Auto-fit grid of the mockup: as many columns of at least $min as fit.
+@mixin auto-grid($min, $gap: $grid-gap) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, $min), 1fr));
+  gap: $gap;
+}
+
+@mixin stack($gap) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin eyebrow($spacing) {
+  margin: 0;
+  font-family: $font-mono;
+  font-size: $font-size-2xs;
+  letter-spacing: $spacing;
+  text-transform: uppercase;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

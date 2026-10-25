@@ -1,0 +1,73 @@
+# ─────────────────────────────────────────────────────────────
+# Dépendances — installées par Composer / npm, jamais versionnées
+# ─────────────────────────────────────────────────────────────
+/vendor/
+website/vendor
+website/wordpress-core
+website/app/themes/optelya/node_modules
+website/app/themes/optelya/dist
+
+# ─────────────────────────────────────────────────────────────
+# Environnement. En local le .env est à la racine ; sur le serveur il vit dans
+# shared/ et est lié dans le docroot (website/.env). shared/ porte aussi, en
+# local comme sur le serveur, les plugins sous licence (ACF Pro) — voir
+# readme/deploiement.md.
+# ─────────────────────────────────────────────────────────────
+/shared/
+/.env
+website/.env
+
+# ─────────────────────────────────────────────────────────────
+# Contenu applicatif
+# Aucun plugin n'est versionné : les gratuits viennent de Composer, ceux sous
+# licence de shared/plugins/ (liens).
+# ─────────────────────────────────────────────────────────────
+website/app/plugins
+website/app/uploads/*
+!website/app/uploads/.gitkeep
+website/app/cache/*
+!website/app/cache/.gitkeep
+website/app/upgrade
+
+# mu-plugins : les modules installés par Composer (dossiers) sont ignorés.
+# AJOUTER UN MODULE MAISON EN DOSSIER = AJOUTER SA NÉGATION ICI, sinon son
+# fichier d'entrée part au déploiement sans les fichiers qu'il requiert, et le
+# site tombe en erreur fatale sur toutes les pages.
+website/app/mu-plugins/*/
+
+# ─────────────────────────────────────────────────────────────
+# Environnement & secrets
+# ─────────────────────────────────────────────────────────────
+.env.*
+!.env.example
+auth.json
+
+# Protection par mot de passe : le fichier vit dans shared/ sur le serveur,
+# jamais dans le dépôt (il contient des empreintes de mots de passe).
+website/.htpasswd
+
+# ─────────────────────────────────────────────────────────────
+# Logs & caches d'outillage
+# ─────────────────────────────────────────────────────────────
+*.log
+phpunit.xml
+.phpunit.result.cache
+.phpunit.cache
+
+# ─────────────────────────────────────────────────────────────
+# OS / IDE
+# ─────────────────────────────────────────────────────────────
+.DS_Store
+.idea/
+.vscode/
+
+# ─────────────────────────────────────────────────────────────
+# Travaux d'avant-vente, hors code — le dépôt est PUBLIC.
+# Notes internes (arbitrages, chiffrage, prospects), prototype et PDF
+# d'études des éditeurs (~100 Mo, droits de Noesis Solutions) : ils restent
+# sur le poste, jamais sur GitHub.
+# ─────────────────────────────────────────────────────────────
+/ux/
+/prototype/
+/INVENTAIRE-GABARITS-COMPOSANTS.md
+/.claude/

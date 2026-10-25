@@ -1,0 +1,19 @@
+# Shared by ci.yml (does the build still pass?) and deploy.yml (the release
+# needs dist/, which is not versioned). The Node version comes from .nvmrc.
+name: Build du thème
+description: Installe Node et compile website/app/themes/optelya/dist.
+
+runs:
+  using: composite
+  steps:
+    - name: Installer Node
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: website/app/themes/optelya/.nvmrc
+        cache: npm
+        cache-dependency-path: website/app/themes/optelya/package-lock.json
+
+    - name: npm ci && npm run build
+      shell: bash
+      working-directory: website/app/themes/optelya
+      run: npm ci && npm run build

@@ -1,0 +1,82 @@
+{
+    "name": "rapkalin/optelya",
+    "description": "Optelya's official website",
+    "type": "project",
+    "version": "0.3.0",
+    "authors": [
+        {
+            "name": "Rapkalin",
+            "email": "raphael@rapkalin.fr"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        }
+    ],
+    "require": {
+        "php": ">=8.5",
+        "composer/installers": "^2.3",
+        "johnpbloch/wordpress": "^7.1.3",
+        "oscarotero/env": "^2.1.1",
+        "roots/bedrock-autoloader": "^1.1",
+        "roots/bedrock-disallow-indexing": "^2.1",
+        "roots/wp-config": "^1.0",
+        "vlucas/phpdotenv": "^5.7"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
+        "laravel/pint": "^1.32.1",
+        "pestphp/pest": "^5.3.3",
+        "php-stubs/acf-pro-stubs": "^6.8",
+        "phpstan/phpstan": "^2.3.1",
+        "slevomat/coding-standard": "^8.31.1",
+        "squizlabs/php_codesniffer": "^4.0.4",
+        "szepeviktor/phpstan-wordpress": "^2.0.4"
+    },
+    "config": {
+        "vendor-dir": "website/vendor",
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform": {
+            "php": "8.5"
+        },
+        "allow-plugins": {
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "johnpbloch/wordpress-core-installer": true,
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "wordpress-install-dir": "website/wordpress-core",
+        "installer-paths": {
+            "website/app/mu-plugins/{$name}/": [
+                "type:wordpress-muplugin"
+            ],
+            "website/app/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ],
+            "website/app/themes/{$name}/": [
+                "type:wordpress-theme"
+            ]
+        }
+    },
+    "scripts": {
+        "lint": "pint --test",
+        "lint:fix": "pint",
+        "types": "phpcs -q",
+        "types:fix": "phpcbf",
+        "stan": "phpstan analyse --memory-limit=1G",
+        "check": [
+            "@lint",
+            "@types",
+            "@stan"
+        ],
+        "_comment_test": "Pest derives its root from the vendor dir (website/vendor); --test-directory points it back at tests/ at the repository root.",
+        "test": "pest --test-directory=../tests",
+        "setup-hooks": "git config core.hooksPath .githooks"
+    }
+}

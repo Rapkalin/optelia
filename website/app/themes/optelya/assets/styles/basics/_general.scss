@@ -1,0 +1,63 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+html {
+  scroll-padding-top: $header-offset;
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: $color-paper;
+  color: $color-ink;
+  font-family: $font-text;
+}
+
+a {
+  color: $color-ink;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+input {
+  font: inherit;
+}
+
+.brand {
+  font-family: $font-display;
+  font-weight: 800;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: $color-white;
+  text-decoration: none;
+}
+
+.eyebrow {
+  @include eyebrow(0.12em);
+  color: $color-accent-light;
+}
+
+.skip-link {
+  @include visually-hidden;
+
+  &:focus {
+    z-index: 20;
+    top: 8px;
+    left: 8px;
+    width: auto;
+    height: auto;
+    padding: 12px 16px;
+    clip-path: none;
+    background: $color-white;
+  }
+}
+
+.page-content {
+  @include container;
+  padding: $section-space $gutter;
+}

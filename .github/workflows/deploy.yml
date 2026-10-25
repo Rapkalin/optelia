@@ -1,0 +1,323 @@
+# Déploiement — workflow réutilisable, appelé par deploy-preprod.yml et
+# deploy-prod.yml (qui ne portent que le déclencheur et le chemin distant).
+#
+# Modèle repris de LCDS : build d'un artefact, sauvegarde de la release en
+# place, rsync, puis recréation des liens vers shared/.
+#
+# Arborescence cible sur le serveur :
+#
+#   $HOME/<remote_path>/
+#   ├── shared/          ← JAMAIS écrasé : .env, plugins payants, médias, cache
+#   │   ├── .env
+#   │   ├── plugins/     ← plugins sous licence (ACF Pro), déposés à la main
+#   │   ├── .htaccess    ← SERVI par Apache (le fichier versionné l'amorce)
+#   │   ├── .htpasswd    ← optionnel : protection par mot de passe (préprod)
+#   │   ├── uploads/
+#   │   └── cache/
+#   ├── config/          ← release, au même niveau que website/ (comme en local)
+#   ├── website/         ← release (docroot du vhost)
+#   │   └── .env         ← lien vers shared/.env
+#   ├── composer.json    ← release : le pied de page y lit la version du site
+#   ├── wp-cli.yml       ← release
+#   └── old_release/     ← copie de la release précédente (rollback)
+#
+# Secrets (Settings > Secrets and variables > Actions) :
+#   OBLIGATOIRES   DEPLOY_HOST · DEPLOY_USER · DEPLOY_KEY
+#   OPTIONNELS     DEPLOY_KEY_PASS (clé protégée par passphrase)
+#                  DEPLOY_FINGERPRINT (vérification de l'hôte, anti-MITM)
+# Un secret optionnel non défini vaut la chaîne vide et est simplement ignoré.
+# Détail : readme/deploiement.md
+
+name: Déploiement
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Nom de l'environnement (affiché dans l'UI GitHub)"
+        required: true
+        type: string
+      remote_path:
+        # RELATIF au home de l'utilisateur SSH, sans `~/` : un `~` transmis par
+        # une variable n'est PAS développé par le shell (`"$ROOT/x"` reste un
+        # chemin littéral commençant par `~`), ce qui crée un dossier nommé « ~ »
+        # au lieu de viser le home. Les scripts préfixent donc par $HOME.
+        description: "Dossier de déploiement, relatif au home SSH (ex. preprod-optelya)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build de la release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Version lue dans composer.json (config.platform.php), comme en CI.
+      - name: Installer PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+
+      - name: Installer les dépendances PHP (sans dev)
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
+
+      # dist/ n'est pas versionné : sans ce build, le site part sans CSS ni JS.
+      - uses: ./.github/actions/build-theme
+
+      # node_modules ne sert qu'au build : il n'a rien à faire sur le serveur.
+      # composer.json part avec l'artefact : le pied de page y lit la version du
+      # site. Il vit hors du docroot, donc Apache ne le sert pas, et il ne
+      # contient aucun secret.
+      - name: Assembler la release
+        run: |
+          rm -rf website/app/themes/optelya/node_modules
+          mkdir -p release
+          cp -a website config wp-cli.yml composer.json release/
+          # Livré sous un autre nom : rsync ne doit pas écraser le lien
+          # website/.htaccess -> shared/.htaccess, sinon le serveur applique le
+          # fichier du dépôt (sans le mot de passe de la préprod) jusqu'à l'étape
+          # suivante. Le FilesMatch `^\.` refuse de servir ce fichier.
+          mv release/website/.htaccess release/website/.htaccess.dist
+          tar -czf release.tar.gz -C release .
+
+      - name: Publier l'artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ inputs.environment }}
+          path: release.tar.gz
+          retention-days: 5
+
+  deploy:
+    name: Déploiement (${{ inputs.environment }})
+    runs-on: ubuntu-latest
+    needs: build
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Récupérer l'artefact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-${{ inputs.environment }}
+
+      - name: Déballer l'artefact
+        run: |
+          mkdir -p release
+          tar -xzf release.tar.gz -C release
+
+      # cp -a plutôt que mv : le site reste servi pendant la copie.
+      # DEPLOY_KEY_PASS et DEPLOY_FINGERPRINT vides = ignorés — voir
+      # readme/deploiement.md.
+      - name: Sauvegarder la release en place
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          passphrase: ${{ secrets.DEPLOY_KEY_PASS }}
+          fingerprint: ${{ secrets.DEPLOY_FINGERPRINT }}
+          port: 22
+          script: |
+            set -e
+            ROOT="$HOME/${{ inputs.remote_path }}"
+            mkdir -p "$ROOT/shared/plugins" "$ROOT/shared/uploads" "$ROOT/shared/cache"
+            rm -rf "$ROOT/old_release"
+            mkdir -p "$ROOT/old_release"
+            # composer.json compris : sans lui, un rollback garderait la version
+            # du déploiement annulé dans le pied de page.
+            for ITEM in website config composer.json wp-cli.yml; do
+              [ -e "$ROOT/$ITEM" ] && cp -a "$ROOT/$ITEM" "$ROOT/old_release/" || true
+            done
+
+      # --delete nettoie les fichiers supprimés du dépôt. Les exclusions
+      # protègent l'état persistant : shared/, la sauvegarde, et les chemins qui
+      # sont des liens vers shared/ (sinon rsync les remplacerait par des dossiers
+      # vides à chaque déploiement).
+      #
+      # Le plugin sous licence est exclu NOMMÉMENT : sans ça, --delete emporte
+      # son lien vers shared/plugins/ et l'accueil perd ses sections jusqu'à
+      # l'étape suivante. Un nouveau plugin payant = une exclusion de plus ici
+      # (oublié, il marche quand même : seule la fenêtre revient).
+      #
+      # Le `/` initial de chaque motif est OBLIGATOIRE : il ancre l'exclusion à la
+      # racine du transfert. Sans lui, rsync exclut TOUT composant de chemin
+      # portant ce nom, à n'importe quelle profondeur — sur LCDS,
+      # `--exclude=shared` avait ainsi supprimé
+      # wp-includes/blocks/navigation-link/shared/ du cœur WordPress.
+      - name: Envoyer la release (rsync)
+        uses: burnett01/rsync-deployments@v9
+        with:
+          switches: >-
+            -avzr --delete
+            --exclude=/shared
+            --exclude=/old_release
+            --exclude=/website/.env
+            --exclude=/website/app/uploads
+            --exclude=/website/app/cache
+            --exclude=/website/.htpasswd
+            --exclude=/website/.htaccess
+            --exclude=/website/app/debug.log
+            --exclude=/website/app/plugins/advanced-custom-fields-pro
+          path: ./release/
+          remote_path: ${{ inputs.remote_path }}
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+          remote_key_pass: ${{ secrets.DEPLOY_KEY_PASS }}
+          # rsync ne sait pas exploiter DEPLOY_FINGERPRINT : sa vérification
+          # d'hôte s'appuie sur un known_hosts. À passer à "true" seulement après
+          # avoir vérifié que l'hôte est connu, sinon le déploiement échoue.
+          # strict_hostkeys_checking: "true"
+
+      # Liens vers shared/ recréés à CHAQUE déploiement, puis purge des caches.
+      - name: Relier shared/ et purger les caches
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          passphrase: ${{ secrets.DEPLOY_KEY_PASS }}
+          fingerprint: ${{ secrets.DEPLOY_FINGERPRINT }}
+          port: 22
+          script: |
+            set -e
+            ROOT="$HOME/${{ inputs.remote_path }}"
+
+            # Remplace la destination par un lien. Le rm préalable traite le cas
+            # où rsync a laissé un VRAI dossier à cet emplacement : `ln -nsf`
+            # créerait alors le lien À L'INTÉRIEUR du dossier au lieu de le
+            # remplacer. `-n` ne couvre que le cas d'un lien déjà existant.
+            link_shared() {
+              [ -L "$2" ] || rm -rf "$2"
+              ln -nsf "$1" "$2"
+            }
+
+            # .env dans le docroot, à côté de wp-config.php : c'est là que la
+            # configuration le cherche. Il n'est PAS servi par Apache — le bloc
+            # FilesMatch de website/.htaccess refuse tous les .env.
+            link_shared "$ROOT/shared/.env"    "$ROOT/website/.env"
+            link_shared "$ROOT/shared/uploads" "$ROOT/website/app/uploads"
+            link_shared "$ROOT/shared/cache"   "$ROOT/website/app/cache"
+
+            # .htaccess : c'est shared/ qui est SERVI, pour que chaque
+            # environnement puisse ajouter ses propres directives (protection par
+            # mot de passe en préprod). Le fichier versionné, livré en
+            # .htaccess.dist, sert de RÉFÉRENCE : il amorce shared/ au premier
+            # déploiement, et toute divergence ultérieure est signalée — sinon
+            # une modification des en-têtes de sécurité committée dans le dépôt
+            # n'atteindrait jamais le serveur, en silence.
+            REFERENCE="$ROOT/website/.htaccess.dist"
+            if [ ! -f "$ROOT/shared/.htaccess" ]; then
+              cp "$REFERENCE" "$ROOT/shared/.htaccess"
+              echo "shared/.htaccess initialisé depuis le fichier versionné."
+            elif ! diff -q "$REFERENCE" "$ROOT/shared/.htaccess" >/dev/null 2>&1; then
+              echo "::warning::shared/.htaccess diverge du fichier versionné. Le serveur applique shared/.htaccess : reporter les changements à la main."
+              diff -u "$ROOT/shared/.htaccess" "$REFERENCE" || true
+            fi
+            link_shared "$ROOT/shared/.htaccess" "$ROOT/website/.htaccess"
+
+            # Plugins sous licence : une boucle, pour qu'ajouter un plugin dans
+            # shared/plugins/ ne demande pas de toucher au reste du script.
+            mkdir -p "$ROOT/website/app/plugins"
+            for PLUGIN_DIR in "$ROOT"/shared/plugins/*/; do
+              [ -d "$PLUGIN_DIR" ] || continue
+              link_shared "${PLUGIN_DIR%/}" "$ROOT/website/app/plugins/$(basename "$PLUGIN_DIR")"
+              echo "Plugin partagé relié : $(basename "$PLUGIN_DIR")"
+            done
+
+            # .htpasswd : présent uniquement là où l'accès est restreint. Le lien
+            # n'est créé que si le fichier existe, sinon Apache renverrait une 500
+            # sur un AuthUserFile pointant dans le vide.
+            if [ -f "$ROOT/shared/.htpasswd" ]; then
+              ln -nsf "$ROOT/shared/.htpasswd" "$ROOT/website/.htpasswd"
+              echo "shared/.htpasswd lié : accès restreint actif."
+            else
+              rm -f "$ROOT/website/.htpasswd"
+              echo "Pas de shared/.htpasswd : accès libre sur cet environnement."
+            fi
+
+            # Activation des plugins, amorçage et purge, tolérants à l'absence de
+            # WP-CLI. Plus de `set -e` à partir d'ici : la release est en place,
+            # une étape manquée ne doit pas marquer le déploiement en échec.
+            set +e
+            cd "$ROOT"
+
+            # WP-CLI charge l'autoloader de Composer, qui EXIGE PHP >= 8.5 : le
+            # `platform_check.php` produit à la construction refuse net en
+            # dessous. Or sur un mutualisé le PHP de la ligne de commande N'EST
+            # PAS celui du web — constaté sur la préprod IONOS de LCDS le
+            # 06/09/2026 : web en 8.4, SSH en 8.0.30. `WP_CLI_PHP` ne vaut que pour
+            # une installation non-phar ; on invoque donc le binaire choisi AVEC
+            # le phar en argument.
+            WP_BIN=$(command -v wp 2>/dev/null || true)
+            PHP_BIN=""
+            for CANDIDATE in php8.5 php8.5-cli php85 /usr/bin/php8.5 /usr/local/bin/php8.5 php; do
+              CANDIDATE_PATH=$(command -v "$CANDIDATE" 2>/dev/null) || continue
+              "$CANDIDATE_PATH" -r 'exit(PHP_VERSION_ID >= 80500 ? 0 : 1);' >/dev/null 2>&1 || continue
+              PHP_BIN="$CANDIDATE_PATH"
+              break
+            done
+
+            if [ -z "$WP_BIN" ]; then
+              echo "::warning::WP-CLI absent du serveur : activation des plugins, amorçage du contenu et purge des caches à faire à la main."
+            elif [ -z "$PHP_BIN" ]; then
+              echo "::warning::Aucun PHP >= 8.5 en ligne de commande sur le serveur (défaut : $(php -v 2>/dev/null | head -1)). Activation des plugins, amorçage et purge NON exécutés."
+            elif ! "$PHP_BIN" "$WP_BIN" --version >/dev/null 2>&1; then
+              echo "::warning::WP-CLI ne s'exécute pas via $PHP_BIN. Activation des plugins, amorçage et purge NON exécutés."
+            else
+              echo "WP-CLI via $PHP_BIN ($("$PHP_BIN" -r 'echo PHP_VERSION;'))."
+              for PLUGIN_DIR in "$ROOT"/shared/plugins/*/; do
+                [ -d "$PLUGIN_DIR" ] && "$PHP_BIN" "$WP_BIN" plugin activate "$(basename "$PLUGIN_DIR")"
+              done
+              # Contenu initial (accueil, réglages, menus) : idempotent, il ne
+              # réécrit jamais ce qu'un contributeur a saisi — voir inc/seed.php.
+              "$PHP_BIN" "$WP_BIN" eval 'foreach (optelya_seed() as $line) { echo "[seed] {$line}", PHP_EOL; }'
+              "$PHP_BIN" "$WP_BIN" cache flush
+              "$PHP_BIN" "$WP_BIN" rewrite flush
+            fi
+            # ⚠️ L'OPcache n'est vidé que par un rechargement de PHP-FPM. À
+            # décommenter avec la commande de l'hébergeur, sinon l'ancien code
+            # continue de tourner après le déploiement.
+            # sudo systemctl reload php8.5-fpm
+            exit 0
+
+      # Seul composer.lock est nécessaire ici (voir l'étape suivante) : on évite
+      # de cloner tout le dépôt pour un fichier.
+      # ⚠️ actions/checkout nettoie le workspace : ces deux étapes doivent rester
+      # les dernières du job, la release ayant déjà été envoyée par rsync.
+      - name: Récupérer composer.lock
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: composer.lock
+          sparse-checkout-cone-mode: false
+
+      # Veille des dépendances (Watcha) : envoie la liste des paquets déployés.
+      # ⚠️ WATCHA_TOKEN doit être défini au niveau de l'ENVIRONNEMENT, pas du
+      # dépôt : un secret de dépôt s'applique à preprod ET à production, qui
+      # écriraient alors dans le même site Watcha en s'écrasant mutuellement.
+      - name: Signaler l'inventaire à Watcha
+        # Le déploiement a réussi : une veille injoignable ne doit pas le marquer en échec.
+        continue-on-error: true
+        env:
+          WATCHA_TOKEN: ${{ secrets.WATCHA_TOKEN }}
+          WATCHA_URL: ${{ vars.WATCHA_URL || secrets.WATCHA_URL }}
+        run: |
+          [ -n "$WATCHA_TOKEN" ] && [ -n "$WATCHA_URL" ] || { echo "Watcha non configuré : envoi ignoré."; exit 0; }
+          [ -s composer.lock ] || { echo "composer.lock absent : rien à envoyer."; exit 0; }
+          while [ "${WATCHA_URL%/}" != "$WATCHA_URL" ]; do WATCHA_URL="${WATCHA_URL%/}"; done
+
+          body=$(mktemp)
+          code=$(curl -sS --http1.1 -H "Expect:" -o "$body" -w '%{http_code}' \
+            -X POST "$WATCHA_URL/api/inventory" \
+            -H "X-Watcha-Token: $WATCHA_TOKEN" \
+            -F "lock=@composer.lock") || code="000"
+
+          if [ "$code" = "200" ]; then cat "$body"; echo; exit 0; fi
+
+          # Watcha explique lui-même chaque refus dans sa réponse.
+          echo "Envoi de l'inventaire refusé (HTTP $code) :"
+          head -c 500 "$body"; echo
+          [ "$code" = "000" ] && echo "→ Aucune réponse : vérifiez WATCHA_URL et le réseau."
+          exit 0
