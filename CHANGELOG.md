@@ -10,6 +10,21 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.3.1
+
+### Corrigé
+
+- **Les commandes WP-CLI du déploiement s'exécutent enfin.** Sur le serveur,
+  `wp` est une enveloppe shell qui lance WP-CLI avec PHP 8.0 par défaut. Le
+  déploiement l'appelait par `php8.5 wp`, ce qui recopiait le script au lieu de
+  l'exécuter, sans erreur : activation d'ACF, contenu initial et purge du cache
+  n'avaient jamais tourné. Le déploiement règle maintenant l'enveloppe sur
+  PHP 8.5 (`uiwpcli_PHP_FLAVOR`) et vérifie que WP-CLI répond vraiment.
+- Si WordPress n'est pas encore installé, le résumé du déploiement le dit, avec
+  la marche à suivre.
+- Les commandes WP-CLI de `readme/deploiement.md` étaient fausses sur ce
+  serveur pour la même raison.
+
 ## 0.3.0
 
 La marque devient **Optelya**.

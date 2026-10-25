@@ -246,36 +246,51 @@ jobs:
 
             # WP-CLI charge l'autoloader de Composer, qui EXIGE PHP >= 8.5 : le
             # `platform_check.php` produit à la construction refuse net en
-            # dessous. Or sur un mutualisé le PHP de la ligne de commande N'EST
-            # PAS celui du web — constaté sur la préprod IONOS de LCDS le
-            # 06/09/2026 : web en 8.4, SSH en 8.0.30. `WP_CLI_PHP` ne vaut que pour
-            # une installation non-phar ; on invoque donc le binaire choisi AVEC
-            # le phar en argument.
+            # dessous. Or sur ce serveur, `wp` est une ENVELOPPE SHELL qui lance
+            # le phar avec PHP 8.0 par défaut, réglable par uiwpcli_PHP_FLAVOR
+            # (constaté au premier déploiement, 25/10/2026).
+            #
+            # Le choix se fait sur la SORTIE de `--version`, jamais sur le code
+            # de retour : `php8.5 <script shell>` recopie le script et sort en 0
+            # — c'est ainsi qu'aucune commande wp n'avait tourné, sans alerte.
             WP_BIN=$(command -v wp 2>/dev/null || true)
             PHP_BIN=""
-            for CANDIDATE in php8.5 php8.5-cli php85 /usr/bin/php8.5 /usr/local/bin/php8.5 php; do
+            for CANDIDATE in php8.5 php8.5-cli php85 /usr/bin/php8.5 /usr/bin/php8.5-cli /usr/local/bin/php8.5 php; do
               CANDIDATE_PATH=$(command -v "$CANDIDATE" 2>/dev/null) || continue
               "$CANDIDATE_PATH" -r 'exit(PHP_VERSION_ID >= 80500 ? 0 : 1);' >/dev/null 2>&1 || continue
               PHP_BIN="$CANDIDATE_PATH"
               break
             done
 
+            wp_phar() { "$PHP_BIN" "$WP_BIN" "$@"; }
+            wp_wrapper() { uiwpcli_PHP_FLAVOR="$(basename "$PHP_BIN" -cli)" "$WP_BIN" "$@"; }
+            WP=""
+            if [ -n "$WP_BIN" ] && [ -n "$PHP_BIN" ]; then
+              for RUNNER in wp_phar wp_wrapper; do
+                "$RUNNER" --info 2>/dev/null | grep -Eq '^PHP version:[[:space:]]+8\.([5-9]|[1-9][0-9])' || continue
+                WP="$RUNNER"
+                break
+              done
+            fi
+
             if [ -z "$WP_BIN" ]; then
               echo "::warning::WP-CLI absent du serveur : activation des plugins, amorçage du contenu et purge des caches à faire à la main."
             elif [ -z "$PHP_BIN" ]; then
               echo "::warning::Aucun PHP >= 8.5 en ligne de commande sur le serveur (défaut : $(php -v 2>/dev/null | head -1)). Activation des plugins, amorçage et purge NON exécutés."
-            elif ! "$PHP_BIN" "$WP_BIN" --version >/dev/null 2>&1; then
-              echo "::warning::WP-CLI ne s'exécute pas via $PHP_BIN. Activation des plugins, amorçage et purge NON exécutés."
+            elif [ -z "$WP" ]; then
+              echo "::warning::WP-CLI ne démarre pas avec $PHP_BIN, ni en direct ni par son enveloppe. Activation des plugins, amorçage et purge NON exécutés."
+            elif ! "$WP" core is-installed 2>/dev/null; then
+              echo "::warning::WordPress n'est pas encore installé : lancer wp core install (readme/deploiement.md), puis relancer ce déploiement."
             else
-              echo "WP-CLI via $PHP_BIN ($("$PHP_BIN" -r 'echo PHP_VERSION;'))."
+              echo "WP-CLI via $WP ($("$WP" --info 2>/dev/null | grep '^PHP version:'))."
               for PLUGIN_DIR in "$ROOT"/shared/plugins/*/; do
-                [ -d "$PLUGIN_DIR" ] && "$PHP_BIN" "$WP_BIN" plugin activate "$(basename "$PLUGIN_DIR")"
+                [ -d "$PLUGIN_DIR" ] && "$WP" plugin activate "$(basename "$PLUGIN_DIR")"
               done
-              # Contenu initial (accueil, réglages, menus) : idempotent, il ne
-              # réécrit jamais ce qu'un contributeur a saisi — voir inc/seed.php.
-              "$PHP_BIN" "$WP_BIN" eval 'foreach (optelya_seed() as $line) { echo "[seed] {$line}", PHP_EOL; }'
-              "$PHP_BIN" "$WP_BIN" cache flush
-              "$PHP_BIN" "$WP_BIN" rewrite flush
+              # Contenu initial (accueil, réglages, menus) : posé une seule fois
+              # par environnement — voir inc/seed.php.
+              "$WP" eval 'foreach (optelya_seed() as $line) { echo "[seed] {$line}", PHP_EOL; }'
+              "$WP" cache flush
+              "$WP" rewrite flush
             fi
             # ⚠️ L'OPcache n'est vidé que par un rechargement de PHP-FPM. À
             # décommenter avec la commande de l'hébergeur, sinon l'ancien code

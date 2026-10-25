@@ -80,9 +80,21 @@ y est renommé `.htaccess.dist` (voir plus bas).
 > l'étape 3 (vérifié en simulation : le lien survit au second déploiement). Un
 > nouveau plugin payant demande sa propre exclusion.
 
-> **Le PHP du SSH n'est pas celui du web** sur un mutualisé : constaté sur la
-> préprod IONOS de LCDS le 06/09/2026 (web 8.4, SSH 8.0.30). Le workflow
-> cherche lui-même un binaire PHP ≥ 8.5.
+> **Sur ce serveur, `wp` est une enveloppe shell** qui lance WP-CLI avec
+> **PHP 8.0 par défaut** — trop vieux : l'autoloader exige 8.5 et refuse de
+> démarrer. Elle se règle par la variable `uiwpcli_PHP_FLAVOR` (constaté au
+> premier déploiement, 25/10/2026 ; PHP 8.5 disponible en `/usr/bin/php8.5-cli`).
+> En SSH, **toujours** commencer par :
+>
+> ```bash
+> export uiwpcli_PHP_FLAVOR=php8.5
+> ```
+>
+> Le workflow fait de même, et choisit sa méthode sur la **sortie** de
+> `wp --info` (PHP ≥ 8.5 exigé), jamais sur le code de retour : `php8.5 <script
+> shell>` recopie le script et sort en 0 — c'est ainsi que, jusqu'à la 0.3.1,
+> aucune commande wp n'a tourné au déploiement, sans alerte. LCDS, même serveur
+> et même code, est concerné.
 
 ## `.htaccess` : le dépôt est la référence, `shared/` est servi
 
@@ -159,10 +171,11 @@ Avant le premier déploiement :
 Après le premier déploiement, installer WordPress et le passer en français :
 
 ```bash
-cd ~/preprod-optelya
-php8.5 "$(command -v wp)" core install --url="https://…" --title="Optelya" \
+export uiwpcli_PHP_FLAVOR=php8.5
+cd ~/prod-optelya          # ou ~/preprod-optelya
+wp core install --url="https://…" --title="Optelya" \
   --admin_user="…" --admin_email="…" --prompt=admin_password
-php8.5 "$(command -v wp)" site switch-language fr_FR
+wp site switch-language fr_FR
 ```
 
 Le thème `optelya` est activé par l'installation (`WP_DEFAULT_THEME`). Les
@@ -171,8 +184,8 @@ Relancer ensuite le workflow de déploiement (*Actions → Déploiement preprod 
 Run workflow*) : il active ACF Pro et pose le contenu initial. À la main :
 
 ```bash
-php8.5 "$(command -v wp)" plugin activate advanced-custom-fields-pro
-php8.5 "$(command -v wp)" eval 'foreach (optelya_seed() as $line) { echo $line, PHP_EOL; }'
+wp plugin activate advanced-custom-fields-pro
+wp eval 'foreach (optelya_seed() as $line) { echo $line, PHP_EOL; }'
 ```
 
 ### Activer la licence ACF Pro
@@ -187,9 +200,10 @@ gardes valent aussi pour LCDS.
 WP-CLI, la clé lue sans écho pour ne pas finir dans l'historique du shell.
 
 ```bash
-cd ~/preprod-optelya
+export uiwpcli_PHP_FLAVOR=php8.5
+cd ~/prod-optelya          # ou ~/preprod-optelya
 read -rs ACF_KEY && export ACF_KEY
-php8.5 "$(command -v wp)" eval 'print_r(acf_pro_activate_license(getenv("ACF_KEY"), true));'
+wp eval 'print_r(acf_pro_activate_license(getenv("ACF_KEY"), true));'
 unset ACF_KEY
 ```
 
