@@ -12,8 +12,6 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-const OPTELYA_SETTINGS_SLUG = 'optelya-settings';
-
 function optelya_register_options_page(): void
 {
     if (! function_exists('acf_add_options_sub_page')) {
@@ -23,9 +21,9 @@ function optelya_register_options_page(): void
     acf_add_options_sub_page([
         'page_title' => __('Configuration du site', 'optelya'),
         'menu_title' => __('Configuration', 'optelya'),
-        'menu_slug' => OPTELYA_SETTINGS_SLUG,
+        'menu_slug' => OptelyaAdminScreen::SETTINGS_PAGE,
         'parent_slug' => 'options-general.php',
-        'capability' => 'manage_options',
+        'capability' => OPTELYA_SETTINGS_CAP,
         'redirect' => false,
         'update_button' => __('Enregistrer', 'optelya'),
         'updated_message' => __('Configuration enregistrée.', 'optelya'),

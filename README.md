@@ -39,6 +39,7 @@ contenu. Sans lui, la page s'affiche sans ses sections.
 | Sujet | Fichier |
 | --- | --- |
 | Contribution : sections, réglages, menus | [`readme/contribution.md`](readme/contribution.md) |
+| Rôles : contributeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |
 | Durcissement, en-têtes HTTP, CSP | [`readme/securite.md`](readme/securite.md) |
 | Pint, PHPCS, PHPStan, Pest | [`readme/qualite-code.md`](readme/qualite-code.md) |

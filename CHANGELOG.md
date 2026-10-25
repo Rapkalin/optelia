@@ -10,6 +10,26 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.4.0
+
+### Ajouté
+
+- **Rôle « Contributeur Optelya »**, repris de LCDS : pages, médias, menus,
+  personnalisateur, *Réglages → Configuration* et son propre profil. Tout le
+  reste est retiré du menu **et** refusé à l'accès (403) — articles, thèmes,
+  extensions, comptes, outils, réglages du cœur, groupes de champs ACF.
+- *Comptes → Ajouter* ne propose plus que **Administrateur** et **Contributeur
+  Optelya**. Seul un administrateur crée un compte.
+- « Mon compte » réduit aux champs utiles pour un contributeur ; tableau de bord
+  réduit à « D'un coup d'œil ».
+
+### Modifié
+
+- *Réglages → Configuration* exige la capacité dédiée `optelya_manage_settings`
+  (administrateur et contributeur) au lieu de `manage_options`.
+
+Détail : [`readme/roles.md`](readme/roles.md).
+
 ## 0.3.1
 
 ### Corrigé
