@@ -34,6 +34,7 @@ website/app/upgrade
 # fichier d'entrée part au déploiement sans les fichiers qu'il requiert, et le
 # site tombe en erreur fatale sur toutes les pages.
 website/app/mu-plugins/*/
+!website/app/mu-plugins/rapkalin-mail/
 
 # ─────────────────────────────────────────────────────────────
 # Environnement & secrets

@@ -7,9 +7,10 @@
 | `php` | `php:8.5-apache` (construite) | `8040` | Sert `website/` |
 | `db` | `mysql:8.4` | `3311` | Base de données |
 | `phpmyadmin` | `phpmyadmin` | `8041` | Interface base |
+| `mailpit` | `axllent/mailpit` | `8042` | Capture les e-mails sortants — voir [`email.md`](email.md) |
 | `node` | `node:26` | — | Build du thème (profil `tools`) |
 
-Les ports se changent dans le `.env` (`APP_PORT`, `DB_PORT`, `PMA_PORT`). Ils
+Les ports se changent dans le `.env` (`APP_PORT`, `DB_PORT`, `PMA_PORT`, `MAILPIT_PORT`). Ils
 évitent ceux déjà pris sur le poste de dev au 23/10/2026 (LCDS et d'autres
 projets : 8020, 8021, 8025, 8026, 8030, 8031, 8035, 3306, 3307, 3308, 3310).
 

@@ -99,7 +99,15 @@ frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'
 - Les valeurs saisies sont échappées en sortie (`esc_html`, `esc_url`,
   `esc_attr`) ; un lien ouvert dans un nouvel onglet porte `rel="noopener"`.
 
-## 5. CI
+## 5. E-mails
+
+Le transport passe par **`wp_mail()` + le hook `phpmailer_init`**, jamais par une
+instance PHPMailer tirée de Composer : WordPress embarque sa propre copie de la
+classe et la charge par un `require_once` nu — deux copies dans la même requête
+finissent en erreur fatale. Réglages → Email est réservé à `manage_options`, et
+le mot de passe SMTP est chiffré en base — voir [`email.md`](email.md).
+
+## 6. CI
 
 - **CVE des dépendances** : `composer audit --locked`.
 - **Secrets** : gitleaks sur les commits poussés ou ceux de la pull request

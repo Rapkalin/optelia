@@ -33,6 +33,7 @@ contenu. Sans lui, la page s'affiche sans ses sections.
 | Front | <http://localhost:8040> | — |
 | Admin | <http://localhost:8040/wordpress-core/wp-admin> | `admin` / `admin` |
 | phpMyAdmin | <http://localhost:8041> | `optelya` / `optelya` |
+| Mailpit (e-mails capturés) | <http://localhost:8042> | — |
 
 ## Documentation
 
@@ -40,6 +41,7 @@ contenu. Sans lui, la page s'affiche sans ses sections.
 | --- | --- |
 | Contribution : sections, réglages, menus | [`readme/contribution.md`](readme/contribution.md) |
 | Rôles : contributeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
+| E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |
 | Durcissement, en-têtes HTTP, CSP | [`readme/securite.md`](readme/securite.md) |
 | Pint, PHPCS, PHPStan, Pest | [`readme/qualite-code.md`](readme/qualite-code.md) |

@@ -10,6 +10,29 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.5.0
+
+### Ajouté
+
+- **Réglages → Email**, réservé aux administrateurs : choix de l'envoi par le
+  `sendmail` du serveur ou par un relais SMTP (hôte, port, chiffrement,
+  identifiants), adresse et nom de l'expéditeur, et un bouton d'e-mail de test
+  qui affiche l'erreur exacte en cas d'échec. Le mot de passe SMTP est chiffré
+  en base et jamais réaffiché. Module `rapkalin-mail` repris de LCDS.
+- **Mailpit** en local (<http://localhost:8042>) : les e-mails du poste de dev
+  y sont capturés, aucun ne sort.
+
+### Modifié
+
+- Quand le `.env` renseigne `SMTP_HOST`, il prime sur la page, qui l'annonce.
+  Sur un serveur, le laisser vide pour régler l'envoi depuis l'admin.
+
+### Corrigé
+
+- Outillage de tests : PHPUnit passe en 13.4.5 (Pest 5.3.4), qui corrige une
+  faille publiée le 27/10/2026. `composer audit` aurait bloqué la CI, donc le
+  déploiement. Sans effet sur le site.
+
 ## 0.4.0
 
 ### Ajouté

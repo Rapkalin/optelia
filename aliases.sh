@@ -48,3 +48,4 @@ db-create() { docker compose exec -T db sh -c "$DB_AS_ROOT"' mysql -u root -h db
 #   db-query "SELECT option_value FROM wp_options WHERE option_name='home'"
 #   db-cli                       # shell MySQL interactif
 #   dwp search-replace 'http://optelya.local' 'http://localhost:8040' --all-tables
+

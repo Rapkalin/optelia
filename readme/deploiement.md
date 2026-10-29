@@ -166,7 +166,9 @@ Avant le premier déploiement :
    laissés tels quels, ce sont des clés publiques qui permettent de forger des
    cookies de connexion. Puis `WP_ENV='staging'` (ou
    `'production'`), le vrai `WP_HOME` **sans slash final**, les accès base et
-   des **sels uniques** (<https://roots.io/salts.html>).
+   des **sels uniques** (<https://roots.io/salts.html>). **`SMTP_HOST` vide** :
+   l'envoi des e-mails se règle alors dans *Réglages → Email* — voir
+   [`email.md`](email.md).
 
 Après le premier déploiement, installer WordPress et le passer en français :
 

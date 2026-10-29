@@ -6,12 +6,14 @@
 #   php        : PHP 8.5 + Apache, sert le docroot website/
 #   db         : MySQL 8.4 (LTS)
 #   phpmyadmin : interface base de données
+#   mailpit    : capture les e-mails sortants, aucun ne quitte la machine
 #   node       : build du thème (profil "tools", ne démarre pas par défaut)
 #
 # URLs (ports pilotés par le .env) :
 #   Front       http://localhost:8040
 #   Admin       http://localhost:8040/wordpress-core/wp-admin
 #   phpMyAdmin  http://localhost:8041
+#   Mailpit     http://localhost:8042
 # =============================================================================
 
 services:
@@ -100,6 +102,19 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - optelya-network
+
+  # ---------------------------------------------------------------------------
+  # Mailpit — relais SMTP local + webmail. SMTP_HOST='mailpit' dans le .env
+  # suffit à ce que tous les wp_mail() y atterrissent — voir readme/email.md.
+  # ---------------------------------------------------------------------------
+  mailpit:
+    image: axllent/mailpit
+    container_name: optelya-mailpit
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_PORT:-8042}:8025"
     networks:
       - optelya-network
 
