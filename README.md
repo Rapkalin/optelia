@@ -17,7 +17,7 @@ conteneurs.
 ```bash
 git clone https://github.com/Rapkalin/optelia.git && cd optelia
 cp .env.example .env
-mkdir -p shared/plugins        # y déposer advanced-custom-fields-pro/ (licence, hors dépôt)
+mkdir -p shared/plugins shared/mu-plugins   # y déposer ACF Pro et les modules rapkalin-* (hors dépôt)
 docker compose up -d
 docker compose run --rm node npm ci && docker compose run --rm node npm run build
 git config core.hooksPath .githooks   # active le hook de pré-commit
@@ -27,6 +27,12 @@ git config core.hooksPath .githooks   # active le hook de pré-commit
 plugin dans `shared/plugins/advanced-custom-fields-pro/` **avant** le premier
 démarrage : il est alors relié, activé, et la page d'accueil est créée avec son
 contenu. Sans lui, la page s'affiche sans ses sections.
+
+Les **modules maison** `rapkalin-mail` (*Réglages → Email*) et
+`rapkalin-security` (*Outils → Journal*) ne sont pas dans le dépôt non plus :
+les copier dans `shared/mu-plugins/`, où le démarrage les relie. Sans eux, le
+site tourne sans réglage d'e-mail ni journal — voir
+[`readme/deploiement.md`](readme/deploiement.md#modules-maison-mu-plugins).
 
 | Service | URL | Accès |
 | --- | --- | --- |
@@ -42,6 +48,7 @@ contenu. Sans lui, la page s'affiche sans ses sections.
 | Contribution : sections, réglages, menus | [`readme/contribution.md`](readme/contribution.md) |
 | Rôles : contributeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
 | E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
+| Journal : erreurs du site et activité | [`readme/journal.md`](readme/journal.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |
 | Durcissement, en-têtes HTTP, CSP | [`readme/securite.md`](readme/securite.md) |
 | Pint, PHPCS, PHPStan, Pest | [`readme/qualite-code.md`](readme/qualite-code.md) |

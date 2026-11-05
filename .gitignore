@@ -10,8 +10,8 @@ website/app/themes/optelya/dist
 # ─────────────────────────────────────────────────────────────
 # Environnement. En local le .env est à la racine ; sur le serveur il vit dans
 # shared/ et est lié dans le docroot (website/.env). shared/ porte aussi, en
-# local comme sur le serveur, les plugins sous licence (ACF Pro) — voir
-# readme/deploiement.md.
+# local comme sur le serveur, les plugins sous licence (ACF Pro) et les modules
+# maison (mu-plugins) — voir readme/deploiement.md.
 # ─────────────────────────────────────────────────────────────
 /shared/
 /.env
@@ -29,12 +29,11 @@ website/app/cache/*
 !website/app/cache/.gitkeep
 website/app/upgrade
 
-# mu-plugins : les modules installés par Composer (dossiers) sont ignorés.
-# AJOUTER UN MODULE MAISON EN DOSSIER = AJOUTER SA NÉGATION ICI, sinon son
-# fichier d'entrée part au déploiement sans les fichiers qu'il requiert, et le
-# site tombe en erreur fatale sur toutes les pages.
-website/app/mu-plugins/*/
-!website/app/mu-plugins/rapkalin-mail/
+# mu-plugins : seul le chargeur de Bedrock est versionné. Les modules viennent
+# de Composer, ou de shared/mu-plugins/ (modules maison, liens) — voir
+# readme/deploiement.md.
+website/app/mu-plugins/*
+!website/app/mu-plugins/bedrock-autoloader.php
 
 # ─────────────────────────────────────────────────────────────
 # Environnement & secrets

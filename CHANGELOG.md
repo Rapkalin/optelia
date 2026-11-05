@@ -10,6 +10,27 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.6.0
+
+### Ajouté
+
+- **Outils → Journal**, réservé aux administrateurs, en deux onglets :
+  - **Activité** : connexions réussies et échouées, pages et médias créés,
+    modifiés, mis à la corbeille, restaurés ou supprimés, comptes créés,
+    supprimés ou changés de rôle, réglages enregistrés, menus, personnalisateur,
+    extensions et thème. Filtrable par catégorie.
+  - **Erreurs du site** : erreurs PHP (y compris fatales) et e-mails en échec,
+    regroupées quand elles se répètent, avec leur nombre et la page concernée.
+  - Conservation : 90 jours au plus, 200 entrées par liste ; aucune adresse IP.
+    Chaque liste peut être vidée, et la purge reste inscrite au journal.
+
+### Modifié
+
+- **Les modules maison (`rapkalin-mail`, `rapkalin-security`) ne sont plus dans
+  le dépôt** : ils se déposent dans `shared/mu-plugins/`, en local comme sur le
+  serveur, et le déploiement les relie. Sans eux, le site tourne sans réglage
+  d'e-mail ni journal.
+
 ## 0.5.0
 
 ### Ajouté

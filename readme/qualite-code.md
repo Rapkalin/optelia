@@ -11,7 +11,14 @@ mu-plugins). Il tourne au pré-commit (`.githooks/pre-commit`) et en CI.
 | **Pint** (preset PER) | Style | `pint.json` |
 | **PHPCS + Slevomat** | Types natifs obligatoires (paramètre, retour, propriété) | `phpcs.xml` |
 | **PHPStan** niveau 6 | Analyse statique | `phpstan.neon` |
-| **Pest** | Tests, hors WordPress | `tests/` |
+| **Pest** | Tests, hors WordPress | `tests/`, et `tests/` de chaque module maison |
+
+> **Modules maison** (`shared/mu-plugins/`, hors dépôt, liés dans
+> `website/app/mu-plugins/`) : les quatre outils les contrôlent **sur un poste
+> qui les a** — PHPStan et PHPCS à travers le lien, Pint directement dans
+> `shared/mu-plugins/`, Pest par le second dossier de `phpunit.xml.dist`. Leurs
+> tests voyagent avec eux et sont exclus de PHPStan et PHPCS, comme `tests/`.
+> **La CI ne les voit pas** : les contrôler avant chaque dépôt sur un serveur.
 
 ```bash
 composer check      # Pint + PHPCS + PHPStan

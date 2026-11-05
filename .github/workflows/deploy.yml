@@ -10,6 +10,7 @@
 #   ├── shared/          ← JAMAIS écrasé : .env, plugins payants, médias, cache
 #   │   ├── .env
 #   │   ├── plugins/     ← plugins sous licence (ACF Pro), déposés à la main
+#   │   ├── mu-plugins/  ← modules maison (rapkalin-*), hors dépôt, déposés à la main
 #   │   ├── .htaccess    ← SERVI par Apache (le fichier versionné l'amorce)
 #   │   ├── .htpasswd    ← optionnel : protection par mot de passe (préprod)
 #   │   ├── uploads/
@@ -122,7 +123,7 @@ jobs:
           script: |
             set -e
             ROOT="$HOME/${{ inputs.remote_path }}"
-            mkdir -p "$ROOT/shared/plugins" "$ROOT/shared/uploads" "$ROOT/shared/cache"
+            mkdir -p "$ROOT/shared/plugins" "$ROOT/shared/mu-plugins" "$ROOT/shared/uploads" "$ROOT/shared/cache"
             rm -rf "$ROOT/old_release"
             mkdir -p "$ROOT/old_release"
             # composer.json compris : sans lui, un rollback garderait la version
@@ -139,7 +140,9 @@ jobs:
       # Le plugin sous licence est exclu NOMMÉMENT : sans ça, --delete emporte
       # son lien vers shared/plugins/ et l'accueil perd ses sections jusqu'à
       # l'étape suivante. Un nouveau plugin payant = une exclusion de plus ici
-      # (oublié, il marche quand même : seule la fenêtre revient).
+      # (oublié, il marche quand même : seule la fenêtre revient). Les modules
+      # maison, eux, sont protégés par leur préfixe `rapkalin-` : un module
+      # VERSIONNÉ ne doit donc jamais le porter, rsync ne le livrerait pas.
       #
       # Le `/` initial de chaque motif est OBLIGATOIRE : il ancre l'exclusion à la
       # racine du transfert. Sans lui, rsync exclut TOUT composant de chemin
@@ -160,6 +163,7 @@ jobs:
             --exclude=/website/.htaccess
             --exclude=/website/app/debug.log
             --exclude=/website/app/plugins/advanced-custom-fields-pro
+            --exclude=/website/app/mu-plugins/rapkalin-*
           path: ./release/
           remote_path: ${{ inputs.remote_path }}
           remote_host: ${{ secrets.DEPLOY_HOST }}
@@ -225,6 +229,14 @@ jobs:
               [ -d "$PLUGIN_DIR" ] || continue
               link_shared "${PLUGIN_DIR%/}" "$ROOT/website/app/plugins/$(basename "$PLUGIN_DIR")"
               echo "Plugin partagé relié : $(basename "$PLUGIN_DIR")"
+            done
+
+            # Modules maison (mu-plugins), hors dépôt : même mécanisme. Un
+            # mu-plugin n'a pas besoin d'être activé.
+            for MODULE_DIR in "$ROOT"/shared/mu-plugins/*/; do
+              [ -d "$MODULE_DIR" ] || continue
+              link_shared "${MODULE_DIR%/}" "$ROOT/website/app/mu-plugins/$(basename "$MODULE_DIR")"
+              echo "Module partagé relié : $(basename "$MODULE_DIR")"
             done
 
             # .htpasswd : présent uniquement là où l'accès est restreint. Le lien

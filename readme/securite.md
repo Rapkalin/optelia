@@ -107,7 +107,16 @@ classe et la charge par un `require_once` nu — deux copies dans la même requ�
 finissent en erreur fatale. Réglages → Email est réservé à `manage_options`, et
 le mot de passe SMTP est chiffré en base — voir [`email.md`](email.md).
 
-## 6. CI
+## 6. Journal
+
+*Outils → Journal* (`manage_options`) garde 90 jours d'erreurs PHP, d'e-mails en
+échec, de connexions (réussies et échouées) et de modifications : contenus,
+comptes, réglages. **Aucune adresse IP**, chaînes de requête retirées des
+chemins, destinataires d'e-mails omis. Outil de diagnostic, pas piste d'audit :
+deux requêtes simultanées peuvent perdre une entrée — voir
+[`journal.md`](journal.md).
+
+## 7. CI
 
 - **CVE des dépendances** : `composer audit --locked`.
 - **Secrets** : gitleaks sur les commits poussés ou ceux de la pull request

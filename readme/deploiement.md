@@ -26,6 +26,7 @@ Actions.
 ├── shared/              # JAMAIS écrasé : uniquement de l'état persistant
 │   ├── .env             # configuration et secrets de l'environnement
 │   ├── plugins/         # plugins sous licence (ACF Pro), déposés à la main
+│   ├── mu-plugins/      # modules maison (rapkalin-*), déposés à la main
 │   ├── .htaccess        # celui qu'Apache sert (amorcé au 1er déploiement)
 │   ├── .htpasswd        # optionnel : mot de passe (préprod)
 │   ├── uploads/         # médias
@@ -48,6 +49,7 @@ Le `DocumentRoot` pointe sur `~/prod-optelya/website`, avec `AllowOverride All`
 | `website/app/uploads` | `shared/uploads` |
 | `website/app/cache` | `shared/cache` |
 | `website/app/plugins/<plugin>` | `shared/plugins/<plugin>` |
+| `website/app/mu-plugins/<module>` | `shared/mu-plugins/<module>` |
 
 ## Ce que fait le workflow
 
@@ -79,6 +81,41 @@ y est renommé `.htaccess.dist` (voir plus bas).
 > sans ça, `--delete` emporte son lien et l'accueil perd ses sections jusqu'à
 > l'étape 3 (vérifié en simulation : le lien survit au second déploiement). Un
 > nouveau plugin payant demande sa propre exclusion.
+
+## Modules maison (mu-plugins)
+
+`rapkalin-mail` (*Réglages → Email*, voir [`email.md`](email.md)) et
+`rapkalin-security` (*Outils → Journal*, voir [`journal.md`](journal.md)) ne
+sont **pas dans le dépôt** (décision du 29/10/2026). Ils vivent dans
+`shared/mu-plugins/`, en local comme sur le serveur, et chaque déploiement
+relie **tout** dossier qui s'y trouve dans `website/app/mu-plugins/`. Un
+mu-plugin n'a pas besoin d'être activé.
+
+- **Déposer ou mettre à jour un module** : le copier dans
+  `shared/mu-plugins/`, sans ses tests (inutiles sur le serveur). Rien d'autre :
+  le lien existe déjà, ou sera créé au prochain déploiement.
+
+  ```bash
+  rsync -a --exclude=tests/ shared/mu-plugins/rapkalin-mail shared/mu-plugins/rapkalin-security user@serveur:~/prod-optelya/shared/mu-plugins/
+  ```
+
+- **Préfixe `rapkalin-` obligatoire** : rsync protège les liens par le motif
+  `--exclude=/website/app/mu-plugins/rapkalin-*` (vérifié en simulation : le
+  lien survit, un module retiré du dépôt est bien supprimé). Un module sans ce
+  préfixe marche quand même, mais disparaît le temps de l'envoi. À l'inverse, un
+  module **versionné** ne doit jamais porter ce préfixe : rsync ne le livrerait
+  pas.
+- **Absent de `shared/`** : le site tourne sans lui — e-mails par le
+  `sendmail` de WordPress, pas de journal.
+- **Contrôles** : la CI ne voit pas ces modules. PHPStan, PHPCS, Pint et leurs
+  tests (rangés dans le module, `tests/`) ne tournent que sur un poste qui les
+  a — voir [`qualite-code.md`](qualite-code.md). Rien ne signale qu'un module
+  du serveur diffère de celui du poste : c'est à la charge de celui qui dépose.
+
+> **Passage à la 0.6.0** : `rapkalin-mail` était livré dans la release. Tant
+> qu'il n'est pas déposé dans `shared/mu-plugins/`, l'ancienne copie reste en
+> place (rsync ne touche plus ce chemin) ; le premier déploiement qui le trouve
+> dans `shared/` la remplace par le lien.
 
 > **Sur ce serveur, `wp` est une enveloppe shell** qui lance WP-CLI avec
 > **PHP 8.0 par défaut** — trop vieux : l'autoloader exige 8.5 et refuse de
@@ -147,7 +184,7 @@ Avant le premier déploiement :
 3. créer le dossier et le `.env` :
 
    ```bash
-   mkdir -p ~/preprod-optelya/shared/{plugins,uploads,cache}
+   mkdir -p ~/preprod-optelya/shared/{plugins,mu-plugins,uploads,cache}
    ```
 
 4. déposer ACF Pro dans `shared/plugins/` :
@@ -155,6 +192,9 @@ Avant le premier déploiement :
    ```bash
    scp -r advanced-custom-fields-pro user@serveur:~/preprod-optelya/shared/plugins/
    ```
+
+   et les modules maison dans `shared/mu-plugins/` (voir
+   [Modules maison](#modules-maison-mu-plugins)) ;
 
    > ⚠️ **Licence** : chaque site en production doit être couvert par une
    > licence ACF Pro. Vérifier que celle de l'agence couvre Optelya avant la
@@ -227,6 +267,7 @@ ln -nsf "$PWD/shared/.htaccess" website/.htaccess
 ln -nsf "$PWD/shared/uploads"   website/app/uploads
 ln -nsf "$PWD/shared/cache"     website/app/cache
 for p in shared/plugins/*/; do ln -nsf "$PWD/${p%/}" "website/app/plugins/$(basename "$p")"; done
+for m in shared/mu-plugins/*/; do ln -nsf "$PWD/${m%/}" "website/app/mu-plugins/$(basename "$m")"; done
 [ -f shared/.htpasswd ] && ln -nsf "$PWD/shared/.htpasswd" website/.htpasswd
 ```
 

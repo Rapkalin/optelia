@@ -25,8 +25,8 @@ Au démarrage, l'entrypoint du conteneur `php` :
 2. copie `.env.example` en `.env` s'il manque ;
 3. attend la base (60 s au plus) ;
 4. joue `bin/init.sh` : sels, installation WordPress, thème, plugins de
-   `shared/plugins/` (liés et activés), contenu initial (une seule fois),
-   langue `fr_FR`.
+   `shared/plugins/` (liés et activés), modules de `shared/mu-plugins/` (liés),
+   contenu initial (une seule fois), langue `fr_FR`.
 
 Tout est **idempotent** : un redémarrage ne réécrit rien.
 

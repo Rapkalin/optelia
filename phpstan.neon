@@ -21,6 +21,8 @@ parameters:
         - website/app/themes/optelya/node_modules/*
         - website/app/mu-plugins/bedrock-autoloader.php
         - website/app/mu-plugins/bedrock-disallow-indexing/*
+        # Tests of the out-of-repository modules, like tests/: not analysed.
+        - website/app/mu-plugins/*/tests/*
 
     # ACF Pro is not installed by Composer (licence): its functions come from
     # the stub package.
