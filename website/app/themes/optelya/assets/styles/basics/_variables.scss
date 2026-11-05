@@ -10,8 +10,10 @@ $color-ink-raised: #16283B;
 $color-ink-grid: #22384F;
 $color-ink-border: #2C4058;
 $color-ink-control: #5B7189;
-$color-paper: #F5F6F3;
-$color-band: #E9ECE7;
+// Orange text keeps 4.52:1 on the page background (4.5 required): a darker
+// background would push it below.
+$color-paper: #E8F0FF;
+$color-band: #D6E4FB;
 $color-white: #FFFFFF;
 $color-text-muted: #4D5A66;
 $color-on-ink: #DCE3EA;

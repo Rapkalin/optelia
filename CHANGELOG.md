@@ -10,6 +10,16 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.15.0
+
+### Modifié
+
+- **Fond des pages en bleu très clair** (#E8F0FF), et sections alternées
+  (« Vous hésitez ? », « Ce qu'Optelya vous apporte ») dans un bleu un ton plus
+  soutenu (#D6E4FB) au lieu du gris-vert. Les textes orange restent lisibles
+  (4,52:1 pour 4,5:1 requis) : un fond plus foncé les ferait passer sous le
+  seuil.
+
 ## 0.14.1
 
 ### Modifié
