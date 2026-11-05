@@ -33,7 +33,7 @@ $hasSectorBand = $helpText !== '' || $helpLink['label'] !== '' || $sectorsLabel 
                     <?php if ($icon !== null) : ?>
                         <?php get_template_part('components/icon', null, ['icon' => $icon, 'size' => 40]); ?>
                     <?php endif; ?>
-                    <span class="issue-card__title"><?php echo esc_html(optelya_text($card['title'] ?? '')); ?></span>
+                    <h3 class="issue-card__title"><?php echo esc_html(optelya_text($card['title'] ?? '')); ?></h3>
                     <span class="issue-card__text"><?php echo esc_html(optelya_text($card['text'] ?? '')); ?></span>
                     <span class="issue-card__products"><?php echo esc_html(optelya_text($card['products'] ?? '')); ?></span>
                     <?php if ($url !== '' && $link['label'] !== '') : ?>
@@ -52,11 +52,11 @@ $hasSectorBand = $helpText !== '' || $helpLink['label'] !== '' || $sectorsLabel 
                     <span class="sectors__label"><?php echo esc_html($sectorsLabel); ?></span>
                 <?php endif; ?>
                 <?php if ($sectors !== []) : ?>
-                    <nav class="sectors__list" aria-label="<?php esc_attr_e('Secteurs', 'optelya'); ?>">
+                    <ul class="link-list sectors__list">
                         <?php foreach ($sectors as $sector) : ?>
-                            <?php get_template_part('components/link', null, ['link' => optelya_link($sector['link'] ?? null), 'class' => 'pill']); ?>
+                            <li><?php get_template_part('components/link', null, ['link' => optelya_link($sector['link'] ?? null), 'class' => 'pill']); ?></li>
                         <?php endforeach; ?>
-                    </nav>
+                    </ul>
                 <?php endif; ?>
             </div>
         <?php endif; ?>

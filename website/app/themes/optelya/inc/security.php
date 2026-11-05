@@ -141,3 +141,10 @@ function optelya_generic_login_error(): string
     return __('Identifiants incorrects.', 'optelya');
 }
 add_filter('login_errors', 'optelya_generic_login_error');
+
+/**
+ * No speculative loading: WordPress prints it as an inline script, which the
+ * Content-Security-Policy (`script-src 'self'`) refuses. A one-page site made
+ * of anchors gains nothing from it.
+ */
+add_filter('wp_speculation_rules_configuration', '__return_null');

@@ -52,6 +52,11 @@ function optelya_seed_link(string $label, string $url): array
 }
 
 /**
+ * The hero's lead also serves as the search engine description.
+ */
+const OPTELYA_SEED_HERO_LEAD = "Votre problème d'abord, le bon logiciel ensuite. Optelya sélectionne parmi trois éditeurs complémentaires et vous accompagne en France.";
+
+/**
  * The guards below only matter for a site that had content before the
  * `optelya_seeded` option existed.
  */
@@ -64,6 +69,7 @@ function optelya_seed_settings(): string
 
     $values = [
         OptelyaSetting::Tagline->value => "Votre problème d'abord, le bon logiciel ensuite.",
+        OptelyaSetting::MetaDescription->value => OPTELYA_SEED_HERO_LEAD,
         OptelyaSetting::HeaderCta->value => optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url()),
         OptelyaSetting::ContactTitle->value => 'Coordonnées',
         OptelyaSetting::Address->value => '[adresse à fournir]',
@@ -83,8 +89,8 @@ function optelya_seed_menu_definitions(): array
 {
     return [
         OptelyaMenuLocation::Header->value => ['name' => 'En-tête', 'links' => [
-            ['Solutions ▾', OptelyaSection::Issues],
-            ['Industries ▾', OptelyaSection::Sectors],
+            ['Solutions', OptelyaSection::Issues],
+            ['Industries', OptelyaSection::Sectors],
             ['Études de cas', OptelyaSection::Results],
             ['Services', OptelyaSection::Benefits],
         ]],
@@ -192,7 +198,7 @@ function optelya_seed_sections(): array
             'acf_fc_layout' => 'hero',
             'eyebrow' => 'Noesis Solutions · Sigmetrix · FunctionBay',
             'title' => "Logiciels de simulation et d'optimisation : un expert vous aide à choisir.",
-            'lead' => "Votre problème d'abord, le bon logiciel ensuite. Optelya sélectionne parmi trois éditeurs complémentaires et vous accompagne en France.",
+            'lead' => OPTELYA_SEED_HERO_LEAD,
             'primary_link' => optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url()),
             'secondary_link' => optelya_seed_link('Voir les résultats obtenus', OptelyaSection::Results->url()),
             'caption' => "Visuels repris des éditeurs pour la maquette. Pas de lecture automatique si l'utilisateur a réduit les animations.",

@@ -171,10 +171,33 @@ function optelya_contact_handle(): void
 
     $page = get_permalink();
     $target = add_query_arg(OPTELYA_CONTACT_QUERY, OptelyaContactOutcome::Sent->value, $page !== false ? $page : home_url('/'));
-    wp_safe_redirect($target . '#' . OptelyaSection::Contact->value, 303);
+    wp_safe_redirect($target . '#' . OptelyaContactForm::STATUS_ANCHOR, 303);
     exit;
 }
 add_action('template_redirect', 'optelya_contact_handle');
+
+/**
+ * The page title says how the submission went: it is the first thing a screen
+ * reader announces when the page comes back.
+ */
+function optelya_contact_document_title(array $parts): array
+{
+    $outcome = optelya_contact_state()['outcome'];
+
+    if ($outcome !== null) {
+        $parts['title'] = sprintf(
+            $outcome->isSuccess()
+                /* translators: %s: page title */
+                ? __('Demande envoyée : %s', 'optelya')
+                /* translators: %s: page title */
+                : __('Erreur : %s', 'optelya'),
+            (string) ($parts['title'] ?? ''),
+        );
+    }
+
+    return $parts;
+}
+add_filter('document_title_parts', 'optelya_contact_document_title');
 
 function optelya_contact_register_admin_page(): void
 {

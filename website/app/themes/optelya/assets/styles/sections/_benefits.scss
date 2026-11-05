@@ -26,6 +26,7 @@
 
   &__reader {
     @include eyebrow(0.1em);
+    font-weight: 400;
     color: $color-accent-dark;
 
     .benefits__panel--dark & {

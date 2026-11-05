@@ -24,7 +24,8 @@ $color-accent-light: #F2A57E;
 $color-card-border: #D9DDD8;
 $color-card-divider: #E6E9E5;
 $color-pill-border: #B9C0B8;
-$color-input-border: #9AA49A;
+// 3.92:1 on white: a field's border is its only outline (RGAA 3.3, 3:1).
+$color-input-border: #7A837A;
 
 // Typefaces — self-hosted, see app.scss
 $font-text: 'IBM Plex Sans Variable', system-ui, sans-serif;

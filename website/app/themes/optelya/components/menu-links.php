@@ -1,10 +1,11 @@
 <?php
 
 /**
- * The links of a menu location, one after the other (the mockup has no
- * submenu: nested items are rendered flat).
+ * The links of a menu location as a list (RGAA 9.3), flat: the mockup has no
+ * submenu, nested items are rendered one after the other.
  *
  * @param OptelyaMenuLocation $args['location']
+ * @param string              $args['class']    Layout of the list.
  *
  * @package optelya
  */
@@ -19,6 +20,14 @@ if (! $location instanceof OptelyaMenuLocation) {
     return;
 }
 
-foreach (optelya_menu_links($location) as $link) {
-    get_template_part('components/link', null, ['link' => $link]);
+$links = optelya_menu_links($location);
+
+if ($links === []) {
+    return;
 }
+?>
+<ul class="link-list <?php echo esc_attr((string) ($args['class'] ?? '')); ?>">
+    <?php foreach ($links as $link) : ?>
+        <li><?php get_template_part('components/link', null, ['link' => $link]); ?></li>
+    <?php endforeach; ?>
+</ul>

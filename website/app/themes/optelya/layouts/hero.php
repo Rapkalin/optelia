@@ -54,8 +54,8 @@ $pauseLabel = __('Mettre la vidéo en pause', 'optelya');
                     </div>
                 <?php endif; ?>
 
-                <?php if ($videoId > 0 || $posterId === 0) : ?>
-                    <button class="hero__pause" type="button" aria-label="<?php echo esc_attr($pauseLabel); ?>" data-hero-pause data-label-pause="<?php echo esc_attr($pauseLabel); ?>" data-label-play="<?php esc_attr_e('Lire la vidéo', 'optelya'); ?>"<?php echo $videoId > 0 ? '' : ' disabled'; ?>>
+                <?php if ($videoId > 0) : ?>
+                    <button class="hero__pause" type="button" aria-label="<?php echo esc_attr($pauseLabel); ?>" data-hero-pause data-label-pause="<?php echo esc_attr($pauseLabel); ?>" data-label-play="<?php esc_attr_e('Lire la vidéo', 'optelya'); ?>">
                         <?php get_template_part('components/icon', null, ['icon' => OptelyaIcon::Pause, 'size' => 16]); ?>
                         <?php get_template_part('components/icon', null, ['icon' => OptelyaIcon::Play, 'size' => 16]); ?>
                     </button>

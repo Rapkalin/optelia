@@ -35,14 +35,14 @@ $logoId = optelya_attachment_id(optelya_option(OptelyaSetting::Logo));
             <?php endif; ?>
         </a>
 
-        <?php /* Shown by assets/scripts/nav-toggle.js: without it, the menu stays unfolded. */ ?>
+        <?php /* Shown only when scripts run (assets/styles/partials/_header.scss). */ ?>
         <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
             <span class="site-header__toggle-bars" aria-hidden="true"></span>
             <span class="visually-hidden"><?php esc_html_e('Menu', 'optelya'); ?></span>
         </button>
 
         <nav id="site-nav" class="site-header__nav" aria-label="<?php esc_attr_e('Navigation principale', 'optelya'); ?>">
-            <?php get_template_part('components/menu-links', null, ['location' => OptelyaMenuLocation::Header]); ?>
+            <?php get_template_part('components/menu-links', null, ['location' => OptelyaMenuLocation::Header, 'class' => 'site-header__menu']); ?>
         </nav>
 
         <?php get_template_part('components/link', null, ['link' => optelya_link(optelya_option(OptelyaSetting::HeaderCta)), 'class' => 'button button--small']); ?>

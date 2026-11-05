@@ -10,3 +10,11 @@
 if (! defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/website/wordpress-core/');
 }
+
+// Translation is out of scope here: the text comes back as written.
+if (! function_exists('__')) {
+    function __(string $text, string $domain = 'default'): string
+    {
+        return $text;
+    }
+}

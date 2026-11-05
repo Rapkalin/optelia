@@ -17,7 +17,7 @@ if (! defined('ABSPATH')) {
         <div class="benefits">
             <?php foreach (optelya_rows(optelya_sub_field('panels')) as $panel) : ?>
                 <div class="benefits__panel<?php echo ! empty($panel['is_dark']) ? ' benefits__panel--dark' : ''; ?>">
-                    <p class="benefits__reader"><?php echo esc_html(optelya_text($panel['reader'] ?? '')); ?></p>
+                    <h3 class="benefits__reader"><?php echo esc_html(optelya_text($panel['reader'] ?? '')); ?></h3>
                     <ul class="benefits__list">
                         <?php foreach (optelya_rows($panel['items'] ?? null) as $item) : ?>
                             <li class="benefits__item">

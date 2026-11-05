@@ -116,10 +116,6 @@
     justify-content: center;
     cursor: pointer;
 
-    &:disabled {
-      cursor: default;
-    }
-
     .icon--play,
     &[data-paused] .icon--pause {
       display: none;

@@ -75,6 +75,7 @@ frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'
 | Mesure | Pourquoi |
 | --- | --- |
 | Emoji du cœur désactivé | Supprime un `<script>` inline : c'est ce qui permet `script-src 'self'`. |
+| Préchargement spéculatif désactivé | Même raison : WordPress l'écrit en `<script type="speculationrules">` inline. Une page à ancres n'en tire rien. |
 | `<meta name="generator">` supprimé | Ne plus annoncer la version de WordPress. Le `?ver=` des assets du cœur (admin, connexion) est **gardé** : sans lui, une mise à jour laisserait un mois d'anciens styles en cache. |
 | Liens RSD / WLW supprimés | Endpoints legacy qui annoncent XML-RPC. |
 | XML-RPC désactivé | Bruteforce et amplification pingback. |

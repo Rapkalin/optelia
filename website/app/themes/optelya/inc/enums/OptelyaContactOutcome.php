@@ -44,7 +44,8 @@ enum OptelyaContactOutcome: string
             self::Sent, self::Honeypot => __('Merci, votre demande est envoyée. Un expert vous répond rapidement.', 'optelya'),
             self::MailFailed => __('Votre demande n’a pas pu être envoyée. Merci de réessayer dans quelques minutes.', 'optelya'),
             self::Invalid => __('Merci de corriger les champs signalés.', 'optelya'),
-            self::Expired, self::TooFast => __('La page a expiré : merci de renvoyer votre demande.', 'optelya'),
+            self::Expired => __('La page a expiré : merci de renvoyer votre demande.', 'optelya'),
+            self::TooFast => __('Merci de vérifier vos informations, puis de renvoyer votre demande.', 'optelya'),
             self::RateLimited => __('Trop de demandes envoyées depuis votre connexion. Merci de réessayer dans une heure.', 'optelya'),
         };
     }

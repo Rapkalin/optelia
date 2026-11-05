@@ -10,10 +10,17 @@ Section *Contact* de l'accueil (`#expert`). Le traitement est dans
 1. Le visiteur remplit 3 champs obligatoires (nom, e-mail, société) et 2
    facultatifs (téléphone, projet).
 2. Le formulaire est envoyé **à la page elle-même**, sans JavaScript.
-3. Réussite → redirection `?contact=sent#expert` (un rafraîchissement ne
+3. Réussite → redirection `?contact=sent#contact-status` (un rafraîchissement ne
    renvoie pas la demande) et message de confirmation.
 4. Échec → la page revient avec le message, les valeurs saisies et les champs
-   en défaut signalés (`aria-invalid`).
+   en défaut signalés (`aria-invalid`), chacun avec un message qui dit quoi
+   corriger (RGAA 11.11).
+
+Dans les deux cas, la page revient sur l'ancre `#contact-status` : le message
+de résultat, focalisable (`tabindex="-1"`). Le navigateur lui donne le focus à
+l'arrivée, sans script, et le titre de la page commence par « Erreur : » ou
+« Demande envoyée : ». Viser la section (`#expert`) ne marchait pas : en
+suivant l'ancre, le navigateur rendait le focus à la page, après tout script.
 
 La demande part **par e-mail**, via `wp_mail()` (donc le transport de
 `rapkalin-mail`). `Reply-To` = l'adresse du visiteur : on lui répond

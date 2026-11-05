@@ -32,11 +32,14 @@
   }
 
   &__nav {
+    flex: 1 1 380px;
+    font-size: $font-size-sm;
+  }
+
+  &__menu {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 26px;
-    flex: 1 1 380px;
-    font-size: $font-size-sm;
   }
 
   &__nav a {
@@ -70,8 +73,9 @@
     box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
   }
 
-  // Folded menu: only once the script runs (--js), so that the links stay
-  // reachable without it.
+  // Folded menu only when scripts run: decided by the stylesheet before the
+  // first paint (no shift), and a browser without scripts — or ignoring the
+  // `scripting` feature — keeps the links unfolded.
   @include below($breakpoint-nav) {
     &__inner {
       gap: 12px;
@@ -114,36 +118,41 @@
       }
     }
 
-    // Without the script, the unfolded menu is too tall to stay pinned.
-    &:not(&--js) {
+    // Unfolded menu: too tall to stay pinned.
+    @media (scripting: none) {
       position: static;
     }
 
-    &--js &__toggle {
-      display: flex;
-      order: 1;
-    }
+    @media (scripting: enabled) {
+      &__toggle {
+        display: flex;
+        order: 1;
+      }
 
-    &--js &__nav {
-      display: none;
-      order: 2;
-      flex: 1 0 100%;
-      flex-direction: column;
-      gap: 0;
-      max-height: calc(100vh - #{$header-offset});
-      overflow-y: auto;
-      font-size: $font-size-md;
+      &__nav {
+        display: none;
+        order: 2;
+        flex: 1 0 100%;
+        max-height: calc(100vh - #{$header-offset});
+        overflow-y: auto;
+        font-size: $font-size-md;
+      }
+
+      &__menu {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      &__nav a {
+        display: flex;
+        align-items: center;
+        min-height: $touch-target;
+        border-top: 1px solid $color-ink-line;
+      }
     }
 
     &--open &__nav {
-      display: flex;
-    }
-
-    &--js &__nav a {
-      display: flex;
-      align-items: center;
-      min-height: $touch-target;
-      border-top: 1px solid $color-ink-line;
+      display: block;
     }
 
     &--open &__toggle-bars {

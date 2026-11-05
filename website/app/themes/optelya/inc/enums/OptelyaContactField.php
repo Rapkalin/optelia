@@ -93,6 +93,27 @@ enum OptelyaContactField: string
         return trim((string) preg_replace('/\s{2,}/u', ' ', $text));
     }
 
+    /**
+     * Why a value is refused, and how to fix it (RGAA 11.11).
+     */
+    public function errorMessage(string $value): string
+    {
+        if ($value === '') {
+            return __('Ce champ est obligatoire.', 'optelya');
+        }
+
+        if (mb_strlen($value) > $this->maxLength()) {
+            /* translators: %d: maximum number of characters */
+            return sprintf(__('%d caractères au plus.', 'optelya'), $this->maxLength());
+        }
+
+        return match ($this) {
+            self::Email => __('Adresse e-mail attendue, par exemple nom@entreprise.fr.', 'optelya'),
+            self::Phone => __('Chiffres, espaces et + ( ) . - uniquement, par exemple 01 23 45 67 89.', 'optelya'),
+            default => __('Valeur non valide.', 'optelya'),
+        };
+    }
+
     public function isValid(string $value): bool
     {
         if ($value === '') {

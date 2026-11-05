@@ -76,13 +76,15 @@
 # Cache navigateur des assets statiques. Le build webpack produit des noms
 # stables : purge par déploiement, pas par empreinte. À revoir si un hash de
 # contenu est ajouté au nom des fichiers.
+# `merge`, pas `set` : `set` remplaçait le `max-age` posé par mod_expires, et
+# les navigateurs recevaient « public » sans durée (audit Lighthouse, 05/11/2026).
 # -----------------------------------------------------------------------------
 <IfModule mod_expires.c>
   <FilesMatch "\.(css|js|jpg|jpeg|gif|png|webp|avif|svg|ico|woff|woff2|ttf|eot|otf|mp4|webm|ogg|ogv|pdf)$">
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
     <IfModule mod_headers.c>
-      Header set Cache-Control "public"
+      Header merge Cache-Control "public"
     </IfModule>
   </FilesMatch>
 </IfModule>

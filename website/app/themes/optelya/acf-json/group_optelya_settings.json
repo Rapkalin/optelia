@@ -48,6 +48,26 @@
             "append": ""
         },
         {
+            "key": "field_optelya_settings_meta_description",
+            "label": "Description pour les moteurs de recherche",
+            "name": "meta_description",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Le texte affiché sous le titre du site dans Google : une ou deux phrases, 160 caractères au plus. Vide : l’accroche ci-dessus est utilisée.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 160,
+            "placeholder": "",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
             "key": "field_optelya_settings_cta",
             "label": "Bouton de l’en-tête",
             "name": "header_cta",

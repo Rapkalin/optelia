@@ -50,6 +50,9 @@ site tourne sans réglage d'e-mail ni journal — voir
 | E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
 | Journal : erreurs du site et activité | [`readme/journal.md`](readme/journal.md) |
 | Formulaire de contact : envoi, anti-robots, Outils → Contact | [`readme/contact.md`](readme/contact.md) |
+| Variables du `.env` : obligatoires, facultatives, locales | [`readme/variables-env.md`](readme/variables-env.md) |
+| Performance : audit Lighthouse, réglages de cache | [`readme/performance.md`](readme/performance.md) |
+| Accessibilité : audit RGAA, reste à faire avant la mise en ligne | [`readme/accessibilite.md`](readme/accessibilite.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |
 | Durcissement, en-têtes HTTP, CSP | [`readme/securite.md`](readme/securite.md) |
 | Pint, PHPCS, PHPStan, Pest | [`readme/qualite-code.md`](readme/qualite-code.md) |

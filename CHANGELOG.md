@@ -10,6 +10,33 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.11.0
+
+### Ajouté
+
+- **Description pour les moteurs de recherche** : nouveau champ dans *Réglages →
+  Configuration* (160 caractères). Vide, l'accroche du site est utilisée.
+
+### Modifié
+
+- **Plus de saut de mise en page à l'ouverture sur mobile** : le menu est
+  replié dès le premier affichage. Polices du premier écran chargées plus tôt.
+- **Cache navigateur effectif** pour les styles, scripts et polices (30 jours).
+  ⚠️ Sur chaque serveur, reporter le changement dans `shared/.htaccess` — voir
+  `readme/performance.md`.
+- **Accessibilité (audit RGAA)** :
+  - bordure des champs du formulaire plus contrastée ;
+  - liens « Lire l'étude » distincts pour les lecteurs d'écran ;
+  - titres des cartes et des profils balisés comme titres ;
+  - menus, pied de page et secteurs balisés comme listes ;
+  - un message d'erreur par champ, qui dit quoi corriger ;
+  - après un envoi du formulaire, le message de résultat reçoit le focus et le
+    titre de la page annonce le résultat.
+- Le bouton pause du visuel d'accueil n'apparaît plus tant qu'il n'y a pas de
+  vidéo.
+- La flèche « ▾ » disparaît des intitulés de menu du contenu initial. Sur un
+  site déjà installé, la retirer dans *Apparence → Menus*.
+
 ## 0.10.0
 
 ### Ajouté

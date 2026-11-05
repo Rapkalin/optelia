@@ -105,6 +105,17 @@ it('refuses a forged or missing token', function (string $token) {
     'garbage' => ['abc.def'],
 ]);
 
+it('tells why a value is refused', function () {
+    expect(OptelyaContactField::Name->errorMessage(''))->toBe('Ce champ est obligatoire.');
+    expect(OptelyaContactField::Project->errorMessage(str_repeat('a', 501)))->toBe('500 caractères au plus.');
+    expect(OptelyaContactField::Email->errorMessage('ada@'))->toContain('nom@entreprise.fr');
+    expect(OptelyaContactField::Phone->errorMessage('call me'))->toContain('01 23 45 67 89');
+});
+
+it('does not tell a fast visitor that the page expired', function () {
+    expect(OptelyaContactOutcome::TooFast->message())->not->toBe(OptelyaContactOutcome::Expired->message());
+});
+
 it('lets the honeypot pass for a success, nothing else', function () {
     $successes = array_filter(OptelyaContactOutcome::cases(), static fn(OptelyaContactOutcome $o): bool => $o->isSuccess());
 

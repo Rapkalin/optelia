@@ -61,3 +61,28 @@ add_action('wp_enqueue_scripts', 'optelya_enqueue_assets');
  */
 remove_action('wp_enqueue_scripts', 'wp_enqueue_global_styles');
 remove_action('wp_footer', 'wp_enqueue_global_styles', 1);
+
+/**
+ * Typefaces of the first screen (hero title and text), fetched with the
+ * stylesheet instead of after it: their late arrival shifted the layout.
+ */
+const OPTELYA_PRELOADED_FONTS = [
+    'dist/fonts/archivo-latin-wght-normal.woff2',
+    'dist/fonts/ibm-plex-sans-latin-wght-normal.woff2',
+];
+
+function optelya_preload_fonts(): void
+{
+    foreach (OPTELYA_PRELOADED_FONTS as $font) {
+        // A font renamed by an @fontsource update must not become a 404.
+        if (! is_file(get_template_directory() . '/' . $font)) {
+            continue;
+        }
+
+        printf(
+            '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+            esc_url(get_template_directory_uri() . '/' . $font),
+        );
+    }
+}
+add_action('wp_head', 'optelya_preload_fonts', 1);

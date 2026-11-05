@@ -36,9 +36,9 @@ $outcome = $state['outcome'];
             <?php endif; ?>
         </div>
 
-        <form class="card contact-form" method="post" action="#<?php echo esc_attr(OptelyaSection::Contact->value); ?>" aria-label="<?php esc_attr_e('Demande de contact', 'optelya'); ?>">
+        <form class="card contact-form" method="post" action="#<?php echo esc_attr(OptelyaContactForm::STATUS_ANCHOR); ?>" aria-label="<?php esc_attr_e('Demande de contact', 'optelya'); ?>">
             <?php if ($outcome !== null) : ?>
-                <p class="contact-form__status contact-form__status--<?php echo $outcome->isSuccess() ? 'success' : 'error'; ?>" role="<?php echo $outcome->isSuccess() ? 'status' : 'alert'; ?>">
+                <p class="contact-form__status contact-form__status--<?php echo $outcome->isSuccess() ? 'success' : 'error'; ?>" role="<?php echo $outcome->isSuccess() ? 'status' : 'alert'; ?>" id="<?php echo esc_attr(OptelyaContactForm::STATUS_ANCHOR); ?>" tabindex="-1">
                     <?php echo esc_html($outcome->message()); ?>
                 </p>
             <?php endif; ?>
@@ -67,7 +67,7 @@ $outcome = $state['outcome'];
                         <?php if ($isInvalid) : ?>aria-invalid="true" aria-describedby="<?php echo esc_attr($id . '-error'); ?>"<?php endif; ?>
                     >
                     <?php if ($isInvalid) : ?>
-                        <span class="contact-form__error" id="<?php echo esc_attr($id . '-error'); ?>"><?php esc_html_e('Valeur manquante ou invalide.', 'optelya'); ?></span>
+                        <span class="contact-form__error" id="<?php echo esc_attr($id . '-error'); ?>"><?php echo esc_html($field->errorMessage($state['values'][$field->value] ?? '')); ?></span>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

@@ -29,6 +29,13 @@ final class OptelyaContactForm
     public const string TOKEN = 'contact_token';
 
     /**
+     * Anchor the page comes back to after a submission: the outcome message.
+     * Focusable, so the browser focuses it on arrival — keyboard and screen
+     * reader users land on it (RGAA 11.10, 11.11).
+     */
+    public const string STATUS_ANCHOR = 'contact-status';
+
+    /**
      * No human fills five fields in less. The site has no page cache, so a day
      * is a generous upper bound.
      */

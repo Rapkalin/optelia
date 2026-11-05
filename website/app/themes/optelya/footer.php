@@ -31,7 +31,7 @@ $address = optelya_option_text(OptelyaSetting::Address);
             <?php if ($title !== '') : ?>
                 <nav class="site-footer__column" aria-label="<?php echo esc_attr($title); ?>">
                     <span class="site-footer__title"><?php echo esc_html($title); ?></span>
-                    <?php get_template_part('components/menu-links', null, ['location' => $location]); ?>
+                    <?php get_template_part('components/menu-links', null, ['location' => $location, 'class' => 'site-footer__links']); ?>
                 </nav>
             <?php endif; ?>
         <?php endforeach; ?>
@@ -49,7 +49,7 @@ $address = optelya_option_text(OptelyaSetting::Address);
     </div>
 
     <div class="site-footer__legal">
-        <?php get_template_part('components/menu-links', null, ['location' => OptelyaMenuLocation::Legal]); ?>
+        <?php get_template_part('components/menu-links', null, ['location' => OptelyaMenuLocation::Legal, 'class' => 'site-footer__legal-links']); ?>
 
         <?php if ($version !== '') : ?>
             <span class="site-footer__version">

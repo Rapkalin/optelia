@@ -54,6 +54,12 @@ input {
   color: $color-accent-light;
 }
 
+.link-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .visually-hidden {
   @include visually-hidden;
 }

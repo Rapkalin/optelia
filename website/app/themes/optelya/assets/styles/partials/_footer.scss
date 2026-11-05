@@ -47,6 +47,16 @@
     font-size: $font-size-2xs;
   }
 
+  &__links {
+    @include stack(8px);
+  }
+
+  &__legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+
   &__column a,
   &__legal a {
     color: $color-on-ink-muted;

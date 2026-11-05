@@ -14,7 +14,6 @@ export function initNavToggle() {
         button.setAttribute('aria-expanded', String(isOpen));
     };
 
-    header.classList.add('site-header--js');
     button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
 
     // An anchor of the page: the menu must not cover the section it leads to.
