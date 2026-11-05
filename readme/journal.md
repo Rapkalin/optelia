@@ -9,6 +9,10 @@ Optelya reçoivent un 403) :
 | *Outils → Activité* | `tools.php?page=rapkalin-activity` | contenus, comptes, réglages |
 | *Outils → Journal* | `tools.php?page=rapkalin-security` | erreurs du site (l'adresse de l'ancien journal unique) |
 
+Le module protège aussi la connexion depuis la 1.2.0 (tentatives limitées,
+raccourcis coupés, adresse personnalisée) : voir [`securite.md`](securite.md).
+Un blocage apparaît dans *Connexions* (« Bloqué après trop d'échecs »).
+
 Séparés le 05/11/2026 (module 1.1.0) ; auparavant, un seul écran *Outils →
 Journal* à deux onglets. Fournis par le module **`rapkalin-security`**,
 hors dépôt — voir [Modules maison](deploiement.md#modules-maison-mu-plugins).

@@ -23,6 +23,12 @@ règle dans *Réglages → Configuration* (voir [`contact.md`](contact.md)).
 | `DB_HOST` | Serveur de base | Absente = `localhost` |
 | `AUTH_KEY`, `SECURE_AUTH_KEY`, `LOGGED_IN_KEY`, `NONCE_KEY`, `AUTH_SALT`, `SECURE_AUTH_SALT`, `LOGGED_IN_SALT`, `NONCE_SALT` | Clés et sels de WordPress | **Uniques par environnement** (<https://roots.io/salts.html>). Laissés à `generateme`, ils permettent de forger des cookies de connexion. Ils signent aussi le jeton du formulaire de contact |
 
+## Connexion (module `rapkalin-security`)
+
+| Variable | Rôle |
+| --- | --- |
+| `LOGIN_SLUG` | Adresse de connexion personnalisée (ex. `acces-equipe-7` → `https://<site>/acces-equipe-7/`). L'adresse réelle et l'admin déconnecté répondent alors 404. **À garder secrète et à noter** : c'est la seule porte d'entrée. Vide : connexion standard. Recommandée sur un serveur, différente par environnement |
+
 ## E-mails sortants (module `rapkalin-mail`)
 
 | Variable | Rôle |

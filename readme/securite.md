@@ -118,7 +118,22 @@ chemins, destinataires d'e-mails omis. Outil de diagnostic, pas piste d'audit :
 deux requêtes simultanées peuvent perdre une entrée — voir
 [`journal.md`](journal.md).
 
-## 7. Formulaire de contact
+## 7. Connexion — module `rapkalin-security` (1.2.0)
+
+| Mesure | Détail |
+| --- | --- |
+| **Tentatives limitées** | Blocage de 15 minutes après **5 échecs depuis une même adresse IP**, ou **10 sur un même identifiant** (plus haut : n'importe qui connaissant l'identifiant pourrait sinon bloquer son titulaire). Pendant le blocage, même le bon mot de passe est refusé, avec le message « Trop de tentatives échouées. Réessayez dans 15 minutes. ». Le blocage est inscrit dans *Comptes → Connexions*. Adresse IP et identifiant hachés, oubliés après 15 minutes |
+| **Raccourcis coupés** | `/login`, `/admin`, `/dashboard`, `/wp-login.php`, `/wp-admin` répondent **404** au lieu de mener à la connexion |
+| **Adresse de connexion personnalisée** | `LOGIN_SLUG` dans le `.env` ([`variables-env.md`](variables-env.md)). L'adresse réelle et l'admin pour un visiteur déconnecté répondent 404 ; formulaire, déconnexion, mot de passe oublié (lien de l'e-mail compris), pages protégées et reconnexion passent par l'adresse personnalisée. `admin-ajax.php` et `admin-post.php` restent accessibles |
+
+> **C'est de la dissimulation, pas un verrou** : elle réduit le bruit des
+> robots ; la protection réelle contre les mots de passe devinés est la
+> limitation des tentatives (et des mots de passe forts). **Perdre l'adresse**
+> : elle est dans `shared/.env` ; `wp option`/WP-CLI ne dépendent pas d'elle.
+> Derrière un proxy ou un CDN, tous les visiteurs partagent son adresse IP : la
+> limite par IP serait alors à revoir.
+
+## 8. Formulaire de contact
 
 Aucun service tiers, aucun cookie. Champ piège, délai minimal signé, 5 envois
 par heure et par visiteur, validation serveur, en-têtes d'e-mail non
@@ -126,7 +141,7 @@ injectables. Destinataire dans *Configuration*, modifiable par tous les rôles
 (risque accepté). Aucune demande conservée, seulement des compteurs — voir
 [`contact.md`](contact.md).
 
-## 8. CI
+## 9. CI
 
 - **CVE des dépendances** : `composer audit --locked`.
 - **Secrets** : gitleaks sur les commits poussés ou ceux de la pull request

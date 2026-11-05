@@ -10,6 +10,20 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.19.0
+
+### Ajouté
+
+- **Connexion protégée** (module `rapkalin-security` 1.2.0, à déposer dans
+  `shared/mu-plugins/`) :
+  - blocage de 15 minutes après 5 tentatives échouées depuis une même adresse,
+    ou 10 sur un même identifiant ; inscrit dans *Comptes → Connexions* ;
+  - `/login`, `/admin`, `/dashboard`, `/wp-login.php` ne mènent plus à la page
+    de connexion (page introuvable) ;
+  - adresse de connexion personnalisée, réglée par `LOGIN_SLUG` dans le
+    `.env` : l'adresse habituelle et l'administration répondent alors « page
+    introuvable » aux visiteurs non connectés. **Noter l'adresse choisie.**
+
 ## 0.18.0
 
 ### Modifié
