@@ -43,6 +43,8 @@ $outcome = $state['outcome'];
                 </p>
             <?php endif; ?>
 
+            <p class="contact-form__legend"><?php esc_html_e('Tous les champs sont obligatoires, sauf mention « (facultatif) ».', 'optelya'); ?></p>
+
             <?php foreach (OptelyaContactField::cases() as $field) : ?>
                 <?php
                 $id = 'contact-' . $field->value;

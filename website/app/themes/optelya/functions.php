@@ -17,6 +17,7 @@ require_once __DIR__ . '/inc/enums/OptelyaContactField.php';
 require_once __DIR__ . '/inc/enums/OptelyaContactOutcome.php';
 require_once __DIR__ . '/inc/enums/OptelyaContactForm.php';
 require_once __DIR__ . '/inc/enums/OptelyaHeaderColor.php';
+require_once __DIR__ . '/inc/enums/OptelyaShareTags.php';
 require_once __DIR__ . '/inc/security.php';
 require_once __DIR__ . '/inc/setup.php';
 require_once __DIR__ . '/inc/template.php';

@@ -32,7 +32,10 @@
     }
   }
 
+  // Column titles are headings (RGAA 9.1), styled as before.
   &__title {
+    margin: 0;
+    font-size: inherit;
     font-weight: 600;
     color: $color-white;
   }

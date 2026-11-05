@@ -54,6 +54,7 @@ site tourne sans réglage d'e-mail ni journal — voir
 | Variables du `.env` : obligatoires, facultatives, locales | [`readme/variables-env.md`](readme/variables-env.md) |
 | Performance : audit Lighthouse, réglages de cache | [`readme/performance.md`](readme/performance.md) |
 | Accessibilité : audit RGAA, reste à faire avant la mise en ligne | [`readme/accessibilite.md`](readme/accessibilite.md) |
+| Référencement : titre, partage, sitemap, avant la mise en ligne | [`readme/seo.md`](readme/seo.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |
 | Durcissement, en-têtes HTTP, CSP | [`readme/securite.md`](readme/securite.md) |
 | Pint, PHPCS, PHPStan, Pest | [`readme/qualite-code.md`](readme/qualite-code.md) |

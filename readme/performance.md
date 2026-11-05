@@ -38,6 +38,22 @@ Reste signalé, sans action : la feuille de style bloque le premier affichage
 (4,4 Ko, gain estimé de 80 à 470 ms selon l'appareil simulé). L'éclater en CSS
 critique en ligne coûterait plus qu'il ne rapporte à ce poids.
 
+## Second audit (05/11/2026, 0.16.0)
+
+Lighthouse 13.5.0, médiane de 3 passes : 100 partout hors SEO, CLS 0, LCP
+1,7 s en mobile (le titre du hero), 0,4 s en desktop. Corrigé :
+
+| Constat | Correction |
+| --- | --- |
+| Police IBM Plex Sans **grecque** téléchargée (20 Ko, sur la chaîne critique) pour « σ » et « λ » | `assets/styles/fonts.css` ne déclare que les sous-ensembles **latin** et **latin-ext** des polices variables (σ, λ en police de repli). **À régénérer après une mise à jour d'`@fontsource`** : blocs copiés des `wght.css` des paquets |
+| `main.js` servi sans compression : Apache le type `text/javascript`, absent de la règle DEFLATE | `text/javascript` ajouté à `AddOutputFilterByType DEFLATE` |
+| `/favicon.ico` → redirection par WordPress (démarrage PHP) vers le logo WordPress | Contenu : définir l'icône du site — voir [`seo.md`](seo.md) |
+
+Poids de la page : 132 → **125 Kio**. Recommandations d'hébergement, par
+priorité : vérifier `shared/.htaccess` (ci-dessous), HTTP/2 et OPcache, puis
+un cache de page — seul vrai levier sur le temps de réponse. Cache objet,
+Brotli, CDN : gain négligeable à ce poids.
+
 ## ⚠️ À reporter sur chaque serveur
 
 Le serveur applique **`shared/.htaccess`**, pas le fichier du dépôt (voir
@@ -54,6 +70,10 @@ par :
 ```apache
 Header merge Cache-Control "public"
 ```
+
+et, depuis la 0.16.0, ajouter `text/javascript` à la ligne
+`AddOutputFilterByType DEFLATE …` (le plus simple : recopier le bloc du
+`.htaccess` du dépôt).
 
 ## Relancer l'audit
 

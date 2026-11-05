@@ -45,7 +45,7 @@ $cta = optelya_link(optelya_option(OptelyaSetting::HeaderCta));
 
         <nav id="site-nav" class="site-header__nav" aria-label="<?php esc_attr_e('Navigation principale', 'optelya'); ?>">
             <?php /* The button again, at the top of the folded menu on small screens: the bar keeps room for a 55px logo. Only one of the two is displayed. */ ?>
-            <?php get_template_part('components/link', null, ['link' => $cta, 'class' => 'button site-header__menu-cta']); ?>
+            <?php get_template_part('components/link', null, ['link' => $cta, 'class' => 'button button--small site-header__menu-cta']); ?>
             <?php get_template_part('components/menu-links', null, ['location' => OptelyaMenuLocation::Header, 'class' => 'site-header__menu']); ?>
         </nav>
 

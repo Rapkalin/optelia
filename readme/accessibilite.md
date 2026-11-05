@@ -41,6 +41,24 @@ Corrigés aussi, au-delà des critères :
 - **Bouton pause du hero** : il n'apparaît plus tant qu'il n'y a pas de vidéo
   (il était affiché désactivé, avec un intitulé trompeur).
 
+## Second audit (05/11/2026, 0.15.0 → 0.16.0)
+
+Audit indépendant, puis comparé au premier : **≈ 96 %** estimé (43 C, 2 NC,
+61 NA). Corrigé en 0.16.0 :
+
+- **9.1** : titres du pied de page (« Solutions », « Ressources »,
+  « Coordonnées ») balisés en `<h2>`, sans changement visuel ;
+- **régression de la 0.14.0** : le bouton « Parler à un expert » du menu
+  mobile mesurait 22 px de haut (classe de taille manquante) — 44 px ;
+- **focus** : même anneau dans tous les navigateurs, foncé autour d'un blanc,
+  visible sur fond clair comme sombre (`:focus-visible`) ;
+- **formulaire** : mention « Tous les champs sont obligatoires, sauf mention
+  « (facultatif) » » en tête.
+
+Reste non conforme : **6.1** (destinations des liens, contenu — ci-dessous).
+Signalé pour plus tard : quand une image ou une vidéo sera ajoutée au visuel
+d'accueil, auditer 1.9 (figure et légende) et la thématique 4.
+
 ## Reste à traiter — contenu et mise en ligne
 
 Ces points ne se règlent pas dans le code :

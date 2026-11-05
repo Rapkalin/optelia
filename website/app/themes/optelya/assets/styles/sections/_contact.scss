@@ -79,6 +79,12 @@
     cursor: pointer;
   }
 
+  &__legend {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
   &__notice {
     margin: 0;
     font-size: $font-size-xs;

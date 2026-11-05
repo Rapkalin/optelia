@@ -71,13 +71,20 @@ function optelya_remove_version_disclosure(): void
 add_action('init', 'optelya_remove_version_disclosure');
 
 /**
- * Remove the WLW / RSD discovery links: legacy publishing endpoints nobody uses,
- * which only advertise XML-RPC.
+ * Remove discovery links nothing uses: WLW / RSD (legacy publishing endpoints,
+ * they only advertise XML-RPC), oEmbed, REST, shortlink.
  */
 function optelya_remove_legacy_head_links(): void
 {
     remove_action('wp_head', 'wlwmanifest_link');
     remove_action('wp_head', 'rsd_link');
+    // oEmbed discovery, REST API and shortlink: nothing on the site uses them
+    // (the REST API itself stays available to the editor).
+    remove_action('wp_head', 'wp_oembed_add_discovery_links');
+    remove_action('wp_head', 'rest_output_link_wp_head');
+    remove_action('template_redirect', 'rest_output_link_header', 11);
+    remove_action('wp_head', 'wp_shortlink_wp_head');
+    remove_action('template_redirect', 'wp_shortlink_header', 11);
 }
 add_action('init', 'optelya_remove_legacy_head_links');
 

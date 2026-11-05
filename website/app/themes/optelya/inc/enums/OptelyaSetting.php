@@ -18,6 +18,8 @@ enum OptelyaSetting: string
     case HeaderBackground = 'header_background';
     case Tagline = 'tagline';
     case MetaDescription = 'meta_description';
+    case SeoTitle = 'seo_title';
+    case ShareImage = 'share_image';
     case HeaderCta = 'header_cta';
     case ContactTitle = 'contact_title';
     case Address = 'address';

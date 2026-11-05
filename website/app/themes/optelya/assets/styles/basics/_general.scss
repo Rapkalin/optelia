@@ -54,6 +54,14 @@ input {
   color: $color-accent-light;
 }
 
+// Same focus ring in every browser, readable on light and dark backgrounds:
+// an ink ring around a white one (RGAA 10.7).
+:focus-visible {
+  outline: 2px solid $color-ink;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px $color-white;
+}
+
 .link-list {
   margin: 0;
   padding: 0;

@@ -197,7 +197,21 @@ function optelya_contact_document_title(array $parts): array
 
     return $parts;
 }
-add_filter('document_title_parts', 'optelya_contact_document_title');
+// After the home page title (inc/seo.php): the prefix goes in front of it.
+add_filter('document_title_parts', 'optelya_contact_document_title', 20);
+
+/**
+ * The page reached after a submission must not be indexed on its own.
+ */
+function optelya_contact_robots(array $robots): array
+{
+    if (isset($_GET[OPTELYA_CONTACT_QUERY])) {
+        $robots['noindex'] = true;
+    }
+
+    return $robots;
+}
+add_filter('wp_robots', 'optelya_contact_robots');
 
 function optelya_contact_register_admin_page(): void
 {

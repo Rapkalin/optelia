@@ -70,6 +70,7 @@ function optelya_seed_settings(): string
     $values = [
         OptelyaSetting::Tagline->value => "Votre problème d'abord, le bon logiciel ensuite.",
         OptelyaSetting::MetaDescription->value => OPTELYA_SEED_HERO_LEAD,
+        OptelyaSetting::SeoTitle->value => "Logiciels de simulation et d'optimisation – Optelya",
         OptelyaSetting::HeaderCta->value => optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url()),
         OptelyaSetting::ContactTitle->value => 'Coordonnées',
         OptelyaSetting::Address->value => '[adresse à fournir]',

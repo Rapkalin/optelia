@@ -7,7 +7,7 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Quoi | Où |
 | --- | --- |
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
-| Logo et couleur de fond de l'en-tête, accroche, description pour les moteurs de recherche, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
+| Logo et couleur de fond de l'en-tête, accroche, titre et description pour les moteurs de recherche, image de partage, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
 | Liens de l'en-tête et du pied de page | *Apparence → Menus* |
 
 Ces trois écrans sont ouverts au rôle **Éditeur Optelya**. Le **Contributeur

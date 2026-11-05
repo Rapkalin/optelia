@@ -10,6 +10,34 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.16.0
+
+### Ajouté
+
+- **Référencement** : titre de la page d'accueil réglable (« Titre pour les
+  moteurs de recherche » dans *Configuration*, par défaut « Logiciels de
+  simulation et d'optimisation – Optelya ») et **image de partage** pour les
+  aperçus LinkedIn, Teams et messageries. Le site décrit aussi l'entreprise
+  aux moteurs (données structurées).
+
+### Modifié
+
+- **Référencement** : le plan du site ne liste plus que les pages ; archives,
+  flux RSS et pages de médias répondent « page introuvable » (le site n'a pas
+  de blog) ; la page affichée après l'envoi du formulaire n'est plus indexable.
+- **Plus léger** : les polices ne chargent plus les alphabets grec, cyrillique
+  et vietnamien (−20 Ko pour deux symboles). Le script est compressé. ⚠️ Sur
+  chaque serveur, reporter le changement de `.htaccess` — voir
+  `readme/performance.md`.
+- **Accessibilité** : titres du pied de page balisés comme titres ; contour de
+  focus identique dans tous les navigateurs ; le formulaire indique que les
+  champs sont obligatoires sauf mention contraire.
+
+### Corrigé
+
+- Le bouton « Parler à un expert » du menu mobile était écrasé (22 px de haut
+  au lieu de 44).
+
 ## 0.15.0
 
 ### Modifié
