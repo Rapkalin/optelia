@@ -23,7 +23,7 @@ function optelya_register_options_page(): void
         'menu_title' => __('Configuration', 'optelya'),
         'menu_slug' => OptelyaAdminScreen::SETTINGS_PAGE,
         'parent_slug' => 'options-general.php',
-        'capability' => OPTELYA_SETTINGS_CAP,
+        'capability' => OptelyaRole::SETTINGS_CAPABILITY,
         'redirect' => false,
         'update_button' => __('Enregistrer', 'optelya'),
         'updated_message' => __('Configuration enregistrée.', 'optelya'),

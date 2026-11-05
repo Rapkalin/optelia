@@ -10,6 +10,7 @@ require_once __DIR__ . '/inc/enums/OptelyaSection.php';
 require_once __DIR__ . '/inc/enums/OptelyaIcon.php';
 require_once __DIR__ . '/inc/enums/OptelyaMenuLocation.php';
 require_once __DIR__ . '/inc/enums/OptelyaSetting.php';
+require_once __DIR__ . '/inc/enums/OptelyaRole.php';
 require_once __DIR__ . '/inc/enums/OptelyaAdminScreen.php';
 require_once __DIR__ . '/inc/enums/OptelyaProfileField.php';
 require_once __DIR__ . '/inc/security.php';

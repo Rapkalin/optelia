@@ -10,8 +10,10 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Accroche, bouton de l'en-tête, téléphone, titre de la colonne contact, adresse | *Réglages → Configuration* |
 | Liens de l'en-tête et du pied de page | *Apparence → Menus* |
 
-Un compte de contribution porte le rôle **Contributeur Optelya**, qui ouvre ces
-trois écrans et rien d'autre — voir [`roles.md`](roles.md).
+Ces trois écrans sont ouverts au rôle **Éditeur Optelya**. Le **Contributeur
+Optelya** gère ses propres pages et médias et *Réglages → Configuration* : ni
+l'accueil (qui appartient à l'administrateur), ni les menus — voir
+[`roles.md`](roles.md).
 
 ## Les sections de l'accueil
 

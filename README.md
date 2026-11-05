@@ -46,7 +46,7 @@ site tourne sans réglage d'e-mail ni journal — voir
 | Sujet | Fichier |
 | --- | --- |
 | Contribution : sections, réglages, menus | [`readme/contribution.md`](readme/contribution.md) |
-| Rôles : contributeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
+| Rôles : contributeur, éditeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
 | E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
 | Journal : erreurs du site et activité | [`readme/journal.md`](readme/journal.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |

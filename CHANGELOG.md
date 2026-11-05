@@ -10,6 +10,26 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.7.0
+
+### Ajouté
+
+- **Rôle « Éditeur Optelya »** : toutes les pages et tous les médias, quel qu'en
+  soit l'auteur, plus les menus, le personnalisateur et *Réglages →
+  Configuration*. C'est l'ancien périmètre du contributeur, élargi aux contenus
+  des autres.
+
+### Modifié
+
+- **Le Contributeur Optelya ne gère plus que SES pages et SES médias**, comme
+  l'« Auteur » de WordPress : il les crée, les publie, les modifie et les
+  supprime. Il ne peut plus modifier les pages des autres — dont l'accueil — ni
+  les menus ou le personnalisateur. Il garde *Réglages → Configuration*
+  (slogan, bouton d'en-tête, coordonnées). Les comptes existants basculent au
+  premier chargement de l'admin, quel que soit le compte connecté.
+- *Comptes → Ajouter* propose Administrateur, Éditeur Optelya et Contributeur
+  Optelya.
+
 ## 0.6.0
 
 ### Ajouté

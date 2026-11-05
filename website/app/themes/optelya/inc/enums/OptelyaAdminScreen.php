@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Admin perimeter of the contributor role — single source.
+ * Admin perimeter of the restricted roles — single source.
  *
  * An ALLOW-LIST, not a deny-list: a screen added by a future plugin is denied by
  * default, where a deny-list would let it through unnoticed. `isAllowed()` is
@@ -24,9 +24,10 @@ final class OptelyaAdminScreen
     public const string SETTINGS_PAGE = 'optelya-settings';
 
     /**
-     * Always allowed. `admin-ajax.php`, `admin-post.php` and `async-upload.php`
-     * are not screens: denying them would break the editor and the media upload
-     * without protecting anything.
+     * Allowed to every restricted role, with Settings → Configuration.
+     * `admin-ajax.php`, `admin-post.php` and
+     * `async-upload.php` are not screens: denying them would break the editor
+     * and the media upload without protecting anything.
      */
     private const array ALWAYS = [
         'index.php',
@@ -34,16 +35,21 @@ final class OptelyaAdminScreen
         'upload.php',
         'media-new.php',
         'media-upload.php',
-        'nav-menus.php',
-        'customize.php',
         'admin-ajax.php',
         'admin-post.php',
         'async-upload.php',
     ];
 
+    /**
+     * The editor's on top: menus, customizer and taxonomies.
+     */
+    private const array EDITOR_ONLY = ['nav-menus.php', 'customize.php'];
+
+    private const array TAXONOMY_SCREENS = ['edit-tags.php', 'term.php'];
+
     private const array POST_TYPES = ['page', 'attachment'];
 
-    public static function isAllowed(string $pagenow, array $query = []): bool
+    public static function isAllowed(OptelyaRole $role, string $pagenow, array $query = []): bool
     {
         if (in_array($pagenow, self::ALWAYS, true)) {
             return true;
@@ -52,6 +58,18 @@ final class OptelyaAdminScreen
         // The site settings, and only them, among the Settings screens.
         if ($pagenow === 'options-general.php') {
             return ($query['page'] ?? '') === self::SETTINGS_PAGE;
+        }
+
+        if ($role === OptelyaRole::Editor) {
+            if (in_array($pagenow, self::EDITOR_ONLY, true)) {
+                return true;
+            }
+
+            // Terms of the perimeter's types only: categories and tags belong
+            // to posts, which are out of it.
+            if (in_array($pagenow, self::TAXONOMY_SCREENS, true)) {
+                return in_array((string) ($query['post_type'] ?? 'post'), self::POST_TYPES, true);
+            }
         }
 
         if (in_array($pagenow, ['edit.php', 'post-new.php'], true)) {

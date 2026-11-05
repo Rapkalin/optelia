@@ -2,7 +2,7 @@
 
 /**
  * Menu locations. Each footer column is its own menu: its NAME is the column
- * title, so a contributor renames a column in Appearance → Menus.
+ * title, so an editor renames a column in Appearance → Menus.
  *
  * @package optelya
  */

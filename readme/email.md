@@ -9,8 +9,8 @@ envoie par son `sendmail` par défaut.
 
 ## Réglages → Email
 
-Page réservée aux administrateurs (`manage_options`). Le rôle « Contributeur
-Optelya » n'y a pas accès : ni lien dans le menu, ni page (403), ni
+Page réservée aux administrateurs (`manage_options`). Ni le Contributeur ni
+l'Éditeur Optelya n'y ont accès : ni lien dans le menu, ni page (403), ni
 enregistrement (403 sur `admin-post.php`).
 
 | Réglage | Effet |
