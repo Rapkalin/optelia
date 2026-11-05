@@ -3,6 +3,31 @@
     "title": "Configuration du site",
     "fields": [
         {
+            "key": "field_optelya_settings_logo",
+            "label": "Logo de l’en-tête",
+            "name": "logo",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Sur fond sombre : prévoir une version claire. Affiché à 32 px de haut : fournir au moins 64 px de haut (écrans haute densité), en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": 64,
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "png,jpg,jpeg,webp"
+        },
+        {
             "key": "field_optelya_settings_tagline",
             "label": "Accroche",
             "name": "tagline",

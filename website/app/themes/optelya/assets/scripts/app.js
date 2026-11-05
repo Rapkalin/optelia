@@ -8,5 +8,7 @@ import '@fontsource/ibm-plex-mono/500.css';
 import '../styles/app.scss';
 
 import { initHeroVideo } from './hero-video';
+import { initNavToggle } from './nav-toggle';
 
+initNavToggle();
 initHeroVideo();

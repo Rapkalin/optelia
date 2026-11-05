@@ -1,6 +1,18 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
+:root {
+  --section-space: #{$section-space-wide};
+  --card-padding: #{$card-padding-wide};
+  --panel-padding: #{$panel-padding-wide};
+
+  @include below($breakpoint-compact) {
+    --section-space: #{$section-space-compact};
+    --card-padding: #{$card-padding-compact};
+    --panel-padding: #{$panel-padding-compact};
+  }
+}
+
 html {
   scroll-padding-top: $header-offset;
 
@@ -40,6 +52,10 @@ input {
 .eyebrow {
   @include eyebrow(0.12em);
   color: $color-accent-light;
+}
+
+.visually-hidden {
+  @include visually-hidden;
 }
 
 .skip-link {

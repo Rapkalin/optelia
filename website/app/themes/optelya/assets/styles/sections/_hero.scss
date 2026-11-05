@@ -9,6 +9,10 @@
     @include container;
     @include auto-grid(460px, 56px);
     padding: 72px $gutter $section-space;
+
+    @include below($breakpoint-compact) {
+      padding-top: 40px;
+    }
     align-items: center;
   }
 

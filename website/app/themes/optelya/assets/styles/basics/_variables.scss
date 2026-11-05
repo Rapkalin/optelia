@@ -42,7 +42,8 @@ $font-size-xl: 19px;
 $font-size-2xl: 20px;
 $font-size-3xl: 22px;
 $font-size-4xl: 24px;
-$font-size-title: 38px;
+// Fluid, always below the hero title (clamp(34px, 4.4vw, 56px)).
+$font-size-title: clamp(26px, 2.2vw + 14px, 38px);
 $font-size-figure: 46px;
 $letter-spacing-wide: 0.08em;
 $underline-offset: 4px;
@@ -53,10 +54,24 @@ $gutter: 24px;
 $radius-card: 10px;
 $radius-control: 6px;
 $header-offset: 80px;
-$card-padding: 30px;
-$panel-padding: 34px;
+$logo-height: 32px;
 $grid-gap: 24px;
-$section-space: 88px;
+// Spacing that tightens on small screens: the values live in custom
+// properties (basics/_general.scss), so one media query covers every use.
+$section-space: var(--section-space);
+$card-padding: var(--card-padding);
+$panel-padding: var(--panel-padding);
+$section-space-wide: 88px;
+$section-space-compact: 56px;
+$card-padding-wide: 30px;
+$card-padding-compact: 20px;
+$panel-padding-wide: 34px;
+$panel-padding-compact: 22px;
+
+// Breakpoints: below $breakpoint-nav the header menu folds into a toggle.
+$breakpoint-nav: 960px;
+$breakpoint-compact: 600px;
+$breakpoint-narrow: 380px;
 $touch-target: 44px;
 $control-height-large: 52px;
 $heading-max-width: 720px;

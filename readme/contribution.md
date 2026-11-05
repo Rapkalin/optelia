@@ -7,7 +7,7 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Quoi | Où |
 | --- | --- |
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
-| Accroche, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* |
+| Logo de l'en-tête, accroche, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
 | Liens de l'en-tête et du pied de page | *Apparence → Menus* |
 
 Ces trois écrans sont ouverts au rôle **Éditeur Optelya**. Le **Contributeur

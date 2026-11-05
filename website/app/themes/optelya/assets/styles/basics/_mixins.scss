@@ -12,6 +12,12 @@
   gap: $gap;
 }
 
+@mixin below($breakpoint) {
+  @media (max-width: ($breakpoint - 0.02px)) {
+    @content;
+  }
+}
+
 @mixin stack($gap) {
   display: flex;
   flex-direction: column;

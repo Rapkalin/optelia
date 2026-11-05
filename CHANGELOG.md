@@ -10,6 +10,24 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.10.0
+
+### Ajouté
+
+- **Logo dans l'en-tête** : nouveau champ « Logo de l'en-tête » dans *Réglages →
+  Configuration*. Sans logo, le nom du site s'affiche comme avant.
+- **Menu burger sous 960 px de large** (tablette et mobile) : logo, bouton
+  « Parler à un expert » et menu sur une seule ligne, même sur un écran de
+  320 px. Le menu se ferme avec Échap ou au choix d'un lien. Sans JavaScript, il
+  reste déplié.
+
+### Modifié
+
+- **Affichage mobile** : espacements resserrés sous 600 px, titres de section
+  qui s'adaptent à l'écran (toujours plus petits que le titre principal),
+  champs du formulaire à la largeur de la carte, liens du pied de page et
+  pastilles de secteur plus faciles à toucher.
+
 ## 0.9.0
 
 ### Modifié

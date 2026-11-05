@@ -23,6 +23,13 @@
   &__column {
     @include stack(8px);
     font-size: $font-size-xs;
+
+    // Taller tap targets on touch screens.
+    @include below($breakpoint-compact) {
+      a {
+        padding: 6px 0;
+      }
+    }
   }
 
   &__title {

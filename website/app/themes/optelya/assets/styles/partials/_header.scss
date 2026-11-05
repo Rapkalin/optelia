@@ -25,6 +25,12 @@
     }
   }
 
+  &__logo {
+    display: block;
+    width: auto;
+    height: $logo-height;
+  }
+
   &__nav {
     display: flex;
     flex-wrap: wrap;
@@ -39,6 +45,126 @@
 
     &:hover {
       color: $color-on-ink;
+    }
+  }
+
+  &__toggle {
+    display: none;
+    width: $touch-target;
+    height: $touch-target;
+    padding: 0;
+    border: 1px solid $color-ink-control;
+    border-radius: $radius-control;
+    background: transparent;
+    color: $color-white;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Three bars, the middle one is the element, the others its shadows.
+  &__toggle-bars {
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
+  }
+
+  // Folded menu: only once the script runs (--js), so that the links stay
+  // reachable without it.
+  @include below($breakpoint-nav) {
+    &__inner {
+      gap: 12px;
+    }
+
+    &__brand {
+      margin-right: auto;
+    }
+
+    // Brand, button and toggle on one line down to 360px wide.
+    @include below($breakpoint-compact) {
+      &__inner {
+        gap: 12px 8px;
+      }
+
+      &__brand {
+        font-size: $font-size-xl;
+      }
+
+      .button--small {
+        padding: 0 14px;
+        font-size: $font-size-xs;
+      }
+    }
+
+    // Down to 320px: tighter gutter, brand and button.
+    @include below($breakpoint-narrow) {
+      &__inner {
+        padding-right: 16px;
+        padding-left: 16px;
+      }
+
+      &__brand {
+        font-size: $font-size-md;
+      }
+
+      .button--small {
+        padding: 0 10px;
+        font-size: $font-size-2xs;
+      }
+    }
+
+    // Without the script, the unfolded menu is too tall to stay pinned.
+    &:not(&--js) {
+      position: static;
+    }
+
+    &--js &__toggle {
+      display: flex;
+      order: 1;
+    }
+
+    &--js &__nav {
+      display: none;
+      order: 2;
+      flex: 1 0 100%;
+      flex-direction: column;
+      gap: 0;
+      max-height: calc(100vh - #{$header-offset});
+      overflow-y: auto;
+      font-size: $font-size-md;
+    }
+
+    &--open &__nav {
+      display: flex;
+    }
+
+    &--js &__nav a {
+      display: flex;
+      align-items: center;
+      min-height: $touch-target;
+      border-top: 1px solid $color-ink-line;
+    }
+
+    &--open &__toggle-bars {
+      height: 0;
+      box-shadow: none;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 18px;
+        height: 2px;
+        background: currentColor;
+        transform: rotate(45deg);
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
     }
   }
 }
