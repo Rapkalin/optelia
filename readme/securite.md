@@ -110,9 +110,10 @@ le mot de passe SMTP est chiffré en base — voir [`email.md`](email.md).
 
 ## 6. Journal
 
-*Outils → Journal* (`manage_options`) garde 90 jours d'erreurs PHP, d'e-mails en
-échec, de connexions (réussies et échouées) et de modifications : contenus,
-comptes, réglages. **Aucune adresse IP**, chaînes de requête retirées des
+*Comptes → Connexions*, *Outils → Activité* et *Outils → Journal*
+(`manage_options`) gardent 90 jours de connexions (réussies et échouées), de
+modifications (contenus, comptes, réglages) et d'erreurs PHP et d'e-mails en
+échec. **Aucune adresse IP**, chaînes de requête retirées des
 chemins, destinataires d'e-mails omis. Outil de diagnostic, pas piste d'audit :
 deux requêtes simultanées peuvent perdre une entrée — voir
 [`journal.md`](journal.md).

@@ -15,7 +15,7 @@ Yoast, absent d'Optelya. Les deux rôles sont décrits dans un seul enum,
 | Taxonomies | — | celles des pages et des médias (aucune aujourd'hui) |
 | Menus, personnalisateur | — | `edit_theme_options` |
 | *Réglages → Configuration* | `optelya_manage_settings` | `optelya_manage_settings` |
-| Email, Journal, comptes, extensions, réglages du cœur | — | — |
+| Email, Connexions, Activité, Journal, comptes, extensions, réglages du cœur | — | — |
 
 Le contributeur reçoit les capacités de l'auteur (qui ne nomment que les
 articles) **plus** leurs équivalents pour les pages : `edit_pages`,
@@ -36,7 +36,7 @@ lui-même les contenus des autres.
 > s'affichent sur **toutes** les pages. Un contributeur, limité à ses propres
 > pages, modifie donc aussi l'en-tête et le pied de page de tout le site —
 > décision du 05/11/2026. Chaque enregistrement est inscrit dans *Outils →
-> Journal*, avec son auteur.
+> Activité*, avec son auteur.
 
 Ce que voit chacun, vérifié sur une session authentifiée le 29/10/2026
 (Configuration du contributeur : 05/11/2026) :
@@ -75,7 +75,7 @@ Mesuré le 29/10/2026, Configuration et Réglages du cœur le 05/11/2026 :
 | *Réglages → Configuration* (affichage et enregistrement) | 200 | 200 | 200 |
 | Menus, Personnaliser | **403** | 200 | 200 |
 | *Réglages* du cœur (Général, Lecture…), `options.php` | **403** | **403** | 200 |
-| *Réglages → Email*, *Outils → Journal* | **403** | **403** | 200 |
+| *Réglages → Email*, *Comptes → Connexions*, *Outils → Activité*, *Outils → Journal* | **403** | **403** | 200 |
 | Outils, Articles, Comptes, Extensions, Catégories | **403** | **403** | 200 |
 | Modifier l'accueil (page d'un autre) | **403** | 200 | 200 |
 | Modifier sa propre page, son propre média | 200 | 200 | 200 |
@@ -137,5 +137,5 @@ quel que soit le compte connecté — pas par WP-CLI. Chaque rôle est reconstru
 - les règles propres à **Yoast** (menu retiré par préfixe, boîte SEO sous la
   contribution) : Yoast n'est pas installé.
 
-Le journal des connexions de LCDS est remplacé par *Outils → Journal* — voir
+Le journal des connexions de LCDS est remplacé par *Comptes → Connexions* — voir
 [`journal.md`](journal.md).

@@ -79,7 +79,7 @@ Un tableau par mois : envoyées, e-mail en échec, champs invalides, page
 expirée, remplie trop vite, champ piège, trop d'envois. **Aucune demande
 n'est conservée**, seulement ces compteurs (option `optelya_contact_stats`,
 non chargée automatiquement, 24 mois). Le contenu des demandes vit dans la
-boîte de réception. Un e-mail en échec est aussi inscrit au *Journal*.
+boîte de réception. Un e-mail en échec est aussi inscrit dans *Outils → Journal*.
 
 ## Tests
 

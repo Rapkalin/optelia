@@ -1,4 +1,4 @@
-# Optelya
+cd # Optelya
 
 Le site d'**Optelya**, distributeur de logiciels de simulation et
 d'optimisation (Noesis Solutions, Sigmetrix, FunctionBay).
@@ -29,7 +29,8 @@ démarrage : il est alors relié, activé, et la page d'accueil est créée avec
 contenu. Sans lui, la page s'affiche sans ses sections.
 
 Les **modules maison** `rapkalin-mail` (*Réglages → Email*) et
-`rapkalin-security` (*Outils → Journal*) ne sont pas dans le dépôt non plus :
+`rapkalin-security` (*Comptes → Connexions*, *Outils → Activité*, *Outils →
+Journal*) ne sont pas dans le dépôt non plus :
 les copier dans `shared/mu-plugins/`, où le démarrage les relie. Sans eux, le
 site tourne sans réglage d'e-mail ni journal — voir
 [`readme/deploiement.md`](readme/deploiement.md#modules-maison-mu-plugins).
@@ -48,7 +49,7 @@ site tourne sans réglage d'e-mail ni journal — voir
 | Contribution : sections, réglages, menus | [`readme/contribution.md`](readme/contribution.md) |
 | Rôles : contributeur, éditeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
 | E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
-| Journal : erreurs du site et activité | [`readme/journal.md`](readme/journal.md) |
+| Connexions, activité et erreurs du site (admin) | [`readme/journal.md`](readme/journal.md) |
 | Formulaire de contact : envoi, anti-robots, Outils → Contact | [`readme/contact.md`](readme/contact.md) |
 | Variables du `.env` : obligatoires, facultatives, locales | [`readme/variables-env.md`](readme/variables-env.md) |
 | Performance : audit Lighthouse, réglages de cache | [`readme/performance.md`](readme/performance.md) |

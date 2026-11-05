@@ -8,7 +8,7 @@
             "name": "logo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Sur fond sombre : prévoir une version claire. Affiché à 32 px de haut : fournir au moins 64 px de haut (écrans haute densité), en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
+            "instructions": "Sur fond bleu clair : prévoir une version foncée. Affiché à 32 px de haut : fournir au moins 64 px de haut (écrans haute densité), en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {

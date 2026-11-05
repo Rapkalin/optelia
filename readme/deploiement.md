@@ -85,7 +85,8 @@ y est renommé `.htaccess.dist` (voir plus bas).
 ## Modules maison (mu-plugins)
 
 `rapkalin-mail` (*Réglages → Email*, voir [`email.md`](email.md)) et
-`rapkalin-security` (*Outils → Journal*, voir [`journal.md`](journal.md)) ne
+`rapkalin-security` (*Comptes → Connexions*, *Outils → Activité* et *Outils →
+Journal*, voir [`journal.md`](journal.md)) ne
 sont **pas dans le dépôt** (décision du 29/10/2026). Ils vivent dans
 `shared/mu-plugins/`, en local comme sur le serveur, et chaque déploiement
 relie **tout** dossier qui s'y trouve dans `website/app/mu-plugins/`. Un

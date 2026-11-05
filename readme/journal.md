@@ -1,24 +1,36 @@
-# Journal : erreurs du site et activité
+# Connexions, activité et erreurs du site
 
-*Outils → Journal* (`tools.php?page=rapkalin-security`), réservé aux
-administrateurs (`manage_options`). Fourni par le module **`rapkalin-security`**,
+Trois écrans, réservés aux administrateurs (`manage_options` ; les rôles
+Optelya reçoivent un 403) :
+
+| Écran | Adresse | Contenu |
+| --- | --- | --- |
+| *Comptes → Connexions* | `users.php?page=rapkalin-logins` | connexions réussies et échouées |
+| *Outils → Activité* | `tools.php?page=rapkalin-activity` | contenus, comptes, réglages |
+| *Outils → Journal* | `tools.php?page=rapkalin-security` | erreurs du site (l'adresse de l'ancien journal unique) |
+
+Séparés le 05/11/2026 (module 1.1.0) ; auparavant, un seul écran *Outils →
+Journal* à deux onglets. Fournis par le module **`rapkalin-security`**,
 hors dépôt — voir [Modules maison](deploiement.md#modules-maison-mu-plugins).
 Inspiré du journal des connexions de LCDS (liste bornée, pagination) et du
 `steamulo-flux-log` de Game France (agrégation par signature, écriture unique en
 fin de requête).
 
-## Onglet « Activité »
+## Connexions et activité
+
+Une seule liste en base, répartie entre les deux écrans par catégorie
+(`includes/RapkalinScreen.php`) :
 
 | Catégorie | Ce qui est inscrit |
 | --- | --- |
-| Connexions | connexion réussie (identifiant) |
-| Connexions échouées | identifiant tapé |
+| Connexions réussies (*Connexions*) | identifiant |
+| Connexions échouées (*Connexions*) | identifiant tapé |
 | Contenu | page, article ou média créé, modifié, mis à la corbeille, restauré, supprimé — type, numéro et titre |
 | Comptes | compte créé (avec son rôle), supprimé, changement de rôle (avant → après) |
 | Réglages | réglages enregistrés (écran), menu créé, modifié ou supprimé, personnalisateur, extension activée ou désactivée, thème, purge du journal |
 
 Chaque ligne dit **qui** (« System » pour WP-CLI et les tâches planifiées) et
-**quand**. Une liste filtrable par catégorie.
+**quand**. Chaque écran se filtre par catégorie.
 
 - **« Réglages enregistrés » n'apparaît que si une valeur a changé** :
   WordPress ne signale pas un enregistrement à l'identique. Sont couverts les
@@ -28,7 +40,7 @@ Chaque ligne dit **qui** (« System » pour WP-CLI et les tâches planifiées) e
 - Les révisions, brouillons automatiques, éléments de menu, groupes de champs
   ACF et modèles ne sont pas des contenus : ils sont ignorés.
 
-## Onglet « Erreurs du site »
+## *Outils → Journal* : erreurs du site
 
 - **Erreurs PHP** : avertissements, notices, erreurs fatales — y compris celles
   qui affichent la page « Il y a eu une erreur critique ». Les **dépréciations
@@ -58,8 +70,10 @@ WordPress n'y laisse que les avertissements et les erreurs ; en `staging` et en
 
 Le plafond par catégorie empêche une rafale de connexions échouées d'effacer
 l'historique des contenus. Ce qui sort est **supprimé**, pas masqué. **Aucune
-adresse IP** n'est conservée. Le bouton « Vider » efface une liste ; la purge
-elle-même reste inscrite dans l'activité, avec son auteur.
+adresse IP** n'est conservée. Le bouton « Vider » efface ce que montre
+l'écran, et seulement cela : vider *Connexions* garde l'activité. La purge
+elle-même est inscrite dans *Activité* (Réglages — Liste vidée), avec son
+auteur.
 
 ## Limites assumées
 
@@ -73,10 +87,13 @@ elle-même reste inscrite dans l'activité, avec son auteur.
   cœur) n'est captée que si elle est fatale.
 - Une page qui produit un avertissement à chaque affichage déclenche une
   écriture en base à chaque affichage : à corriger, c'est le but de l'écran.
-- Les libellés de l'écran sont en anglais : le module n'a pas de traduction.
+- Libellés écrits en anglais, traduits en français par le module
+  (`languages/rapkalin-security-fr_FR.po`). Une chaîne ajoutée au code doit
+  l'être aussi au `.po`, puis `wp i18n make-mo` régénère le `.mo`.
 
 ## Tests
 
 `shared/mu-plugins/rapkalin-security/tests/JournalTest.php` (dans le module,
 hors dépôt) : agrégation des erreurs, plafond par catégorie, âge maximal,
-entrées mal formées, statuts → événements, pagination.
+entrées mal formées, statuts → événements, pagination, répartition des
+catégories entre les écrans (chacune sur un seul), purge limitée à l'écran.

@@ -5,8 +5,8 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: $color-ink;
-  border-bottom: 1px solid $color-ink-line;
+  background: $color-header;
+  border-bottom: 1px solid $color-header-line;
 
   &__inner {
     @include container;
@@ -19,9 +19,10 @@
 
   &__brand {
     font-size: $font-size-3xl;
+    color: $color-ink;
 
     &:hover {
-      color: $color-white;
+      color: $color-ink;
     }
   }
 
@@ -43,11 +44,12 @@
   }
 
   &__nav a {
-    color: $color-on-ink;
+    color: $color-ink;
     text-decoration: none;
 
     &:hover {
-      color: $color-on-ink;
+      color: $color-ink;
+      text-decoration: underline;
     }
   }
 
@@ -59,7 +61,7 @@
     border: 1px solid $color-ink-control;
     border-radius: $radius-control;
     background: transparent;
-    color: $color-white;
+    color: $color-ink;
     cursor: pointer;
     align-items: center;
     justify-content: center;
@@ -147,7 +149,7 @@
         display: flex;
         align-items: center;
         min-height: $touch-target;
-        border-top: 1px solid $color-ink-line;
+        border-top: 1px solid $color-header-line;
       }
     }
 

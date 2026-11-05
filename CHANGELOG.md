@@ -10,6 +10,20 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.12.0
+
+### Modifié
+
+- **C'est l'en-tête qui passe en bleu clair** (#BBE1FF, la teinte demandée), avec
+  un texte foncé. Le fond des pages et des sections revient au blanc cassé et au
+  gris-vert d'origine : la 0.9.0 avait coloré le mauvais fond. Un logo déposé
+  dans *Configuration* doit désormais être en version foncée.
+- **Journaux d'administration en trois écrans**, réservés aux administrateurs :
+  *Comptes → Connexions* (réussies et échouées), *Outils → Activité*
+  (contenus, comptes, réglages) et *Outils → Journal* (erreurs du site). Vider un
+  écran n'efface que ce qu'il montre. Libellés en français. Nécessite le module
+  `rapkalin-security` 1.1.0 dans `shared/mu-plugins/`.
+
 ## 0.11.0
 
 ### Ajouté
