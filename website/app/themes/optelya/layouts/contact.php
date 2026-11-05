@@ -1,11 +1,8 @@
 <?php
 
 /**
- * Contact block: phone next to the form, so that "talk to an expert" holds.
- *
- * The form fields stay in code, not in the back-office: they are the contract
- * of the form handler still to be written. The form is NOT wired yet, as in
- * the mockup: its button does not submit.
+ * Contact block: the form, handled by inc/contact.php. It works without
+ * JavaScript; after a failure the page comes back with what was typed.
  *
  * @package optelya
  */
@@ -17,15 +14,8 @@ if (! defined('ABSPATH')) {
 $lead = optelya_sub_text('lead');
 $steps = optelya_rows(optelya_sub_field('steps'));
 $notice = optelya_sub_text('notice');
-
-// Three required, two optional (zoning v2, decision 5).
-$fields = [
-    ['id' => 'f-nom', 'label' => __('Nom et prénom', 'optelya'), 'type' => 'text', 'autocomplete' => 'name', 'isRequired' => true],
-    ['id' => 'f-mail', 'label' => __('E-mail professionnel', 'optelya'), 'type' => 'email', 'autocomplete' => 'email', 'isRequired' => true],
-    ['id' => 'f-soc', 'label' => __('Société', 'optelya'), 'type' => 'text', 'autocomplete' => 'organization', 'isRequired' => true],
-    ['id' => 'f-tel', 'label' => __('Téléphone', 'optelya'), 'type' => 'tel', 'autocomplete' => 'tel', 'isRequired' => false],
-    ['id' => 'f-proj', 'label' => __('Votre projet en une phrase', 'optelya'), 'type' => 'text', 'autocomplete' => '', 'isRequired' => false],
-];
+$state = optelya_contact_state();
+$outcome = $state['outcome'];
 ?>
 <section id="<?php echo esc_attr(OptelyaSection::Contact->value); ?>" class="section section--contact">
     <div class="contact">
@@ -34,7 +24,6 @@ $fields = [
             <?php if ($lead !== '') : ?>
                 <p class="contact__lead"><?php echo esc_html($lead); ?></p>
             <?php endif; ?>
-            <?php get_template_part('components/phone-link', null, ['class' => 'contact__phone', 'size' => 20, 'suffix' => optelya_sub_text('phone_text')]); ?>
             <?php if ($steps !== []) : ?>
                 <ol class="contact__steps">
                     <?php foreach ($steps as $index => $step) : ?>
@@ -47,26 +36,50 @@ $fields = [
             <?php endif; ?>
         </div>
 
-        <form class="card contact-form" aria-label="<?php esc_attr_e('Demande de contact', 'optelya'); ?>">
-            <?php foreach ($fields as $field) : ?>
+        <form class="card contact-form" method="post" action="#<?php echo esc_attr(OptelyaSection::Contact->value); ?>" aria-label="<?php esc_attr_e('Demande de contact', 'optelya'); ?>">
+            <?php if ($outcome !== null) : ?>
+                <p class="contact-form__status contact-form__status--<?php echo $outcome->isSuccess() ? 'success' : 'error'; ?>" role="<?php echo $outcome->isSuccess() ? 'status' : 'alert'; ?>">
+                    <?php echo esc_html($outcome->message()); ?>
+                </p>
+            <?php endif; ?>
+
+            <?php foreach (OptelyaContactField::cases() as $field) : ?>
+                <?php
+                $id = 'contact-' . $field->value;
+                $isInvalid = in_array($field, $state['invalid'], true);
+                ?>
                 <div class="contact-form__field">
-                    <label class="contact-form__label" for="<?php echo esc_attr($field['id']); ?>">
-                        <?php echo esc_html($field['label']); ?>
-                        <?php if (! $field['isRequired']) : ?>
+                    <label class="contact-form__label" for="<?php echo esc_attr($id); ?>">
+                        <?php echo esc_html($field->label()); ?>
+                        <?php if (! $field->isRequired()) : ?>
                             <span class="contact-form__optional"><?php esc_html_e('(facultatif)', 'optelya'); ?></span>
                         <?php endif; ?>
                     </label>
                     <input
                         class="contact-form__input"
-                        id="<?php echo esc_attr($field['id']); ?>"
-                        type="<?php echo esc_attr($field['type']); ?>"
-                        <?php if ($field['autocomplete'] !== '') : ?>autocomplete="<?php echo esc_attr($field['autocomplete']); ?>"<?php endif; ?>
-                        <?php if ($field['isRequired']) : ?>required<?php endif; ?>
+                        id="<?php echo esc_attr($id); ?>"
+                        name="<?php echo esc_attr($field->inputName()); ?>"
+                        type="<?php echo esc_attr($field->inputType()); ?>"
+                        autocomplete="<?php echo esc_attr($field->autocomplete()); ?>"
+                        maxlength="<?php echo esc_attr((string) $field->maxLength()); ?>"
+                        value="<?php echo esc_attr($state['values'][$field->value] ?? ''); ?>"
+                        <?php if ($field->isRequired()) : ?>required<?php endif; ?>
+                        <?php if ($isInvalid) : ?>aria-invalid="true" aria-describedby="<?php echo esc_attr($id . '-error'); ?>"<?php endif; ?>
                     >
+                    <?php if ($isInvalid) : ?>
+                        <span class="contact-form__error" id="<?php echo esc_attr($id . '-error'); ?>"><?php esc_html_e('Valeur manquante ou invalide.', 'optelya'); ?></span>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
 
-            <button class="contact-form__submit" type="button"><?php esc_html_e('Envoyer ma demande', 'optelya'); ?></button>
+            <div class="contact-form__trap" aria-hidden="true">
+                <label for="contact-<?php echo esc_attr(OptelyaContactForm::HONEYPOT); ?>"><?php esc_html_e('Ne pas remplir ce champ', 'optelya'); ?></label>
+                <input id="contact-<?php echo esc_attr(OptelyaContactForm::HONEYPOT); ?>" name="<?php echo esc_attr(OptelyaContactForm::HONEYPOT); ?>" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="<?php echo esc_attr(OptelyaContactForm::ACTION_FIELD); ?>" value="<?php echo esc_attr(OptelyaContactForm::ACTION); ?>">
+            <input type="hidden" name="<?php echo esc_attr(OptelyaContactForm::TOKEN); ?>" value="<?php echo esc_attr(optelya_contact_token()); ?>">
+
+            <button class="contact-form__submit" type="submit"><?php esc_html_e('Envoyer ma demande', 'optelya'); ?></button>
             <?php if ($notice !== '') : ?>
                 <p class="contact-form__notice"><?php echo esc_html($notice); ?></p>
             <?php endif; ?>

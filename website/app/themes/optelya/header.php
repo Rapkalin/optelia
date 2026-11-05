@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Site header: navigation from the "En-tête" menu, phone and button from the
- * site settings (Settings → Configuration).
+ * Site header: navigation from the "En-tête" menu, button from the site
+ * settings (Settings → Configuration).
  *
  * @package optelya
  */
@@ -30,8 +30,6 @@ if (! defined('ABSPATH')) {
         <nav class="site-header__nav" aria-label="<?php esc_attr_e('Navigation principale', 'optelya'); ?>">
             <?php get_template_part('components/menu-links', null, ['location' => OptelyaMenuLocation::Header]); ?>
         </nav>
-
-        <?php get_template_part('components/phone-link', null, ['class' => 'site-header__phone', 'size' => 16]); ?>
 
         <?php get_template_part('components/link', null, ['link' => optelya_link(optelya_option(OptelyaSetting::HeaderCta)), 'class' => 'button button--small']); ?>
     </div>

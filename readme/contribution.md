@@ -7,7 +7,7 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Quoi | Où |
 | --- | --- |
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
-| Accroche, bouton de l'en-tête, téléphone, titre de la colonne contact, adresse | *Réglages → Configuration* |
+| Accroche, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* |
 | Liens de l'en-tête et du pied de page | *Apparence → Menus* |
 
 Ces trois écrans sont ouverts au rôle **Éditeur Optelya**. Le **Contributeur
@@ -28,7 +28,7 @@ deux surfaces de saisie, c'est la garantie d'en remplir une mauvaise.
 | **Enjeux et secteurs** | Titre, intro, cartes (icône, titre, texte, logiciels, lien), phrase d'aide, pastilles de secteur |
 | **Résultats chiffrés** | Titre, intro, lien « toutes les études », cartes chiffrées |
 | **Apports par lecteur** | Titre, panneaux (lecteur, fond sombre, apports) |
-| **Contact** | Titre, intro, texte après le téléphone, étapes, mention sous le formulaire |
+| **Contact** | Titre, intro, étapes, mention sous le formulaire |
 
 **Chaque section ne peut figurer qu'une fois** (`max: 1`) : elle porte l'ancre
 que visent les menus (`#enjeux`, `#expert`…). Une section supprimée laisse ses
@@ -55,9 +55,9 @@ fichier.
 
 | Quoi | Pourquoi |
 | --- | --- |
-| Libellés, mention « (facultatif) » et bouton du formulaire | Contrat du traitement de l'envoi, pas encore écrit — le formulaire n'envoie rien |
+| Champs, libellés, mention « (facultatif) », bouton et messages du formulaire | Contrat du traitement de l'envoi — voir [`contact.md`](contact.md) |
 | Textes de l'emplacement réservé du hero (« Visuel éditeur… ») | Affichés seulement sans vidéo ni image |
-| Numérotation « 01 », séparateur « — » du téléphone | Présentation |
+| Numérotation « 01 » | Présentation |
 | « Version %s », libellés ARIA, « Aller au contenu » | Chaînes d'interface, traduisibles (`__()`) |
 
 ## Le contenu initial

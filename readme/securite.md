@@ -116,7 +116,15 @@ chemins, destinataires d'e-mails omis. Outil de diagnostic, pas piste d'audit :
 deux requêtes simultanées peuvent perdre une entrée — voir
 [`journal.md`](journal.md).
 
-## 7. CI
+## 7. Formulaire de contact
+
+Aucun service tiers, aucun cookie. Champ piège, délai minimal signé, 5 envois
+par heure et par visiteur, validation serveur, en-têtes d'e-mail non
+injectables. Destinataire hors de *Configuration* (ouverte aux contributeurs),
+dans le `.env`. Aucune demande conservée, seulement des compteurs — voir
+[`contact.md`](contact.md).
+
+## 8. CI
 
 - **CVE des dépendances** : `composer audit --locked`.
 - **Secrets** : gitleaks sur les commits poussés ou ceux de la pull request

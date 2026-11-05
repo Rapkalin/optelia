@@ -39,46 +39,6 @@
             "return_format": "array"
         },
         {
-            "key": "field_optelya_settings_phone_label",
-            "label": "Téléphone affiché",
-            "name": "phone_label",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "Tel qu’il s’affiche, par exemple « 01 23 45 67 89 ».",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_optelya_settings_phone_number",
-            "label": "Téléphone à composer",
-            "name": "phone_number",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "Avec l’indicatif, par exemple « +33123456789 ». Sert au lien d’appel.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_optelya_settings_contact_title",
             "label": "Titre de la colonne contact",
             "name": "contact_title",

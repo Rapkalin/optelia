@@ -10,6 +10,26 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.8.0
+
+### Ajouté
+
+- **Le formulaire de contact envoie les demandes** par e-mail, à l'adresse
+  `CONTACT_RECIPIENT` du `.env` (à défaut, l'e-mail d'administration). Après
+  l'envoi, un message confirme ; en cas d'erreur, la page revient avec ce qui a
+  été saisi et les champs à corriger.
+- **Protection contre les robots, sans service tiers ni cookie** : champ piège,
+  délai minimal de remplissage, 5 envois par heure et par visiteur.
+- **Outils → Contact**, réservé aux administrateurs : nombre de demandes
+  envoyées et refusées, par mois et par motif. Aucune demande n'est conservée
+  sur le site.
+
+### Modifié
+
+- **Plus aucun numéro de téléphone sur le site** : en-tête, section Contact et
+  pied de page renvoient au formulaire. Les champs « Téléphone » disparaissent
+  de *Configuration* et de la section Contact.
+
 ## 0.7.0
 
 ### Ajouté

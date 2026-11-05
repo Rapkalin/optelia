@@ -2,7 +2,7 @@
 
 /**
  * Site settings: what the header, the footer and several sections share
- * (phone, address, tagline, header button). They belong to no page, so they
+ * (address, tagline, header button). They belong to no page, so they
  * live on an ACF options page, versioned as local JSON like the rest.
  *
  * @package optelya
@@ -39,15 +39,4 @@ function optelya_option(OptelyaSetting $setting): mixed
 function optelya_option_text(OptelyaSetting $setting): string
 {
     return optelya_text(optelya_option($setting));
-}
-
-/**
- * `tel:` link of the phone setting: digits and a leading + only, whatever the
- * contributor typed ("01 23 45 67 89" → tel:0123456789).
- */
-function optelya_phone_uri(): string
-{
-    $digits = (string) preg_replace('/[^\d+]/', '', optelya_option_text(OptelyaSetting::PhoneNumber));
-
-    return $digits === '' ? '' : 'tel:' . $digits;
 }

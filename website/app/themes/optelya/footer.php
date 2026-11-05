@@ -15,7 +15,6 @@ $version = optelya_site_version();
 $tagline = optelya_option_text(OptelyaSetting::Tagline);
 $contactTitle = optelya_option_text(OptelyaSetting::ContactTitle);
 $address = optelya_option_text(OptelyaSetting::Address);
-$phoneLabel = optelya_option_text(OptelyaSetting::PhoneLabel);
 ?>
 
 <footer class="site-footer">
@@ -37,16 +36,13 @@ $phoneLabel = optelya_option_text(OptelyaSetting::PhoneLabel);
             <?php endif; ?>
         <?php endforeach; ?>
 
-        <?php if ($contactTitle !== '' || $address !== '' || $phoneLabel !== '') : ?>
+        <?php if ($contactTitle !== '' || $address !== '') : ?>
             <div class="site-footer__column">
                 <?php if ($contactTitle !== '') : ?>
                     <span class="site-footer__title"><?php echo esc_html($contactTitle); ?></span>
                 <?php endif; ?>
                 <?php if ($address !== '') : ?>
                     <span><?php echo nl2br(esc_html($address)); ?></span>
-                <?php endif; ?>
-                <?php if ($phoneLabel !== '') : ?>
-                    <span><?php echo esc_html($phoneLabel); ?></span>
                 <?php endif; ?>
             </div>
         <?php endif; ?>

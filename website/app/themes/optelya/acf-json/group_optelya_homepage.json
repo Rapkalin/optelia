@@ -847,26 +847,6 @@
                             "new_lines": ""
                         },
                         {
-                            "key": "field_optelya_contact_phone_text",
-                            "label": "Texte après le téléphone",
-                            "name": "phone_text",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "Le numéro vient de Réglages → Configuration.",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
                             "key": "field_optelya_contact_steps",
                             "label": "Étapes",
                             "name": "steps",

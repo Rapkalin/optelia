@@ -49,6 +49,7 @@ site tourne sans réglage d'e-mail ni journal — voir
 | Rôles : contributeur, éditeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
 | E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
 | Journal : erreurs du site et activité | [`readme/journal.md`](readme/journal.md) |
+| Formulaire de contact : envoi, anti-robots, Outils → Contact | [`readme/contact.md`](readme/contact.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |
 | Durcissement, en-têtes HTTP, CSP | [`readme/securite.md`](readme/securite.md) |
 | Pint, PHPCS, PHPStan, Pest | [`readme/qualite-code.md`](readme/qualite-code.md) |

@@ -65,8 +65,6 @@ function optelya_seed_settings(): string
     $values = [
         OptelyaSetting::Tagline->value => "Votre problème d'abord, le bon logiciel ensuite.",
         OptelyaSetting::HeaderCta->value => optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url()),
-        OptelyaSetting::PhoneLabel->value => '[numéro à fournir]',
-        OptelyaSetting::PhoneNumber->value => '+33000000000',
         OptelyaSetting::ContactTitle->value => 'Coordonnées',
         OptelyaSetting::Address->value => '[adresse à fournir]',
     ];
@@ -248,7 +246,6 @@ function optelya_seed_sections(): array
             'acf_fc_layout' => 'contact',
             'title' => 'Un projet de simulation ? Parlons-en.',
             'lead' => "Un expert vous aide à choisir la bonne approche, quel que soit l'éditeur.",
-            'phone_text' => 'appelez-nous directement',
             'steps' => [
                 ['text' => "Un expert vous répond, par e-mail ou par téléphone si vous l'avez indiqué."],
                 ['text' => 'Vous échangez sur votre enjeu.'],

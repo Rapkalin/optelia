@@ -16,8 +16,6 @@ enum OptelyaSetting: string
 {
     case Tagline = 'tagline';
     case HeaderCta = 'header_cta';
-    case PhoneLabel = 'phone_label';
-    case PhoneNumber = 'phone_number';
     case ContactTitle = 'contact_title';
     case Address = 'address';
 }

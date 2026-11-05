@@ -17,19 +17,6 @@
     color: $color-text-muted;
   }
 
-  &__phone {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    font-size: $font-size-lg;
-    text-decoration: none;
-
-    .icon {
-      color: $color-accent;
-    }
-  }
-
   &__steps {
     @include stack(14px);
     margin: 8px 0 0;
@@ -94,5 +81,32 @@
     margin: 0;
     font-size: $font-size-xs;
     color: $color-text-muted;
+  }
+
+  // Not in the mockup: outcome of a submission, from the palette's colours.
+  &__status {
+    margin: 0;
+    padding: 12px 14px;
+    border-left: 3px solid $color-ink;
+    background: $color-band;
+    font-size: $font-size-sm;
+
+    &--error {
+      border-left-color: $color-accent-dark;
+      color: $color-accent-dark;
+    }
+  }
+
+  &__input[aria-invalid='true'] {
+    border-color: $color-accent-dark;
+  }
+
+  &__error {
+    font-size: $font-size-xs;
+    color: $color-accent-dark;
+  }
+
+  &__trap {
+    @include visually-hidden;
   }
 }
