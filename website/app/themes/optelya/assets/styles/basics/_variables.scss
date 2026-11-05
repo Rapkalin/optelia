@@ -10,8 +10,9 @@ $color-ink-raised: #16283B;
 $color-ink-grid: #22384F;
 $color-ink-border: #2C4058;
 $color-ink-control: #5B7189;
-$color-paper: #F5F6F3;
-$color-band: #E9ECE7;
+// Light enough for the accent text to keep 4.5:1 (#BBE1FF falls to 3.78).
+$color-paper: #E3F2FF;
+$color-band: #CDE6FB;
 $color-white: #FFFFFF;
 $color-text-muted: #4D5A66;
 $color-on-ink: #DCE3EA;
