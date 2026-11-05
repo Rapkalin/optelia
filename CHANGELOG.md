@@ -10,6 +10,17 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.14.0
+
+### Modifié
+
+- **Logo de l'en-tête plus grand : 55 px de haut** (32 auparavant), sur tous
+  les écrans. Fournir un logo de 110 px de haut pour les écrans haute densité ;
+  55 px au minimum. L'en-tête passe de 73 à 84 px de haut avec un logo.
+- **Sur mobile (moins de 600 px)**, le bouton « Parler à un expert » passe en
+  tête du menu pour laisser la place au logo. Le même bouton reste visible
+  juste dessous, dans le premier écran de l'accueil.
+
 ## 0.13.0
 
 ### Ajouté

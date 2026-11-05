@@ -8,7 +8,7 @@
             "name": "logo",
             "aria-label": "",
             "type": "image",
-            "instructions": "À accorder avec la couleur de l’en-tête (version foncée sur fond clair, claire sur fond foncé). Affiché à 32 px de haut : fournir au moins 64 px de haut (écrans haute densité), en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
+            "instructions": "À accorder avec la couleur de l’en-tête (version foncée sur fond clair, claire sur fond foncé). Affiché à 55 px de haut (moins sur mobile si le logo est très large) : fournir 110 px de haut pour les écrans haute densité, 55 px au minimum, en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -20,7 +20,7 @@
             "preview_size": "medium",
             "library": "all",
             "min_width": "",
-            "min_height": 64,
+            "min_height": 55,
             "min_size": "",
             "max_width": "",
             "max_height": "",

@@ -53,8 +53,9 @@ $container-width: 1240px;
 $gutter: 24px;
 $radius-card: 10px;
 $radius-control: 6px;
-$header-offset: 80px;
-$logo-height: 32px;
+// Header height with a logo (55px + padding): anchors stop below it.
+$header-offset: 88px;
+$logo-height: 55px;
 $grid-gap: 24px;
 // Spacing that tightens on small screens: the values live in custom
 // properties (basics/_general.scss), so one media query covers every use.

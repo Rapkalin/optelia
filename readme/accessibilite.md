@@ -61,11 +61,12 @@ Ces points ne se règlent pas dans le code :
   peut perdre son contour sur un fond orangé : c'est signalé dans l'aide du
   champ, pas bloqué.
 
-- **Ordre de tabulation de l'en-tête sous 960 px** : logo → menu → liens du
-  menu (s'il est ouvert) → « Parler à un expert », alors que le bouton
+- **Ordre de tabulation de l'en-tête entre 600 et 960 px** : logo → menu →
+  liens du menu (s'il est ouvert) → « Parler à un expert », alors que le bouton
   s'affiche avant le menu. Les liens suivent ainsi immédiatement le bouton qui
-  les ouvre, ce qui compte plus qu'un ordre strictement visuel. Inverser
-  aurait déplacé le problème vers l'affichage desktop.
+  les ouvre, ce qui compte plus qu'un ordre strictement visuel. Sous 600 px,
+  le bouton est en tête du menu (0.14.0) : ordre visuel et ordre de tabulation
+  coïncident.
 - **Cibles tactiles** : les liens isolés font de 20 à 31 px de haut. C'est
   au-dessus du minimum WCAG 2.2 AA (24 px ou espacement suffisant) ; les 44 px
   sont une recommandation de niveau AAA. Le RGAA n'a pas de critère dédié.
