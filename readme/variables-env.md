@@ -11,6 +11,9 @@ Inventaire tiré du code au 05/11/2026 : `config/application.php`,
 
 ## À renseigner sur un serveur
 
+Le destinataire du formulaire de contact n'est **pas** dans le `.env` : il se
+règle dans *Réglages → Configuration* (voir [`contact.md`](contact.md)).
+
 | Variable | Rôle | Remarque |
 | --- | --- | --- |
 | `WP_ENV` | `development`, `staging` ou `production` : choisit `config/environments/<env>.php` | Absente = `production`. Hors `production`, l'indexation par les moteurs est interdite |
@@ -19,7 +22,6 @@ Inventaire tiré du code au 05/11/2026 : `config/application.php`,
 | `DB_NAME`, `DB_USER`, `DB_PASSWORD` | Accès à la base | |
 | `DB_HOST` | Serveur de base | Absente = `localhost` |
 | `AUTH_KEY`, `SECURE_AUTH_KEY`, `LOGGED_IN_KEY`, `NONCE_KEY`, `AUTH_SALT`, `SECURE_AUTH_SALT`, `LOGGED_IN_SALT`, `NONCE_SALT` | Clés et sels de WordPress | **Uniques par environnement** (<https://roots.io/salts.html>). Laissés à `generateme`, ils permettent de forger des cookies de connexion. Ils signent aussi le jeton du formulaire de contact |
-| `CONTACT_RECIPIENT` | Adresse qui reçoit les demandes du formulaire | Ajoutée en 0.8.0. Vide ou invalide = e-mail d'administration (*Réglages → Général*). Jamais affichée — voir [`contact.md`](contact.md) |
 
 ## E-mails sortants (module `rapkalin-mail`)
 

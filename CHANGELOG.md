@@ -10,6 +10,16 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.18.0
+
+### Modifié
+
+- **Le destinataire des demandes de contact se règle dans l'admin** : champ
+  « Destinataire des demandes de contact » de *Réglages → Configuration*,
+  modifiable par tous les rôles. Vide : l'e-mail d'administration. La variable
+  `CONTACT_RECIPIENT` du `.env` n'est plus lue (la retirer des serveurs si elle
+  y a été ajoutée) ; **renseigner le champ après le déploiement**.
+
 ## 0.17.0
 
 ### Modifié

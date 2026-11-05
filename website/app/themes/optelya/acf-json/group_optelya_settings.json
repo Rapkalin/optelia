@@ -150,6 +150,25 @@
             "return_format": "array"
         },
         {
+            "key": "field_optelya_settings_contact_recipient",
+            "label": "Destinataire des demandes de contact",
+            "name": "contact_recipient",
+            "aria-label": "",
+            "type": "email",
+            "instructions": "Adresse qui reçoit les demandes envoyées par le formulaire du site. Jamais affichée sur le site. Vide : l’e-mail d’administration de WordPress.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_optelya_settings_contact_title",
             "label": "Titre de la colonne contact",
             "name": "contact_title",

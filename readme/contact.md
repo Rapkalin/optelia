@@ -28,12 +28,15 @@ directement.
 
 ## Destinataire
 
-`CONTACT_RECIPIENT` dans le `.env` (`shared/.env` sur le serveur). Vide ou
-invalide : l'adresse de *Réglages → Général* (`admin_email`).
+Champ « Destinataire des demandes de contact » de *Réglages → Configuration*,
+modifiable par **tous les rôles** (décision du 05/11/2026). Vide ou invalide :
+l'adresse de *Réglages → Général* (`admin_email`). Il était auparavant dans le
+`.env`.
 
-**Pourquoi pas dans *Configuration*** : les contributeurs y ont accès. Ils
-pourraient détourner les demandes vers leur propre adresse. Le `.env` et
-`admin_email` ne sont modifiables que par un administrateur.
+> **Risque accepté** : un contributeur peut rediriger les demandes vers sa
+> propre adresse. L'enregistrement est inscrit dans *Outils → Activité*
+> (« Réglages enregistrés », avec son auteur), sans l'ancienne ni la nouvelle
+> valeur. *Outils → Contact* affiche l'adresse en cours.
 
 **Aucune adresse n'est affichée sur le site** : une adresse affichée, même
 masquée, finit aspirée par les robots. Le numéro de téléphone a été retiré pour

@@ -9,8 +9,6 @@
  * @package optelya
  */
 
-use function Env\env;
-
 if (! defined('ABSPATH')) {
     exit;
 }
@@ -31,13 +29,12 @@ function optelya_contact_token(): string
 }
 
 /**
- * Not displayed anywhere. Out of Settings → Configuration on purpose: a
- * contributor edits that page, and must not redirect the requests to
- * themselves. The admin e-mail is changed by an administrator only.
+ * Set in Settings → Configuration, by every role (decision of 05/11/2026), never
+ * displayed on the site. Empty or invalid: the admin e-mail.
  */
 function optelya_contact_recipient(): string
 {
-    $recipient = (string) env('CONTACT_RECIPIENT');
+    $recipient = optelya_option_text(OptelyaSetting::ContactRecipient);
 
     return is_email($recipient) ? $recipient : (string) get_option('admin_email');
 }

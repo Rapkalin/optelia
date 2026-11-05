@@ -22,7 +22,7 @@ $outcomes = OptelyaContactOutcome::cases();
     <p>
         <?php printf(
             /* translators: %s: recipient e-mail address */
-            esc_html__('Les demandes sont envoyées à %s. Le site ne garde que ces compteurs, aucune demande.', 'optelya'),
+            esc_html__('Les demandes sont envoyées à %s (modifiable dans Réglages → Configuration). Le site ne garde que ces compteurs, aucune demande.', 'optelya'),
             '<strong>' . esc_html((string) ($args['recipient'] ?? '')) . '</strong>',
         ); ?>
     </p>

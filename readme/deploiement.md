@@ -216,9 +216,7 @@ Avant le premier déploiement :
    `'production'`), le vrai `WP_HOME` **sans slash final**, les accès base et
    des **sels uniques** (<https://roots.io/salts.html>). **`SMTP_HOST` vide** :
    l'envoi des e-mails se règle alors dans *Réglages → Email* — voir
-   [`email.md`](email.md). **`CONTACT_RECIPIENT`** : l'adresse qui reçoit les
-   demandes du formulaire (vide = l'e-mail d'administration) — voir
-   [`contact.md`](contact.md).
+   [`email.md`](email.md).
 
 Après le premier déploiement, installer WordPress et le passer en français :
 

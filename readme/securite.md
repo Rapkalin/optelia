@@ -122,8 +122,8 @@ deux requêtes simultanées peuvent perdre une entrée — voir
 
 Aucun service tiers, aucun cookie. Champ piège, délai minimal signé, 5 envois
 par heure et par visiteur, validation serveur, en-têtes d'e-mail non
-injectables. Destinataire hors de *Configuration* (ouverte aux contributeurs),
-dans le `.env`. Aucune demande conservée, seulement des compteurs — voir
+injectables. Destinataire dans *Configuration*, modifiable par tous les rôles
+(risque accepté). Aucune demande conservée, seulement des compteurs — voir
 [`contact.md`](contact.md).
 
 ## 8. CI

@@ -21,6 +21,7 @@ enum OptelyaSetting: string
     case SeoTitle = 'seo_title';
     case ShareImage = 'share_image';
     case HeaderCta = 'header_cta';
+    case ContactRecipient = 'contact_recipient';
     case ContactTitle = 'contact_title';
     case Address = 'address';
 }
