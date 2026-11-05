@@ -2,7 +2,7 @@
     "name": "rapkalin/optelya",
     "description": "Optelya's official website",
     "type": "project",
-    "version": "0.16.1",
+    "version": "0.17.0",
     "authors": [
         {
             "name": "Rapkalin",
@@ -18,20 +18,20 @@
     "require": {
         "php": ">=8.5",
         "composer/installers": "^2.3",
-        "johnpbloch/wordpress": "^7.1.3",
+        "johnpbloch/wordpress": "^7.1.4",
         "oscarotero/env": "^2.1.1",
         "roots/bedrock-autoloader": "^1.1",
         "roots/bedrock-disallow-indexing": "^2.1",
         "roots/wp-config": "^1.0",
-        "vlucas/phpdotenv": "^5.7"
+        "vlucas/phpdotenv": "^5.8"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
         "laravel/pint": "^1.32.1",
-        "pestphp/pest": "^5.3.3",
+        "pestphp/pest": "^5.3.5",
         "php-stubs/acf-pro-stubs": "^6.8",
-        "phpstan/phpstan": "^2.3.1",
-        "slevomat/coding-standard": "^8.31.1",
+        "phpstan/phpstan": "^2.3.5",
+        "slevomat/coding-standard": "^8.31.3",
         "squizlabs/php_codesniffer": "^4.0.4",
         "szepeviktor/phpstan-wordpress": "^2.0.4"
     },

@@ -10,6 +10,20 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.17.0
+
+### Modifié
+
+- **Mise à jour de la pile** : WordPress 7.1.4, PHP 8.5.12 (image Docker
+  locale ; l'hébergement doit suivre la dernière 8.5), Node 26.13 (LTS), toutes
+  les dépendances PHP et JavaScript à leur dernière version, aucune
+  vulnérabilité connue (`composer audit`, `npm audit`).
+- **Intégration et déploiement** : actions GitHub à leur dernière version
+  majeure (Node 24). L'archive transmise du build au déploiement est
+  désormais vérifiée par son empreinte.
+- Aucun changement visible : styles et scripts compilés identiques, octet par
+  octet, à la version précédente.
+
 ## 0.16.1
 
 ### Corrigé

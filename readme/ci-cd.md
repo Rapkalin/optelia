@@ -36,6 +36,13 @@ mettre à jour ensemble lors d'une montée de version.
 | PHP 8.5 | `composer.json` (`require.php` et `config.platform.php`), `docker/php/Dockerfile`, candidats `php8.5` du script de `deploy.yml`, badges du `README.md` |
 | Node 26 | `.nvmrc`, `docker-compose.yml` (`image: node:26`), badge du `README.md` |
 
+**Actions GitHub** : dernières versions majeures au 05/11/2026 (`checkout@v7`,
+`upload-artifact@v7` / `download-artifact@v8` — paire de même génération,
+`setup-node@v7`, `codeql-action@v4`, `gitleaks-action@v3`), toutes sur
+Node 24 : GitHub a retiré Node 20 de ses machines le 16/09/2026. Aucune
+entrée utilisée n'a changé (notes de version lues). `download-artifact@v8`
+fait échouer le workflow si l'empreinte de l'archive ne correspond pas.
+
 ## `codeql.yml`
 
 - **CodeQL ne supporte pas PHP** : seul le JavaScript du thème est analysé. La

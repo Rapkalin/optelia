@@ -55,7 +55,7 @@ jobs:
     name: Build de la release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Version lue dans composer.json (config.platform.php), comme en CI.
       - name: Installer PHP
@@ -92,7 +92,7 @@ jobs:
       # qu'au job suivant. Au-delà, relancer tout le workflow, pas le seul
       # job de déploiement.
       - name: Publier l'artefact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-${{ inputs.environment }}
           path: release.tar.gz
@@ -105,7 +105,7 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: Récupérer l'artefact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: release-${{ inputs.environment }}
 
@@ -321,7 +321,7 @@ jobs:
       # ⚠️ actions/checkout nettoie le workspace : ces deux étapes doivent rester
       # les dernières du job, la release ayant déjà été envoyée par rsync.
       - name: Récupérer composer.lock
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           sparse-checkout: composer.lock
           sparse-checkout-cone-mode: false
