@@ -55,6 +55,12 @@ Ces points ne se règlent pas dans le code :
 
 ## Choix assumés
 
+- **Couleur de l'en-tête réglable** (*Configuration*, 0.13.0) : le contraste du
+  texte (critère 3.2) est garanti par le code — texte foncé ou blanc choisi
+  par calcul, teinte refusée si aucun n'atteint 4,5:1. Le bouton orange, lui,
+  peut perdre son contour sur un fond orangé : c'est signalé dans l'aide du
+  champ, pas bloqué.
+
 - **Ordre de tabulation de l'en-tête sous 960 px** : logo → menu → liens du
   menu (s'il est ouvert) → « Parler à un expert », alors que le bouton
   s'affiche avant le menu. Les liens suivent ainsi immédiatement le bouton qui

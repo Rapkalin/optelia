@@ -40,3 +40,28 @@ function optelya_option_text(OptelyaSetting $setting): string
 {
     return optelya_text(optelya_option($setting));
 }
+
+/**
+ * Refuses a header colour on which neither text colour reads (RGAA 3.2): the
+ * text is picked automatically, but a mid tone leaves no good choice.
+ */
+function optelya_validate_header_background(mixed $valid, mixed $value): mixed
+{
+    if ($valid !== true || ! is_string($value) || $value === '') {
+        return $valid;
+    }
+
+    $contrast = OptelyaHeaderColor::bestContrast(OptelyaHeaderColor::normalize($value));
+
+    if ($contrast >= OptelyaHeaderColor::MIN_CONTRAST) {
+        return $valid;
+    }
+
+    return sprintf(
+        /* translators: 1: measured contrast, 2: required contrast */
+        __('Teinte trop moyenne : ni un texte foncé ni un texte blanc n’y serait lisible (contraste %1$s:1, %2$s:1 requis). Choisissez une couleur plus claire ou plus foncée.', 'optelya'),
+        number_format_i18n($contrast, 2),
+        number_format_i18n(OptelyaHeaderColor::MIN_CONTRAST, 1),
+    );
+}
+add_filter('acf/validate_value/name=' . OptelyaSetting::HeaderBackground->value, 'optelya_validate_header_background', 10, 2);

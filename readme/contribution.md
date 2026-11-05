@@ -7,13 +7,19 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Quoi | Où |
 | --- | --- |
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
-| Logo de l'en-tête, accroche, description pour les moteurs de recherche, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
+| Logo et couleur de fond de l'en-tête, accroche, description pour les moteurs de recherche, bouton de l'en-tête, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
 | Liens de l'en-tête et du pied de page | *Apparence → Menus* |
 
 Ces trois écrans sont ouverts au rôle **Éditeur Optelya**. Le **Contributeur
 Optelya** gère ses propres pages et médias et *Réglages → Configuration* : ni
 l'accueil (qui appartient à l'administrateur), ni les menus — voir
 [`roles.md`](roles.md).
+
+> **Couleur de l'en-tête** : le texte passe seul en foncé ou en blanc, selon ce
+> qui se lit le mieux. Une teinte moyenne, sur laquelle aucun des deux
+> n'atteint 4,5:1, est refusée à l'enregistrement avec le contraste mesuré
+> (`inc/enums/OptelyaHeaderColor.php`). Éviter les orangés : le bouton
+> « Parler à un expert » se confondrait avec le fond.
 
 ## Les sections de l'accueil
 

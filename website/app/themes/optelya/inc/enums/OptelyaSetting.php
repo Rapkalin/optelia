@@ -15,6 +15,7 @@ if (! defined('ABSPATH')) {
 enum OptelyaSetting: string
 {
     case Logo = 'logo';
+    case HeaderBackground = 'header_background';
     case Tagline = 'tagline';
     case MetaDescription = 'meta_description';
     case HeaderCta = 'header_cta';

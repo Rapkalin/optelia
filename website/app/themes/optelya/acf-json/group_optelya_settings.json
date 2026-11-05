@@ -8,7 +8,7 @@
             "name": "logo",
             "aria-label": "",
             "type": "image",
-            "instructions": "Sur fond bleu clair : prévoir une version foncée. Affiché à 32 px de haut : fournir au moins 64 px de haut (écrans haute densité), en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
+            "instructions": "À accorder avec la couleur de l’en-tête (version foncée sur fond clair, claire sur fond foncé). Affiché à 32 px de haut : fournir au moins 64 px de haut (écrans haute densité), en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -26,6 +26,27 @@
             "max_height": "",
             "max_size": "",
             "mime_types": "png,jpg,jpeg,webp"
+        },
+        {
+            "key": "field_optelya_settings_header_background",
+            "label": "Couleur de fond de l’en-tête",
+            "name": "header_background",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Le texte de l’en-tête passe automatiquement en foncé ou en blanc pour rester lisible. Éviter les orangés : le bouton « Parler à un expert » se confondrait avec le fond. Vide : bleu clair par défaut.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#BBE1FF",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": 1
         },
         {
             "key": "field_optelya_settings_tagline",

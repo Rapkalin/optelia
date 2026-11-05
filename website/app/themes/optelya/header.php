@@ -12,6 +12,7 @@ if (! defined('ABSPATH')) {
 }
 
 $logoId = optelya_attachment_id(optelya_option(OptelyaSetting::Logo));
+$headerBackground = OptelyaHeaderColor::normalize(optelya_option(OptelyaSetting::HeaderBackground));
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -25,7 +26,7 @@ $logoId = optelya_attachment_id(optelya_option(OptelyaSetting::Logo));
 
 <a class="skip-link" href="#main-content"><?php esc_html_e('Aller au contenu', 'optelya'); ?></a>
 
-<header class="site-header" data-site-header>
+<header class="site-header site-header--<?php echo OptelyaHeaderColor::isLight($headerBackground) ? 'light' : 'dark'; ?>" style="--header-background: <?php echo esc_attr($headerBackground); ?>" data-site-header>
     <div class="site-header__inner">
         <a class="brand site-header__brand" href="<?php echo esc_url(home_url('/')); ?>" rel="home">
             <?php if ($logoId > 0) : ?>

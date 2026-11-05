@@ -10,6 +10,15 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.13.0
+
+### Ajouté
+
+- **Couleur de fond de l'en-tête réglable** dans *Réglages → Configuration*
+  (bleu clair par défaut). Le texte de l'en-tête passe automatiquement en foncé
+  ou en blanc pour rester lisible ; une teinte trop moyenne, illisible avec l'un
+  comme avec l'autre, est refusée avec une explication.
+
 ## 0.12.0
 
 ### Modifié
