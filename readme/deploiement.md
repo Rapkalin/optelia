@@ -63,6 +63,13 @@ déploiement n'attend que la CI et CodeQL.
 `website/`, `config/`, `wp-cli.yml` et `composer.json`. Le `.htaccess` du dépôt
 y est renommé `.htaccess.dist` (voir plus bas).
 
+> **Pourquoi deux jobs (build, déploiement) et un artefact** : `npm ci` et
+> `composer install` exécutent du code tiers. Le job de build n'a pas les
+> secrets de l'environnement ; seul le job de déploiement reçoit la clé SSH. Les
+> fusionner ferait tourner ce code tiers sur la machine qui détient la clé de
+> production (décision du 05/11/2026). L'artefact est gardé **1 jour** : pour
+> relancer un déploiement plus tard, relancer tout le workflow.
+
 **Envoi** :
 
 1. copie de la release en place vers `old_release/` ;

@@ -10,6 +10,16 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.14.1
+
+### Modifié
+
+- **Déploiement** : l'archive intermédiaire du site, produite par le build et
+  reprise par le déploiement, est supprimée de GitHub au bout d'un jour au
+  lieu de cinq. Build et déploiement restent deux étapes séparées, pour que le
+  code tiers installé pendant le build n'ait jamais accès à la clé du serveur.
+  Pour relancer un déploiement plus d'un jour après, relancer tout le workflow.
+
 ## 0.14.0
 
 ### Modifié

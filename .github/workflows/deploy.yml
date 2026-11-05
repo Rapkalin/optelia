@@ -85,12 +85,18 @@ jobs:
           mv release/website/.htaccess release/website/.htaccess.dist
           tar -czf release.tar.gz -C release .
 
+      # Deux jobs plutôt qu'un, malgré l'artefact : npm et Composer exécutent du
+      # code tiers pendant le build, sur une machine qui n'a PAS les secrets de
+      # l'environnement (clé SSH de production). Fusionnés, un paquet compromis
+      # pourrait la capturer. Un jour de conservation suffit : l'artefact ne sert
+      # qu'au job suivant. Au-delà, relancer tout le workflow, pas le seul
+      # job de déploiement.
       - name: Publier l'artefact
         uses: actions/upload-artifact@v4
         with:
           name: release-${{ inputs.environment }}
           path: release.tar.gz
-          retention-days: 5
+          retention-days: 1
 
   deploy:
     name: Déploiement (${{ inputs.environment }})
