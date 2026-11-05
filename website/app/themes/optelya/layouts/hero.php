@@ -17,7 +17,8 @@ if (! defined('ABSPATH')) {
 $videoId = optelya_attachment_id(optelya_sub_field('video'));
 $posterId = optelya_attachment_id(optelya_sub_field('poster'));
 $mime = $videoId > 0 ? (string) get_post_mime_type($videoId) : '';
-$posterUrl = $posterId > 0 ? (string) wp_get_attachment_image_url($posterId, 'large') : '';
+$imageSize = 'large';
+$posterUrl = $posterId > 0 ? (string) wp_get_attachment_image_url($posterId, $imageSize) : '';
 $caption = optelya_sub_text('caption');
 $eyebrow = optelya_sub_text('eyebrow');
 $lead = optelya_sub_text('lead');
@@ -42,11 +43,11 @@ $pauseLabel = __('Mettre la vidéo en pause', 'optelya');
         <figure class="hero__media">
             <div class="hero__frame">
                 <?php if ($videoId > 0) : ?>
-                    <video class="hero__video" muted loop playsinline preload="metadata" data-hero-video<?php echo $posterUrl !== '' ? ' poster="' . esc_url($posterUrl) . '"' : ''; ?>>
+                    <video class="hero__visual" muted loop playsinline preload="metadata" data-hero-video<?php echo $posterUrl !== '' ? ' poster="' . esc_url($posterUrl) . '"' : ''; ?>>
                         <source src="<?php echo esc_url((string) wp_get_attachment_url($videoId)); ?>"<?php echo $mime !== '' ? ' type="' . esc_attr($mime) . '"' : ''; ?>>
                     </video>
                 <?php elseif ($posterId > 0) : ?>
-                    <?php echo wp_get_attachment_image($posterId, 'large', false, ['class' => 'hero__video']); ?>
+                    <?php echo wp_get_attachment_image($posterId, $imageSize, false, ['class' => 'hero__visual']); ?>
                 <?php else : ?>
                     <div class="hero__placeholder">
                         <span class="hero__placeholder-label"><?php esc_html_e('Visuel éditeur', 'optelya'); ?></span>

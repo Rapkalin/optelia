@@ -30,9 +30,7 @@
 }
 
 .section-title {
-  margin: 0;
-  font-family: $font-display;
-  font-weight: 700;
+  @include display-heading;
   font-size: $font-size-title;
   line-height: 1.15;
 }

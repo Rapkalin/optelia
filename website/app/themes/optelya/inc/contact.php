@@ -18,6 +18,7 @@ if (! defined('ABSPATH')) {
 const OPTELYA_CONTACT_STATS_OPTION = 'optelya_contact_stats';
 const OPTELYA_CONTACT_ADMIN_PAGE = 'optelya-contact';
 const OPTELYA_CONTACT_QUERY = 'contact';
+const OPTELYA_CONTACT_CAPABILITY = 'manage_options';
 
 function optelya_contact_secret(): string
 {
@@ -124,9 +125,9 @@ function optelya_contact_send(array $values): bool
 /**
  * @param array{values: array<string, string>, invalid: list<OptelyaContactField>} $checked
  */
-function optelya_contact_outcome(array $post, array $checked): OptelyaContactOutcome
+function optelya_contact_outcome(array $input, array $checked): OptelyaContactOutcome
 {
-    if (($post[OptelyaContactForm::HONEYPOT] ?? '') !== '') {
+    if (($input[OptelyaContactForm::HONEYPOT] ?? '') !== '') {
         return OptelyaContactOutcome::Honeypot;
     }
 
@@ -134,7 +135,7 @@ function optelya_contact_outcome(array $post, array $checked): OptelyaContactOut
         return OptelyaContactOutcome::RateLimited;
     }
 
-    $token = $post[OptelyaContactForm::TOKEN] ?? '';
+    $token = $input[OptelyaContactForm::TOKEN] ?? '';
     $refused = OptelyaContactForm::tokenOutcome(is_string($token) ? $token : '', time(), optelya_contact_secret());
 
     if ($refused !== null) {
@@ -158,9 +159,9 @@ function optelya_contact_handle(): void
         return;
     }
 
-    $post = wp_unslash($_POST);
-    $checked = OptelyaContactForm::validate($post);
-    $outcome = optelya_contact_outcome($post, $checked);
+    $input = wp_unslash($_POST);
+    $checked = OptelyaContactForm::validate($input);
+    $outcome = optelya_contact_outcome($input, $checked);
     optelya_contact_record($outcome);
 
     if (! $outcome->isSuccess()) {
@@ -218,7 +219,7 @@ function optelya_contact_register_admin_page(): void
     add_management_page(
         __('Formulaire de contact', 'optelya'),
         __('Contact', 'optelya'),
-        'manage_options',
+        OPTELYA_CONTACT_CAPABILITY,
         OPTELYA_CONTACT_ADMIN_PAGE,
         'optelya_contact_render_admin_page',
     );
@@ -227,12 +228,12 @@ add_action('admin_menu', 'optelya_contact_register_admin_page');
 
 function optelya_contact_render_admin_page(): void
 {
-    if (! current_user_can('manage_options')) {
+    if (! current_user_can(OPTELYA_CONTACT_CAPABILITY)) {
         return;
     }
 
     $stats = get_option(OPTELYA_CONTACT_STATS_OPTION, []);
-    get_template_part('components/contact-stats', null, [
+    get_template_part('admin/contact-stats', null, [
         'stats' => is_array($stats) ? $stats : [],
         'recipient' => optelya_contact_recipient(),
     ]);

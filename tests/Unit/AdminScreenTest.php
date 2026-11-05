@@ -8,8 +8,8 @@
  * answer is checked as much as the listed ones.
  */
 
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/enums/OptelyaRole.php';
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/enums/OptelyaAdminScreen.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaRole.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaAdminScreen.php';
 
 it('allows both roles the screens they work in', function (string $pagenow, array $query) {
     foreach (OptelyaRole::cases() as $role) {
@@ -115,7 +115,7 @@ it('finds the restricted role among an account\'s roles', function () {
 it('locates the settings field group on the settings page slug', function () {
     // The JSON cannot read the constant: this keeps both in step.
     $group = json_decode((string) file_get_contents(
-        dirname(__DIR__, 2) . '/website/app/themes/optelya/acf-json/group_optelya_settings.json',
+        OPTELYA_THEME_DIR . 'acf-json/group_optelya_settings.json',
     ), true);
 
     expect($group['location'][0][0]['value'])->toBe(OptelyaAdminScreen::SETTINGS_PAGE);

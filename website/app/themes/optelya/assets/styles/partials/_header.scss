@@ -1,6 +1,9 @@
 @use '../basics/variables' as *;
 @use '../basics/mixins' as *;
 
+$toggle-bar-width: 18px;
+$toggle-bar-height: 2px;
+
 .site-header {
   position: sticky;
   top: 0;
@@ -82,8 +85,8 @@
 
   // Three bars, the middle one is the element, the others its shadows.
   &__toggle-bars {
-    width: 18px;
-    height: 2px;
+    width: $toggle-bar-width;
+    height: $toggle-bar-height;
     background: currentColor;
     box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
   }
@@ -108,9 +111,24 @@
       max-height: $logo-height;
     }
 
-    // Small screens: the button moves to the top of the menu, the bar keeps
-    // the logo at full height and the toggle.
     @include below($breakpoint-compact) {
+      &__inner {
+        gap: 12px 8px;
+      }
+
+      &__brand {
+        font-size: $font-size-xl;
+      }
+
+      // Without scripts the button stays in the bar, with brand and toggle
+      // on one line down to 360px wide.
+      &__cta {
+        padding: 0 14px;
+        font-size: $font-size-xs;
+      }
+
+      // With scripts it moves to the top of the menu: the bar keeps the logo
+      // at full height and the toggle.
       @media (scripting: enabled) {
         &__cta {
           display: none;
@@ -121,23 +139,6 @@
           justify-content: center;
           margin: 12px 0;
         }
-      }
-    }
-
-    // Without scripts, the button stays in the bar: brand, button and toggle
-    // on one line down to 360px wide.
-    @include below($breakpoint-compact) {
-      &__inner {
-        gap: 12px 8px;
-      }
-
-      &__brand {
-        font-size: $font-size-xl;
-      }
-
-      .button--small {
-        padding: 0 14px;
-        font-size: $font-size-xs;
       }
     }
 
@@ -152,7 +153,7 @@
         font-size: $font-size-md;
       }
 
-      .button--small {
+      &__cta {
         padding: 0 10px;
         font-size: $font-size-2xs;
       }
@@ -205,8 +206,8 @@
         content: '';
         position: absolute;
         left: 0;
-        width: 18px;
-        height: 2px;
+        width: $toggle-bar-width;
+        height: $toggle-bar-height;
         background: currentColor;
         transform: rotate(45deg);
       }

@@ -17,7 +17,7 @@ $pageId = is_preview() ? (int) get_queried_object_id() : (int) get_the_ID();
 $sections = 'sections';
 ?>
 
-<main id="main-content">
+<main id="<?php echo esc_attr(OPTELYA_MAIN_CONTENT_ID); ?>">
     <?php if (optelya_has_acf() && have_rows($sections, $pageId)) : ?>
         <?php while (have_rows($sections, $pageId)) : ?>
             <?php the_row(); ?>

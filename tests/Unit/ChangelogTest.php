@@ -5,7 +5,7 @@
  * whose version has no changelog entry fails here, before it reaches the CI.
  */
 
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/template.php';
+require_once OPTELYA_THEME_DIR . 'inc/template.php';
 
 it('documents the current version in CHANGELOG.md', function () {
     $changelog = (string) file_get_contents(dirname(__DIR__, 2) . '/CHANGELOG.md');

@@ -36,7 +36,7 @@
   &__title {
     margin: 0;
     font-size: inherit;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-white;
   }
 
@@ -44,20 +44,18 @@
     @include container;
     padding: 18px $gutter 28px;
     border-top: 1px solid $color-ink-line;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 24px;
     font-size: $font-size-2xs;
   }
 
-  &__links {
-    @include stack(8px);
-  }
-
+  &__legal,
   &__legal-links {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 24px;
+  }
+
+  &__links {
+    @include stack(8px);
   }
 
   &__column a,

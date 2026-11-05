@@ -18,6 +18,19 @@
   }
 }
 
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Titles set in the display typeface: hero, sections, cards.
+@mixin display-heading {
+  margin: 0;
+  font-family: $font-display;
+  font-weight: $font-weight-bold;
+}
+
 @mixin stack($gap) {
   display: flex;
   flex-direction: column;

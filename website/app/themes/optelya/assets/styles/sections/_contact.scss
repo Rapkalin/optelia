@@ -13,15 +13,14 @@
   &__lead {
     margin: 0;
     font-size: $font-size-lg;
-    line-height: 1.5;
+    line-height: $line-height-text;
     color: $color-text-muted;
   }
 
   &__steps {
     @include stack(14px);
-    margin: 8px 0 0;
-    padding: 0;
-    list-style: none;
+    @include list-reset;
+    margin-top: 8px;
   }
 
   &__step {
@@ -47,7 +46,7 @@
   }
 
   &__label {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     font-size: $font-size-sm;
   }
 
@@ -67,24 +66,16 @@
     background: $color-white;
   }
 
+  // A `.button.button--large` (components/_button.scss) set on a <button>.
   &__submit {
-    min-height: $control-height-large;
+    justify-content: center;
     border: 0;
-    border-radius: $radius-control;
     background: $color-ink;
-    color: $color-white;
-    font: inherit;
-    font-weight: 600;
-    font-size: $font-size-md;
+    font-family: inherit;
     cursor: pointer;
   }
 
-  &__legend {
-    margin: 0;
-    font-size: $font-size-xs;
-    color: $color-text-muted;
-  }
-
+  &__legend,
   &__notice {
     margin: 0;
     font-size: $font-size-xs;

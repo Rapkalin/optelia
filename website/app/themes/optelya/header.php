@@ -11,7 +11,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-$logoId = optelya_attachment_id(optelya_option(OptelyaSetting::Logo));
+$logoId = optelya_logo_id();
 $headerBackground = OptelyaHeaderColor::normalize(optelya_option(OptelyaSetting::HeaderBackground));
 $cta = optelya_link(optelya_option(OptelyaSetting::HeaderCta));
 ?>
@@ -25,7 +25,7 @@ $cta = optelya_link(optelya_option(OptelyaSetting::HeaderCta));
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<a class="skip-link" href="#main-content"><?php esc_html_e('Aller au contenu', 'optelya'); ?></a>
+<a class="skip-link" href="#<?php echo esc_attr(OPTELYA_MAIN_CONTENT_ID); ?>"><?php esc_html_e('Aller au contenu', 'optelya'); ?></a>
 
 <header class="site-header site-header--<?php echo OptelyaHeaderColor::isLight($headerBackground) ? 'light' : 'dark'; ?>" style="--header-background: <?php echo esc_attr($headerBackground); ?>" data-site-header>
     <div class="site-header__inner">

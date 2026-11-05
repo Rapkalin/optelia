@@ -17,7 +17,7 @@ export function initHeroVideo() {
 
     button.addEventListener('click', () => {
         if (video.paused) {
-            video.play();
+            video.play().catch(() => setPlaying(false));
         } else {
             video.pause();
         }

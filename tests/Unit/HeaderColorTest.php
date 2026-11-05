@@ -5,7 +5,8 @@
  * attribute, and the text picked for it stays readable.
  */
 
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/enums/OptelyaHeaderColor.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaHeaderColor.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaSetting.php';
 
 it('keeps a valid colour and falls back to the default otherwise', function (mixed $value, string $expected) {
     expect(OptelyaHeaderColor::normalize($value))->toBe($expected);
@@ -43,10 +44,10 @@ it('flags the mid tones no text can read on', function () {
 });
 
 it('keeps the ink and the default in step with the stylesheet and the field', function () {
-    $theme = dirname(__DIR__, 2) . '/website/app/themes/optelya/';
+    $theme = OPTELYA_THEME_DIR;
     $variables = (string) file_get_contents($theme . 'assets/styles/basics/_variables.scss');
     $group = json_decode((string) file_get_contents($theme . 'acf-json/group_optelya_settings.json'), true);
-    $field = array_values(array_filter($group['fields'], static fn(array $f): bool => $f['name'] === 'header_background'))[0];
+    $field = array_values(array_filter($group['fields'], static fn(array $f): bool => $f['name'] === OptelyaSetting::HeaderBackground->value))[0];
 
     expect($variables)->toContain('$color-ink: ' . OptelyaHeaderColor::INK . ';');
     expect(strtoupper($field['default_value']))->toBe(OptelyaHeaderColor::DEFAULT);

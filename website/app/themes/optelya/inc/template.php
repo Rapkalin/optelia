@@ -68,3 +68,20 @@ function optelya_layout_template(): string
 
     return in_array($layout, $available, true) ? $layout : '';
 }
+
+/**
+ * Target of the skip link, on every template's <main>.
+ */
+const OPTELYA_MAIN_CONTENT_ID = 'main-content';
+
+/**
+ * Answer the current request with the 404 page — from template_redirect,
+ * before the template is chosen.
+ */
+function optelya_force_404(): void
+{
+    global $wp_query;
+    $wp_query->set_404();
+    status_header(404);
+    nocache_headers();
+}

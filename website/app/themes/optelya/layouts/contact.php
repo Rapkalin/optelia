@@ -48,6 +48,7 @@ $outcome = $state['outcome'];
             <?php foreach (OptelyaContactField::cases() as $field) : ?>
                 <?php
                 $id = 'contact-' . $field->value;
+                $errorId = $id . '-error';
                 $isInvalid = in_array($field, $state['invalid'], true);
                 ?>
                 <div class="contact-form__field">
@@ -66,10 +67,10 @@ $outcome = $state['outcome'];
                         maxlength="<?php echo esc_attr((string) $field->maxLength()); ?>"
                         value="<?php echo esc_attr($state['values'][$field->value] ?? ''); ?>"
                         <?php if ($field->isRequired()) : ?>required<?php endif; ?>
-                        <?php if ($isInvalid) : ?>aria-invalid="true" aria-describedby="<?php echo esc_attr($id . '-error'); ?>"<?php endif; ?>
+                        <?php if ($isInvalid) : ?>aria-invalid="true" aria-describedby="<?php echo esc_attr($errorId); ?>"<?php endif; ?>
                     >
                     <?php if ($isInvalid) : ?>
-                        <span class="contact-form__error" id="<?php echo esc_attr($id . '-error'); ?>"><?php echo esc_html($field->errorMessage($state['values'][$field->value] ?? '')); ?></span>
+                        <span class="contact-form__error" id="<?php echo esc_attr($errorId); ?>"><?php echo esc_html($field->errorMessage($state['values'][$field->value] ?? '')); ?></span>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
@@ -81,7 +82,7 @@ $outcome = $state['outcome'];
             <input type="hidden" name="<?php echo esc_attr(OptelyaContactForm::ACTION_FIELD); ?>" value="<?php echo esc_attr(OptelyaContactForm::ACTION); ?>">
             <input type="hidden" name="<?php echo esc_attr(OptelyaContactForm::TOKEN); ?>" value="<?php echo esc_attr(optelya_contact_token()); ?>">
 
-            <button class="contact-form__submit" type="submit"><?php esc_html_e('Envoyer ma demande', 'optelya'); ?></button>
+            <button class="button button--large contact-form__submit" type="submit"><?php esc_html_e('Envoyer ma demande', 'optelya'); ?></button>
             <?php if ($notice !== '') : ?>
                 <p class="contact-form__notice"><?php echo esc_html($notice); ?></p>
             <?php endif; ?>

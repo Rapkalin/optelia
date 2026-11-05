@@ -12,7 +12,7 @@ if (! defined('ABSPATH')) {
 ?>
 <section id="<?php echo esc_attr(OptelyaSection::Benefits->value); ?>" class="section section--benefits">
     <div class="section__inner">
-        <h2 class="section-title"><?php echo esc_html(optelya_sub_text('title')); ?></h2>
+        <?php get_template_part('components/section-heading', null, ['title' => optelya_sub_text('title')]); ?>
 
         <div class="benefits">
             <?php foreach (optelya_rows(optelya_sub_field('panels')) as $panel) : ?>

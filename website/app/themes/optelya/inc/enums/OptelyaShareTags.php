@@ -15,13 +15,6 @@ if (! defined('ABSPATH')) {
 final class OptelyaShareTags
 {
     /**
-     * Recommended size of the sharing image, also given in the field's help.
-     */
-    public const int IMAGE_WIDTH = 1200;
-
-    public const int IMAGE_HEIGHT = 630;
-
-    /**
      * `<meta>` tags as [attribute, key, content]: Open Graph uses `property`,
      * Twitter `name`. Empty values are left out.
      *

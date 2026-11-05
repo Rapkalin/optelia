@@ -10,6 +10,25 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.16.1
+
+### Corrigé
+
+- Le bouton « Parler à un expert » du menu mobile était rétréci par une règle
+  destinée au bouton de la barre.
+- *Outils → Journal* : la purge refuse une liste inconnue au lieu de vider les
+  erreurs, et la limite de conservation affichée est celle des erreurs.
+- La recherche affiche « Résultats pour « … » » et un message quand rien ne
+  correspond.
+
+### Modifié
+
+- Relecture du code (revue du 05/11/2026) : code mort retiré, styles et blocs
+  dupliqués regroupés (mixins, variables, fonctions communes), section
+  « Ce qu'Optelya vous apporte » passée au composant de titre, bouton du
+  formulaire passé au composant bouton. Rendu vérifié identique, élément par
+  élément, avant et après.
+
 ## 0.16.0
 
 ### Ajouté

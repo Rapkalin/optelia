@@ -1,8 +1,9 @@
 @use '../basics/variables' as *;
 @use '../basics/mixins' as *;
 
+// Closer to the issues above it, as in the mockup.
 .section--results {
-  padding-top: 56px;
+  padding-top: $section-space-compact;
 }
 
 .result-card {
@@ -22,7 +23,7 @@
   }
 
   &__label {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     font-size: $font-size-md;
   }
 
@@ -39,7 +40,7 @@
 
   &__more {
     margin-top: auto;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     font-size: $font-size-sm;
   }
 }

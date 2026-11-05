@@ -7,6 +7,8 @@
  * guard themselves with `defined('ABSPATH')`, so the constant is stubbed here.
  */
 
+const OPTELYA_THEME_DIR = __DIR__ . '/../website/app/themes/optelya/';
+
 if (! defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/website/wordpress-core/');
 }

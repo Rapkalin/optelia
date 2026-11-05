@@ -3,10 +3,6 @@
 
 .section--benefits {
   background: $color-band;
-
-  .section-title {
-    max-width: $heading-max-width;
-  }
 }
 
 .benefits {
@@ -36,9 +32,7 @@
 
   &__list {
     @include stack(18px);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    @include list-reset;
   }
 
   &__item {
@@ -46,7 +40,7 @@
   }
 
   &__title {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     font-size: $font-size-lg;
   }
 

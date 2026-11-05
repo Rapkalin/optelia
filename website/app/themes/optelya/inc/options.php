@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Site settings: what the header, the footer and several sections share
- * (address, tagline, header button). They belong to no page, so they
+ * Site settings: what the header, the footer and the SEO tags share (logo,
+ * address, tagline, header button…). They belong to no page, so they
  * live on an ACF options page, versioned as local JSON like the rest.
  *
  * @package optelya
@@ -34,6 +34,11 @@ add_action('acf/init', 'optelya_register_options_page');
 function optelya_option(OptelyaSetting $setting): mixed
 {
     return optelya_field($setting->value, 'option');
+}
+
+function optelya_logo_id(): int
+{
+    return optelya_attachment_id(optelya_option(OptelyaSetting::Logo));
 }
 
 function optelya_option_text(OptelyaSetting $setting): string

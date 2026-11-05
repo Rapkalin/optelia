@@ -4,7 +4,7 @@
  * Sharing metadata of the home page: what LinkedIn and search engines read.
  */
 
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/enums/OptelyaShareTags.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaShareTags.php';
 
 function share_tags(?array $image = null, string $description = 'Description'): array
 {

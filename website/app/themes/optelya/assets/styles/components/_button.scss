@@ -6,7 +6,7 @@
   border-radius: $radius-control;
   background: $color-accent;
   color: $color-white;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   text-decoration: none;
 
   &:hover {
@@ -27,7 +27,7 @@
 }
 
 .text-link {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   font-size: $font-size-base;
   text-underline-offset: $underline-offset;
 }

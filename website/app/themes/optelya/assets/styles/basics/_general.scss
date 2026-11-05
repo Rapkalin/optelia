@@ -63,9 +63,7 @@ input {
 }
 
 .link-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  @include list-reset;
 }
 
 .visually-hidden {

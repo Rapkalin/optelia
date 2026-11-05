@@ -9,12 +9,13 @@ export function initNavToggle() {
         return;
     }
 
-    const setOpen = (isOpen) => {
-        header.classList.toggle('site-header--open', isOpen);
-        button.setAttribute('aria-expanded', String(isOpen));
+    const isOpen = () => button.getAttribute('aria-expanded') === 'true';
+    const setOpen = (open) => {
+        header.classList.toggle('site-header--open', open);
+        button.setAttribute('aria-expanded', String(open));
     };
 
-    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+    button.addEventListener('click', () => setOpen(!isOpen()));
 
     // An anchor of the page: the menu must not cover the section it leads to.
     nav.addEventListener('click', (event) => {
@@ -24,7 +25,7 @@ export function initNavToggle() {
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        if (event.key === 'Escape' && isOpen()) {
             setOpen(false);
             button.focus();
         }

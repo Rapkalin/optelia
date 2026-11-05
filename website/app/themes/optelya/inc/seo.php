@@ -80,7 +80,7 @@ function optelya_print_head_meta(): void
     }
 
     if (is_front_page()) {
-        $logoId = optelya_attachment_id(optelya_option(OptelyaSetting::Logo));
+        $logoId = optelya_logo_id();
         $graph = OptelyaShareTags::graph(
             get_bloginfo('name'),
             home_url('/'),
@@ -114,10 +114,7 @@ function optelya_refuse_unused_archives(): void
         return;
     }
 
-    global $wp_query;
-    $wp_query->set_404();
-    status_header(404);
-    nocache_headers();
+    optelya_force_404();
 }
 add_action('template_redirect', 'optelya_refuse_unused_archives', 1);
 

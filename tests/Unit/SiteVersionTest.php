@@ -8,7 +8,7 @@
  * would break silently on a layout change: the footer would lose its version.
  */
 
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/template.php';
+require_once OPTELYA_THEME_DIR . 'inc/template.php';
 
 it('reads the version declared in composer.json', function () {
     $manifest = json_decode(

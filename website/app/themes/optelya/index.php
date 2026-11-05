@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Generic template: single content, archives and search results.
+ * Generic template: single content and search results (archives answer 404,
+ * see inc/seo.php).
  *
  * The homepage has its own template (front-page.php).
  *
@@ -17,9 +18,19 @@ get_header();
 $isSingle = is_singular();
 ?>
 
-<main id="main-content" class="page-content">
+<main id="<?php echo esc_attr(OPTELYA_MAIN_CONTENT_ID); ?>" class="page-content">
     <?php if (! $isSingle) : ?>
-        <h1 class="section-title"><?php echo esc_html(wp_strip_all_tags(is_search() ? get_search_query(false) : get_the_archive_title())); ?></h1>
+        <h1 class="section-title">
+            <?php if (is_search()) : ?>
+                <?php /* translators: %s: search terms */ ?>
+                <?php echo esc_html(sprintf(__('Résultats pour « %s »', 'optelya'), get_search_query(false))); ?>
+            <?php else : ?>
+                <?php echo esc_html(wp_strip_all_tags(get_the_archive_title())); ?>
+            <?php endif; ?>
+        </h1>
+        <?php if (! have_posts()) : ?>
+            <p><?php esc_html_e('Aucun résultat.', 'optelya'); ?></p>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?php while (have_posts()) : ?>

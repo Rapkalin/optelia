@@ -41,7 +41,7 @@ final class OptelyaAdminScreen
     ];
 
     /**
-     * The editor's on top: menus, customizer and taxonomies.
+     * The editor's on top: menus and customizer.
      */
     private const array EDITOR_ONLY = ['nav-menus.php', 'customize.php'];
 
@@ -68,12 +68,12 @@ final class OptelyaAdminScreen
             // Terms of the perimeter's types only: categories and tags belong
             // to posts, which are out of it.
             if (in_array($pagenow, self::TAXONOMY_SCREENS, true)) {
-                return in_array((string) ($query['post_type'] ?? 'post'), self::POST_TYPES, true);
+                return self::isPerimeterType($query);
             }
         }
 
         if (in_array($pagenow, ['edit.php', 'post-new.php'], true)) {
-            return in_array((string) ($query['post_type'] ?? 'post'), self::POST_TYPES, true);
+            return self::isPerimeterType($query);
         }
 
         // post.php does not carry the type in the URL: the caller resolves it.
@@ -84,6 +84,14 @@ final class OptelyaAdminScreen
         }
 
         return false;
+    }
+
+    /**
+     * The screen's post type (the core default when absent) is pages or media.
+     */
+    private static function isPerimeterType(array $query): bool
+    {
+        return in_array((string) ($query['post_type'] ?? 'post'), self::POST_TYPES, true);
     }
 
     /**

@@ -16,7 +16,6 @@ $color-paper: #E8F0FF;
 $color-band: #D6E4FB;
 $color-white: #FFFFFF;
 $color-text-muted: #4D5A66;
-$color-on-ink: #DCE3EA;
 $color-on-ink-muted: #C9D3DD;
 $color-on-ink-faint: #8FA0B2;
 $color-accent: #C2410C;
@@ -28,7 +27,7 @@ $color-pill-border: #B9C0B8;
 // 3.92:1 on white: a field's border is its only outline (RGAA 3.3, 3:1).
 $color-input-border: #7A837A;
 
-// Typefaces — self-hosted, see app.scss
+// Typefaces — self-hosted, see assets/styles/fonts.css
 $font-text: 'IBM Plex Sans Variable', system-ui, sans-serif;
 $font-display: 'Archivo Variable', sans-serif;
 $font-mono: 'IBM Plex Mono', monospace;
@@ -44,11 +43,17 @@ $font-size-xl: 19px;
 $font-size-2xl: 20px;
 $font-size-3xl: 22px;
 $font-size-4xl: 24px;
-// Fluid, always below the hero title (clamp(34px, 4.4vw, 56px)).
+$font-size-hero: clamp(34px, 4.4vw, 56px);
+// Fluid, always below $font-size-hero.
 $font-size-title: clamp(26px, 2.2vw + 14px, 38px);
 $font-size-figure: 46px;
 $letter-spacing-wide: 0.08em;
 $underline-offset: 4px;
+
+// Weights and leading shared by several components
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$line-height-text: 1.5;
 
 // Layout
 $container-width: 1240px;

@@ -13,7 +13,7 @@
 function optelya_theme_php_files(): array
 {
     $files = [];
-    $theme = __DIR__ . '/../../website/app/themes/optelya/';
+    $theme = OPTELYA_THEME_DIR;
 
     foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($theme)) as $file) {
         $path = (string) $file;

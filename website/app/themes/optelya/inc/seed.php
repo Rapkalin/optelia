@@ -52,6 +52,14 @@ function optelya_seed_link(string $label, string $url): array
 }
 
 /**
+ * Same call to action in the header and the hero.
+ */
+function optelya_seed_expert_link(): array
+{
+    return optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url());
+}
+
+/**
  * The hero's lead also serves as the search engine description.
  */
 const OPTELYA_SEED_HERO_LEAD = "Votre problème d'abord, le bon logiciel ensuite. Optelya sélectionne parmi trois éditeurs complémentaires et vous accompagne en France.";
@@ -71,7 +79,7 @@ function optelya_seed_settings(): string
         OptelyaSetting::Tagline->value => "Votre problème d'abord, le bon logiciel ensuite.",
         OptelyaSetting::MetaDescription->value => OPTELYA_SEED_HERO_LEAD,
         OptelyaSetting::SeoTitle->value => "Logiciels de simulation et d'optimisation – Optelya",
-        OptelyaSetting::HeaderCta->value => optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url()),
+        OptelyaSetting::HeaderCta->value => optelya_seed_expert_link(),
         OptelyaSetting::ContactTitle->value => 'Coordonnées',
         OptelyaSetting::Address->value => '[adresse à fournir]',
     ];
@@ -200,7 +208,7 @@ function optelya_seed_sections(): array
             'eyebrow' => 'Noesis Solutions · Sigmetrix · FunctionBay',
             'title' => "Logiciels de simulation et d'optimisation : un expert vous aide à choisir.",
             'lead' => OPTELYA_SEED_HERO_LEAD,
-            'primary_link' => optelya_seed_link('Parler à un expert', OptelyaSection::Contact->url()),
+            'primary_link' => optelya_seed_expert_link(),
             'secondary_link' => optelya_seed_link('Voir les résultats obtenus', OptelyaSection::Results->url()),
             'caption' => "Visuels repris des éditeurs pour la maquette. Pas de lecture automatique si l'utilisateur a réduit les animations.",
         ],

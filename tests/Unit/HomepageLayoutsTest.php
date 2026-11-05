@@ -9,8 +9,7 @@
  * against the JSON and the files on disk, with no hardcoded list.
  */
 
-const OPTELYA_THEME = __DIR__ . '/../../website/app/themes/optelya/';
-const OPTELYA_HOMEPAGE_GROUP = OPTELYA_THEME . 'acf-json/group_optelya_homepage.json';
+const OPTELYA_HOMEPAGE_GROUP = OPTELYA_THEME_DIR . 'acf-json/group_optelya_homepage.json';
 
 function optelya_homepage_group(): array
 {
@@ -18,7 +17,7 @@ function optelya_homepage_group(): array
 }
 
 /**
- * @return list<string>
+ * @return array<string, mixed>
  */
 function optelya_sections_field(): array
 {
@@ -49,7 +48,7 @@ function optelya_layout_templates(): array
 {
     $names = array_map(
         static fn(string $path): string => basename($path, '.php'),
-        (array) glob(OPTELYA_THEME . 'layouts/*.php'),
+        (array) glob(OPTELYA_THEME_DIR . 'layouts/*.php'),
     );
 
     sort($names);

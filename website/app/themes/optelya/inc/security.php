@@ -106,10 +106,7 @@ function optelya_block_author_enumeration(): void
         return;
     }
 
-    global $wp_query;
-    $wp_query->set_404();
-    status_header(404);
-    nocache_headers();
+    optelya_force_404();
 }
 // Priority 1: core's redirect_canonical() runs at 10 and would first send
 // ?author=1 to /author/<login>/, leaking the login.

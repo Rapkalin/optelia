@@ -8,7 +8,7 @@
             "name": "logo",
             "aria-label": "",
             "type": "image",
-            "instructions": "À accorder avec la couleur de l’en-tête (version foncée sur fond clair, claire sur fond foncé). Affiché à 55 px de haut (moins sur mobile si le logo est très large) : fournir 110 px de haut pour les écrans haute densité, 55 px au minimum, en PNG ou WebP. Vide : le nom du site s’affiche à la place.",
+            "instructions": "À accorder avec la couleur de l’en-tête (version foncée sur fond clair, claire sur fond foncé). Affiché à 55 px de haut (moins sur mobile si le logo est très large) : fournir 110 px de haut pour les écrans haute densité, 55 px au minimum, en PNG, WebP ou JPG. Vide : le nom du site s’affiche à la place.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -33,7 +33,7 @@
             "name": "header_background",
             "aria-label": "",
             "type": "color_picker",
-            "instructions": "Le texte de l’en-tête passe automatiquement en foncé ou en blanc pour rester lisible. Éviter les orangés : le bouton « Parler à un expert » se confondrait avec le fond. Vide : bleu clair par défaut.",
+            "instructions": "Le texte de l’en-tête passe automatiquement en foncé ou en blanc pour rester lisible. Éviter les orangés : le bouton de l’en-tête se confondrait avec le fond. Vide : bleu clair par défaut.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -121,7 +121,7 @@
             "label": "Image de partage",
             "name": "share_image",
             "type": "image",
-            "instructions": "Affichée quand un lien vers le site est partagé (LinkedIn, Teams, messageries) : 1200 × 630 px, en JPG ou PNG, avec un texte alternatif renseigné dans la médiathèque. Vide : aperçu sans image.",
+            "instructions": "Affichée quand un lien vers le site est partagé (LinkedIn, Teams, messageries) : 1200 × 630 px, en JPG, PNG ou WebP, avec un texte alternatif renseigné dans la médiathèque. Vide : aperçu sans image.",
             "return_format": "id",
             "preview_size": "medium",
             "library": "all",

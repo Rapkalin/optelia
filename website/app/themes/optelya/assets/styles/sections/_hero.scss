@@ -21,10 +21,8 @@
   }
 
   &__title {
-    margin: 0;
-    font-family: $font-display;
-    font-weight: 700;
-    font-size: clamp(34px, 4.4vw, 56px);
+    @include display-heading;
+    font-size: $font-size-hero;
     line-height: 1.08;
     letter-spacing: -0.01em;
   }
@@ -32,7 +30,7 @@
   &__lead {
     margin: 0;
     font-size: $font-size-xl;
-    line-height: 1.5;
+    line-height: $line-height-text;
     color: $color-on-ink-muted;
     max-width: 34em;
   }
@@ -76,7 +74,7 @@
   }
 
   // Video or poster image, filling the frame.
-  &__video {
+  &__visual {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -94,11 +92,8 @@
   }
 
   &__placeholder-label {
-    font-family: $font-mono;
-    font-size: $font-size-2xs;
+    @include eyebrow($letter-spacing-wide);
     color: $color-accent-light;
-    letter-spacing: $letter-spacing-wide;
-    text-transform: uppercase;
   }
 
   &__pause {

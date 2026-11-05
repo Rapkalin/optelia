@@ -37,6 +37,28 @@ composer setup-hooks
 - Pint se lance toujours en scan complet : avec des chemins explicites, il
   ignore le `exclude` de `pint.json`.
 
+## Organisation du thème
+
+| Dossier | Contenu |
+| --- | --- |
+| `inc/` | Branchements WordPress (hooks, filtres), un fichier par sujet |
+| `inc/enums/` | **Sources uniques** : enums (sections, réglages, rôles, champs…) et classes `final` de **logique pure**, sans WordPress (`OptelyaContactForm`, `OptelyaHeaderColor`, `OptelyaShareTags`, `OptelyaAdminScreen`) — c'est ce qui les rend testables |
+| `components/` | Morceaux d'interface réutilisés par plusieurs gabarits (lien, icône, titre de section, liste de liens de menu) |
+| `layouts/` | Une section de l'accueil par fichier, du nom de son layout ACF |
+| `admin/` | Vues des écrans d'administration du thème (*Outils → Contact*) |
+| `assets/styles/basics/` | Variables (toutes les couleurs, tailles, poids, espacements) et mixins (`list-reset`, `display-heading`, `eyebrow`, `stack`, `below`…) |
+
+Une valeur partagée entre fichiers de natures différentes (PHP ↔ JSON ACF ↔
+SCSS) ne peut pas être une seule constante : un **test** la garde alignée
+(couleur d'encre et couleur d'en-tête par défaut, slug de *Configuration*,
+layouts ↔ fichiers, version ↔ journal).
+
+Écarté, pour l'instant, comme de la sur-ingénierie (revue du 05/11/2026) : un
+composant pour les cartes « enjeu » et « résultat » (chacune n'existe que dans
+une boucle d'un layout ; à reconsidérer si une page « Études de cas » réutilise
+la carte résultat) et pour l'enveloppe `<section>` des layouts
+(`get_template_part` ne sait pas envelopper un contenu).
+
 ## Tests
 
 | Test | Ce qu'il garantit |

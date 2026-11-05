@@ -8,7 +8,7 @@
  * field fails here instead of surfacing it silently.
  */
 
-require_once dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/enums/OptelyaProfileField.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaProfileField.php';
 
 it('keeps exactly the fields a contributor was left', function () {
     expect(OptelyaProfileField::keptRows())->toBe([

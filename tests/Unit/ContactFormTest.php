@@ -5,7 +5,7 @@
  * monthly counters of Tools → Contact.
  */
 
-$enums = dirname(__DIR__, 2) . '/website/app/themes/optelya/inc/enums/';
+$enums = OPTELYA_THEME_DIR . 'inc/enums/';
 require_once $enums . 'OptelyaContactField.php';
 require_once $enums . 'OptelyaContactOutcome.php';
 require_once $enums . 'OptelyaContactForm.php';
