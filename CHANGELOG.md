@@ -10,6 +10,14 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.23.1
+
+### Corrigé
+
+- Un seul bouton de cache dans la barre d'outils, « Vider le cache », qui vide
+  les pages et les données : celui de WP Super Cache, qui ne vidait que les
+  pages, disparaît (module `rapkalin-cache` 1.1.0).
+
 ## 0.23.0
 
 ### Ajouté
