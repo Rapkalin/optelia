@@ -26,7 +26,6 @@ Actions.
 ├── shared/              # JAMAIS écrasé : uniquement de l'état persistant
 │   ├── .env             # configuration et secrets de l'environnement
 │   ├── plugins/         # plugins sous licence (ACF Pro), déposés à la main
-│   ├── mu-plugins/      # modules maison (rapkalin-*), déposés à la main
 │   ├── .htaccess        # celui qu'Apache sert (amorcé au 1er déploiement)
 │   ├── .htpasswd        # optionnel : mot de passe (préprod)
 │   ├── uploads/         # médias
@@ -49,7 +48,6 @@ Le `DocumentRoot` pointe sur `~/prod-optelya/website`, avec `AllowOverride All`
 | `website/app/uploads` | `shared/uploads` |
 | `website/app/cache` | `shared/cache` |
 | `website/app/plugins/<plugin>` | `shared/plugins/<plugin>` |
-| `website/app/mu-plugins/<module>` | `shared/mu-plugins/<module>` |
 
 ## Ce que fait le workflow
 
@@ -94,39 +92,46 @@ y est renommé `.htaccess.dist` (voir plus bas).
 `rapkalin-mail` (*Réglages → Email*, voir [`email.md`](email.md)),
 `rapkalin-security` (*Comptes → Connexions*, *Outils → Activité* et *Outils →
 Journal*, voir [`journal.md`](journal.md)) et `rapkalin-cache` (purge des
-caches, voir [`cache.md`](cache.md)) ne
-sont **pas dans le dépôt** (décision du 29/10/2026). Ils vivent dans
-`shared/mu-plugins/`, en local comme sur le serveur, et chaque déploiement
-relie **tout** dossier qui s'y trouve dans `website/app/mu-plugins/`. Un
-mu-plugin n'a pas besoin d'être activé.
+caches, voir [`cache.md`](cache.md)) sont des **paquets Composer**, chacun dans
+son dépôt GitHub **privé** (décision du 06/11/2026) :
 
-- **Déposer ou mettre à jour un module** : le copier dans
-  `shared/mu-plugins/`, sans ses tests (inutiles sur le serveur). Rien d'autre :
-  le lien existe déjà, ou sera créé au prochain déploiement.
+| Paquet | Dépôt |
+| --- | --- |
+| `rapkalin/rapkalin-cache` | <https://github.com/Rapkalin/rapkalin-cache> |
+| `rapkalin/rapkalin-mail` | <https://github.com/Rapkalin/rapkalin-mail> |
+| `rapkalin/rapkalin-security` | <https://github.com/Rapkalin/rapkalin-security> |
 
-  ```bash
-  rsync -a --exclude=tests/ shared/mu-plugins/rapkalin-mail shared/mu-plugins/rapkalin-security shared/mu-plugins/rapkalin-cache user@serveur:~/prod-optelya/shared/mu-plugins/
-  ```
+Composer les installe dans `website/app/mu-plugins/<module>/` et ils partent
+avec la release, comme le reste. Un mu-plugin n'a pas besoin d'être activé.
 
-- **Préfixe `rapkalin-` obligatoire** : rsync protège les liens par le motif
-  `--exclude=/website/app/mu-plugins/rapkalin-*` (vérifié en simulation : le
-  lien survit, un module retiré du dépôt est bien supprimé). Un module sans ce
-  préfixe marche quand même, mais disparaît le temps de l'envoi. À l'inverse, un
-  module **versionné** ne doit jamais porter ce préfixe : rsync ne le livrerait
-  pas.
-- **Absent de `shared/`** : le site tourne sans lui — e-mails par le
-  `sendmail` de WordPress, pas de journal, et un cache de page qui ne se vide
-  plus quand on change un réglage (le déploiement le vide quand même, avec un
-  avertissement).
-- **Contrôles** : la CI ne voit pas ces modules. PHPStan, PHPCS, Pint et leurs
-  tests (rangés dans le module, `tests/`) ne tournent que sur un poste qui les
-  a — voir [`qualite-code.md`](qualite-code.md). Rien ne signale qu'un module
-  du serveur diffère de celui du poste : c'est à la charge de celui qui dépose.
+- **Mettre à jour un module** : publier une version dans son dépôt (en-tête
+  `Version:`, `CHANGELOG.md`, tag `vX.Y.Z`), puis ici
+  `composer update rapkalin/<module>`, committer `composer.lock` et déployer.
+  Plus rien à copier sur le serveur.
+- **Accès aux dépôts privés** : un jeton GitHub *fine-grained*, en **lecture
+  seule** (*Contents : Read-only*), limité aux trois dépôts, avec une date
+  d'expiration.
+  - **en CI** : secret de **dépôt** `COMPOSER_AUTH`, au format
+    `{"github-oauth":{"github.com":"<jeton>"}}`. C'est le seul secret que reçoit
+    le job de build, qui exécute du code tiers ; la clé SSH de déploiement
+    reste réservée au job de déploiement. Une pull request venue d'un fork ne
+    le reçoit pas et échoue à l'installation ;
+  - **en local** : `auth.json` à la racine du dépôt (ignoré par Git), même
+    contenu.
+  - **À son expiration**, `composer install` échoue en CI : le renouveler aux
+    deux endroits.
+- **Contrôles** : chaque module a sa CI (Pint, PHPCS, PHPStan, Pest) dans son
+  dépôt. Ce projet ne les analyse pas et n'exécute pas leurs tests.
+- **Dépôt public** : `composer.json` et `composer.lock` y montrent le nom des
+  dépôts privés et leurs empreintes de commit. Ce ne sont pas des secrets, le
+  code reste privé. Les dépôts `vcs` passent avant Packagist : un paquet du même
+  nom publié sur Packagist ne serait pas pris.
 
-> **Passage à la 0.6.0** : `rapkalin-mail` était livré dans la release. Tant
-> qu'il n'est pas déposé dans `shared/mu-plugins/`, l'ancienne copie reste en
-> place (rsync ne touche plus ce chemin) ; le premier déploiement qui le trouve
-> dans `shared/` la remplace par le lien.
+> **Passage aux paquets (0.22.0)** : jusqu'ici, les modules étaient déposés à
+> la main dans `shared/mu-plugins/` et reliés par le déploiement. Au premier
+> déploiement de la 0.22.0, rsync remplace ces liens par les dossiers installés
+> par Composer. `shared/mu-plugins/` ne sert plus : le supprimer **après** avoir
+> vérifié que le site tourne.
 
 > **Sur ce serveur, `wp` est une enveloppe shell** qui lance WP-CLI avec
 > **PHP 8.0 par défaut** — trop vieux : l'autoloader exige 8.5 et refuse de
@@ -204,8 +209,7 @@ Avant le premier déploiement :
    scp -r advanced-custom-fields-pro user@serveur:~/preprod-optelya/shared/plugins/
    ```
 
-   et les modules maison dans `shared/mu-plugins/` (voir
-   [Modules maison](#modules-maison-mu-plugins)) ;
+   (les modules maison viennent de Composer : rien à déposer) ;
 
    > ⚠️ **Licence** : chaque site en production doit être couvert par une
    > licence ACF Pro. Vérifier que celle de l'agence couvre Optelya avant la
@@ -279,7 +283,6 @@ ln -nsf "$PWD/shared/.htaccess" website/.htaccess
 ln -nsf "$PWD/shared/uploads"   website/app/uploads
 ln -nsf "$PWD/shared/cache"     website/app/cache
 for p in shared/plugins/*/; do ln -nsf "$PWD/${p%/}" "website/app/plugins/$(basename "$p")"; done
-for m in shared/mu-plugins/*/; do ln -nsf "$PWD/${m%/}" "website/app/mu-plugins/$(basename "$m")"; done
 [ -f shared/.htpasswd ] && ln -nsf "$PWD/shared/.htpasswd" website/.htpasswd
 ```
 

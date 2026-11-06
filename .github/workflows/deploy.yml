@@ -10,7 +10,6 @@
 #   ├── shared/          ← JAMAIS écrasé : .env, plugins payants, médias, cache
 #   │   ├── .env
 #   │   ├── plugins/     ← plugins sous licence (ACF Pro), déposés à la main
-#   │   ├── mu-plugins/  ← modules maison (rapkalin-*), hors dépôt, déposés à la main
 #   │   ├── .htaccess    ← SERVI par Apache (le fichier versionné l'amorce)
 #   │   ├── .htpasswd    ← optionnel : protection par mot de passe (préprod)
 #   │   ├── uploads/
@@ -24,6 +23,9 @@
 #
 # Secrets (Settings > Secrets and variables > Actions) :
 #   OBLIGATOIRES   DEPLOY_HOST · DEPLOY_USER · DEPLOY_KEY
+#   OBLIGATOIRE    COMPOSER_AUTH (secret de DÉPÔT, pas d'environnement) : jeton
+#                  en lecture seule des modules privés rapkalin-* —
+#                  {"github-oauth":{"github.com":"<jeton>"}}
 #   OPTIONNELS     DEPLOY_KEY_PASS (clé protégée par passphrase)
 #                  DEPLOY_FINGERPRINT (vérification de l'hôte, anti-MITM)
 # Un secret optionnel non défini vaut la chaîne vide et est simplement ignoré.
@@ -63,7 +65,12 @@ jobs:
         with:
           coverage: none
 
+      # Seul secret de ce job : le jeton qui lit les modules privés rapkalin-*
+      # (contenu en lecture seule, ces dépôts seulement). La clé de déploiement
+      # reste réservée au job suivant (décision du 06/11/2026).
       - name: Installer les dépendances PHP (sans dev)
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       # dist/ n'est pas versionné : sans ce build, le site part sans CSS ni JS.
@@ -129,7 +136,7 @@ jobs:
           script: |
             set -e
             ROOT="$HOME/${{ inputs.remote_path }}"
-            mkdir -p "$ROOT/shared/plugins" "$ROOT/shared/mu-plugins" "$ROOT/shared/uploads" "$ROOT/shared/cache"
+            mkdir -p "$ROOT/shared/plugins" "$ROOT/shared/uploads" "$ROOT/shared/cache"
             rm -rf "$ROOT/old_release"
             mkdir -p "$ROOT/old_release"
             # composer.json compris : sans lui, un rollback garderait la version
@@ -147,8 +154,7 @@ jobs:
       # son lien vers shared/plugins/ et l'accueil perd ses sections jusqu'à
       # l'étape suivante. Un nouveau plugin payant = une exclusion de plus ici
       # (oublié, il marche quand même : seule la fenêtre revient). Les modules
-      # maison, eux, sont protégés par leur préfixe `rapkalin-` : un module
-      # VERSIONNÉ ne doit donc jamais le porter, rsync ne le livrerait pas.
+      # maison rapkalin-* sont installés par Composer : ils partent avec la release.
       #
       # Le `/` initial de chaque motif est OBLIGATOIRE : il ancre l'exclusion à la
       # racine du transfert. Sans lui, rsync exclut TOUT composant de chemin
@@ -169,7 +175,6 @@ jobs:
             --exclude=/website/.htaccess
             --exclude=/website/app/debug.log
             --exclude=/website/app/plugins/advanced-custom-fields-pro
-            --exclude=/website/app/mu-plugins/rapkalin-*
           path: ./release/
           remote_path: ${{ inputs.remote_path }}
           remote_host: ${{ secrets.DEPLOY_HOST }}
@@ -235,14 +240,6 @@ jobs:
               [ -d "$PLUGIN_DIR" ] || continue
               link_shared "${PLUGIN_DIR%/}" "$ROOT/website/app/plugins/$(basename "$PLUGIN_DIR")"
               echo "Plugin partagé relié : $(basename "$PLUGIN_DIR")"
-            done
-
-            # Modules maison (mu-plugins), hors dépôt : même mécanisme. Un
-            # mu-plugin n'a pas besoin d'être activé.
-            for MODULE_DIR in "$ROOT"/shared/mu-plugins/*/; do
-              [ -d "$MODULE_DIR" ] || continue
-              link_shared "${MODULE_DIR%/}" "$ROOT/website/app/mu-plugins/$(basename "$MODULE_DIR")"
-              echo "Module partagé relié : $(basename "$MODULE_DIR")"
             done
 
             # .htpasswd : présent uniquement là où l'accès est restreint. Le lien
@@ -313,12 +310,8 @@ jobs:
               "$WP" cache flush
               "$WP" rewrite flush
               # Pages et données en cache portent l'ancienne version (pied de
-              # page, styles) : tout est vidé. Sans le module rapkalin-cache,
-              # le cache de page est vidé seul.
-              if ! "$WP" rapkalin-cache flush; then
-                echo "::warning::Module rapkalin-cache absent de shared/mu-plugins/ : seul le cache de page est vidé."
-                "$WP" eval 'if (function_exists("wp_cache_clear_cache")) { wp_cache_clear_cache(); }'
-              fi
+              # page, styles) : tout est vidé.
+              "$WP" rapkalin-cache flush
             fi
             # ⚠️ L'OPcache n'est vidé que par un rechargement de PHP-FPM. À
             # décommenter avec la commande de l'hébergeur, sinon l'ancien code

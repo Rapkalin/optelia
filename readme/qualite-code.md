@@ -11,18 +11,11 @@ mu-plugins). Il tourne au pré-commit (`.githooks/pre-commit`) et en CI.
 | **Pint** (preset PER) | Style | `pint.json` |
 | **PHPCS + Slevomat** | Types natifs obligatoires (paramètre, retour, propriété) | `phpcs.xml` |
 | **PHPStan** niveau 6 | Analyse statique | `phpstan.neon` |
-| **Pest** | Tests, hors WordPress | `tests/`, et `tests/` de chaque module maison |
+| **Pest** | Tests, hors WordPress | `tests/` |
 
-> **Modules maison** (`shared/mu-plugins/`, hors dépôt, liés dans
-> `website/app/mu-plugins/`) : les quatre outils les contrôlent **sur un poste
-> qui les a** — PHPStan et PHPCS à travers le lien, Pint directement dans
-> `shared/mu-plugins/`, Pest par le second dossier de `phpunit.xml.dist`. Leurs
-> tests voyagent avec eux et sont exclus de PHPStan et PHPCS, comme `tests/`.
-> **La CI ne les voit pas** : les contrôler avant chaque dépôt sur un serveur.
-> WP-CLI n'a pas de stubs compatibles avec ceux de WordPress 7 :
-> `phpstan-stubs/wp-cli.php` déclare à la main les méthodes de `WP_CLI` que les
-> modules appellent (commande `wp rapkalin-cache`). À compléter si un module
-> en appelle une autre.
+> **Modules maison** (`rapkalin-*`, paquets Composer) : ni analysés ni testés
+> ici, chacun a sa CI dans son dépôt. PHPStan connaît seulement les symboles de
+> `rapkalin-cache` (`scanDirectories`), que le thème implémentera.
 
 ```bash
 composer check      # Pint + PHPCS + PHPStan

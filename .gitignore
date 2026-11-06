@@ -31,7 +31,7 @@ website/app/cache/
 website/app/upgrade
 
 # mu-plugins : seul le chargeur de Bedrock est versionné. Les modules viennent
-# de Composer, ou de shared/mu-plugins/ (modules maison, liens) — voir
+# de Composer, dont les modules maison rapkalin-* (dépôts privés) — voir
 # readme/deploiement.md.
 website/app/mu-plugins/*
 !website/app/mu-plugins/bedrock-autoloader.php

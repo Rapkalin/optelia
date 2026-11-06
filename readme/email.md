@@ -3,9 +3,8 @@
 Tous les `wp_mail()` du site — création de compte, mot de passe perdu,
 notifications — partent par le transport que configure le mu-plugin
 **`rapkalin-mail`**, repris tel quel de LCDS. Le thème n'en configure aucun. Le
-module est **hors dépôt**, dans `shared/mu-plugins/rapkalin-mail/` — voir
-[Modules maison](deploiement.md#modules-maison-mu-plugins). Sans lui, WordPress
-envoie par son `sendmail` par défaut.
+module est un **paquet Composer privé** (`rapkalin/rapkalin-mail`) — voir
+[Modules maison](deploiement.md#modules-maison-mu-plugins).
 
 ## Réglages → Email
 
@@ -51,7 +50,7 @@ Sur un serveur, **laisser `SMTP_HOST` vide** pour que la page décide.
 - **Changer les sels WordPress le rend illisible.** La page le signale ; il
   suffit de le ressaisir. Aucun envoi ne part avec un mot de passe faux.
 
-Ces règles sont gardées par `tests/MailSettingsTest.php`, dans le module.
+Ces règles sont gardées par `tests/MailSettingsTest.php`, dans le dépôt du module.
 
 ## En local : Mailpit
 

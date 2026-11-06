@@ -8,8 +8,6 @@
     <testsuites>
         <testsuite name="Test Suite">
             <directory suffix="Test.php">./tests</directory>
-            <!-- Modules kept out of the repository carry their own tests. -->
-            <directory suffix="Test.php">./website/app/mu-plugins</directory>
         </testsuite>
     </testsuites>
 </phpunit>

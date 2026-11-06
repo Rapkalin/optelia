@@ -125,19 +125,7 @@ for PLUGIN_DIR in "$APP_DIR"/shared/plugins/*/; do
 done
 
 # -----------------------------------------------------------------------------
-# 5 bis) Modules maison (mu-plugins) : hors dépôt eux aussi, dans
-#    shared/mu-plugins/. Reliés de la même façon ; un mu-plugin n'a pas besoin
-#    d'être activé.
-# -----------------------------------------------------------------------------
-for MODULE_DIR in "$APP_DIR"/shared/mu-plugins/*/; do
-    [ -d "$MODULE_DIR" ] || continue
-    MODULE="$(basename "$MODULE_DIR")"
-    ln -nsf "../../../shared/mu-plugins/$MODULE" "$APP_DIR/website/app/mu-plugins/$MODULE"
-    echo "==> [init] Module '${MODULE}' relié."
-done
-
-# -----------------------------------------------------------------------------
-# 5 ter) Cache de page (WP Super Cache, installé par Composer) : toujours actif,
+# 5 bis) Cache de page (WP Super Cache, installé par Composer) : toujours actif,
 #    allumé ou non par PAGE_CACHE dans le .env. Ne jamais le désactiver : il
 #    supprime website/app/cache/ — voir readme/cache.md.
 # -----------------------------------------------------------------------------

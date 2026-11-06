@@ -36,8 +36,12 @@ jobs:
         with:
           coverage: none
 
-      # composer.lock est committé → install déterministe.
+      # composer.lock est committé → install déterministe. COMPOSER_AUTH : jeton
+      # en lecture seule des modules privés rapkalin-* (secret de dépôt). Une
+      # pull request venue d'un fork ne le reçoit pas : elle échoue ici.
       - name: Installer les dépendances
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: composer install --no-interaction --no-progress --prefer-dist
 
       # Enchaîne Pint (style) + PHPCS/Slevomat (types natifs) + PHPStan (analyse).

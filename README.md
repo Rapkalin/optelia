@@ -17,7 +17,8 @@ conteneurs.
 ```bash
 git clone https://github.com/Rapkalin/optelia.git && cd optelia
 cp .env.example .env
-mkdir -p shared/plugins shared/mu-plugins   # y déposer ACF Pro et les modules rapkalin-* (hors dépôt)
+mkdir -p shared/plugins   # y déposer ACF Pro (hors dépôt)
+# auth.json : jeton GitHub en lecture des modules privés rapkalin-* (voir plus bas)
 docker compose up -d
 docker compose run --rm node npm ci && docker compose run --rm node npm run build
 git config core.hooksPath .githooks   # active le hook de pré-commit
@@ -30,11 +31,10 @@ contenu. Sans lui, la page s'affiche sans ses sections.
 
 Les **modules maison** `rapkalin-mail` (*Réglages → Email*),
 `rapkalin-security` (*Comptes → Connexions*, *Outils → Activité*, *Outils →
-Journal*) et `rapkalin-cache` (bouton *Vider le cache*) ne sont pas dans le
-dépôt non plus :
-les copier dans `shared/mu-plugins/`, où le démarrage les relie. Sans eux, le
-site tourne sans réglage d'e-mail, ni journal, ni purge du cache sur un
-changement de réglage — voir
+Journal*) et `rapkalin-cache` (bouton *Vider le cache*) sont des paquets
+Composer, dans des dépôts GitHub **privés**. Avant le premier démarrage, créer
+`auth.json` à la racine (ignoré par Git) avec un jeton en lecture seule :
+`{"github-oauth":{"github.com":"<jeton>"}}` — voir
 [`readme/deploiement.md`](readme/deploiement.md#modules-maison-mu-plugins).
 
 | Service | URL | Accès |

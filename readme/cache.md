@@ -1,7 +1,7 @@
 # Cache
 
-Quatre couches. Le module maison **`rapkalin-cache`** (`shared/mu-plugins/`, hors
-dépôt) tient ensemble les deux qui dépendent du contenu ; son fonctionnement,
+Quatre couches. Le module maison **`rapkalin-cache`** (paquet Composer privé,
+<https://github.com/Rapkalin/rapkalin-cache>) tient ensemble les deux qui dépendent du contenu ; son fonctionnement,
 son API et ses conventions sont dans son `README.md`. Ce fichier décrit ce qui
 est propre à Optelya.
 
@@ -60,8 +60,6 @@ plus sûr et sans coût.
 | Bouton **Vider le cache** (barre d'outils, éditeurs et administrateurs) | `rapkalin-cache` |
 | Chaque déploiement (la version du pied de page change) | `wp rapkalin-cache flush` |
 
-Sans le module, seules les deux premières lignes s'appliquent : une modification
-des réglages resterait invisible jusqu'à 12 h.
 
 ### Configuration versionnée : à ne pas laisser dériver
 

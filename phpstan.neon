@@ -1,4 +1,5 @@
-# PHPStan — static analysis for the project's own PHP (theme + mu-plugins).
+# PHPStan — static analysis for the project's own PHP: the theme. The mu-plugins
+# are third-party (Bedrock) or Composer packages checked in their own repositories.
 # Level 6 enables missing-type-hint reporting (parameters + return types).
 # WordPress symbols come from a stub package so its functions are not reported
 # as undefined.
@@ -13,23 +14,21 @@ parameters:
 
     paths:
         - website/app/themes/optelya
-        - website/app/mu-plugins
 
     # Third-party code we ship but do not own — excluded from analysis.
     excludePaths:
         - website/app/themes/optelya/dist/*
         - website/app/themes/optelya/node_modules/*
-        - website/app/mu-plugins/bedrock-autoloader.php
-        - website/app/mu-plugins/bedrock-disallow-indexing/*
-        # Tests of the out-of-repository modules, like tests/: not analysed.
-        - website/app/mu-plugins/*/tests/*
 
     # ACF Pro is not installed by Composer (licence): its functions come from
     # the stub package.
     scanFiles:
         - website/vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
-        # WP-CLI: hand-written, the stub package requires WordPress stubs below 7.
-        - phpstan-stubs/wp-cli.php
+
+    # The rapkalin-* modules: their symbols are known (the theme will implement
+    # RapkalinCacheEntry), their code is not analysed here.
+    scanDirectories:
+        - website/app/mu-plugins/rapkalin-cache/includes
 
     ignoreErrors:
         # array<…> generics are intentionally out of scope: the project's type

@@ -10,6 +10,22 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.22.0
+
+### Modifié
+
+- **Les modules maison deviennent des paquets Composer** (`rapkalin/rapkalin-cache`,
+  `rapkalin/rapkalin-mail`, `rapkalin/rapkalin-security`), chacun dans son
+  dépôt GitHub privé, versionné et testé par sa propre CI. Ils partent avec la
+  release : plus rien à déposer à la main dans `shared/mu-plugins/`.
+
+### À faire
+
+- Créer le jeton GitHub en lecture seule des trois dépôts, et l'enregistrer en
+  secret de dépôt `COMPOSER_AUTH` (et dans `auth.json` en local).
+- Après le premier déploiement de cette version : supprimer
+  `shared/mu-plugins/` sur chaque serveur.
+
 ## 0.21.0
 
 ### Ajouté

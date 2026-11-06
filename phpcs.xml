@@ -8,15 +8,10 @@
 
     <!-- Project-owned code only. -->
     <file>website/app/themes/optelya</file>
-    <file>website/app/mu-plugins</file>
 
     <!-- Generated / third-party code we ship but do not own. -->
     <exclude-pattern>*/dist/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
-    <exclude-pattern>website/app/mu-plugins/bedrock-autoloader.php</exclude-pattern>
-    <exclude-pattern>website/app/mu-plugins/bedrock-disallow-indexing/*</exclude-pattern>
-    <!-- Tests of the out-of-repository modules, like tests/: not analysed. -->
-    <exclude-pattern>website/app/mu-plugins/*/tests/*</exclude-pattern>
 
     <arg name="colors"/>
     <arg value="sp"/>

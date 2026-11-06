@@ -15,7 +15,7 @@ Un blocage apparaît dans *Connexions* (« Bloqué après trop d'échecs »).
 
 Séparés le 05/11/2026 (module 1.1.0) ; auparavant, un seul écran *Outils →
 Journal* à deux onglets. Fournis par le module **`rapkalin-security`**,
-hors dépôt — voir [Modules maison](deploiement.md#modules-maison-mu-plugins).
+paquet Composer privé — voir [Modules maison](deploiement.md#modules-maison-mu-plugins).
 Inspiré du journal des connexions de LCDS (liste bornée, pagination) et du
 `steamulo-flux-log` de Game France (agrégation par signature, écriture unique en
 fin de requête).
@@ -97,7 +97,6 @@ auteur.
 
 ## Tests
 
-`shared/mu-plugins/rapkalin-security/tests/JournalTest.php` (dans le module,
-hors dépôt) : agrégation des erreurs, plafond par catégorie, âge maximal,
+`tests/JournalTest.php` (dans le dépôt du module) : agrégation des erreurs, plafond par catégorie, âge maximal,
 entrées mal formées, statuts → événements, pagination, répartition des
 catégories entre les écrans (chacune sur un seul), purge limitée à l'écran.
