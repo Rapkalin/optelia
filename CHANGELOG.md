@@ -10,6 +10,16 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.23.0
+
+### Ajouté
+
+- **Liens « bientôt disponibles »** : dans *Apparence → Menus*, un lien vers une
+  section pas encore construite se coche « Section bientôt disponible ». Le
+  menu affiche alors « Bientôt » à côté de lui, et un clic ouvre un court
+  message avec un bouton vers le formulaire de contact. Titre et texte du
+  message dans *Réglages → Configuration*.
+
 ## 0.22.0
 
 ### Modifié

@@ -41,6 +41,21 @@ function optelya_has_contact_block(): bool
 }
 
 /**
+ * The « talk to an expert » link of Settings → Configuration, aimed at the
+ * contact block of the page when it has one, at the homepage's otherwise.
+ * Used by the header button and the coming-soon message.
+ *
+ * @return array{label: string, url: string, target: string}
+ */
+function optelya_contact_link(): array
+{
+    $link = optelya_link(optelya_option(OptelyaSetting::HeaderCta));
+    $link['url'] = OptelyaCatalog::localAnchor($link['url'], OptelyaSection::Contact->value, optelya_has_contact_block());
+
+    return $link;
+}
+
+/**
  * @return array{label: string, url: string}
  */
 function optelya_breadcrumb_home(): array

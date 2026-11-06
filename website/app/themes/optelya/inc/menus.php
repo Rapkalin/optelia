@@ -30,8 +30,9 @@ function optelya_menu_id(OptelyaMenuLocation $location): int
 
 /**
  * Links of the menu assigned to a location, flat (the mockup has no submenu).
+ * A link checked « Bientôt disponible » opens the coming-soon message.
  *
- * @return list<array{label: string, url: string, target: string}>
+ * @return list<array{label: string, url: string, target: string, coming_soon: bool}>
  */
 function optelya_menu_links(OptelyaMenuLocation $location): array
 {
@@ -40,10 +41,27 @@ function optelya_menu_links(OptelyaMenuLocation $location): array
     $links = [];
 
     foreach (is_array($items) ? $items : [] as $item) {
-        $links[] = ['label' => (string) $item->title, 'url' => (string) $item->url, 'target' => (string) $item->target];
+        $links[] = [
+            'label' => (string) $item->title,
+            'url' => (string) $item->url,
+            'target' => (string) $item->target,
+            'coming_soon' => (bool) optelya_field(OptelyaComingSoon::FIELD, (int) $item->ID),
+        ];
     }
 
     return $links;
+}
+
+/**
+ * Whether a link of the page opens the coming-soon message: the footer then
+ * adds the message, written once per page.
+ */
+function optelya_coming_soon_used(bool $used = false): bool
+{
+    static $isUsed = false;
+    $isUsed = $isUsed || $used;
+
+    return $isUsed;
 }
 
 function optelya_menu_name(OptelyaMenuLocation $location): string

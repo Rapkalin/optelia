@@ -7,8 +7,8 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Quoi | Où |
 | --- | --- |
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
-| Logo et couleur de fond de l'en-tête, accroche, titre et description pour les moteurs de recherche, image de partage, bouton de l'en-tête, destinataire des demandes de contact, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
-| Liens de l'en-tête et du pied de page | *Apparence → Menus* |
+| Logo et couleur de fond de l'en-tête, accroche, titre et description pour les moteurs de recherche, image de partage, bouton de l'en-tête, destinataire des demandes de contact, titre de la colonne contact, adresse, message « bientôt disponible » | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
+| Liens de l'en-tête et du pied de page, et lesquels sont « bientôt disponibles » | *Apparence → Menus* — voir [Une section pas encore construite](#une-section-pas-encore-construite) |
 | Logiciels, éditeurs, industries, études de cas, enjeux | *Solutions*, *Éditeurs*, *Industries*, *Études de cas* — voir [Le catalogue](#le-catalogue) |
 | Titre et panneaux « Ce qu'Optelya ajoute » communs à toutes les fiches solution | *Solutions → Réglages des solutions* |
 
@@ -67,6 +67,36 @@ fichier.
 | Textes de l'emplacement réservé du hero (« Visuel éditeur… ») | Affichés seulement sans vidéo ni image |
 | Numérotation « 01 » | Présentation |
 | « Version %s », libellés ARIA, « Aller au contenu » | Chaînes d'interface, traduisibles (`__()`) |
+
+## Une section pas encore construite
+
+Un lien de menu peut viser une page qui n'existe pas encore. Plutôt que de
+mener nulle part, on le coche **« Section bientôt disponible »** dans
+*Apparence → Menus* (déplier le lien) :
+
+- le menu affiche **« Bientôt »** à côté du lien : le visiteur est prévenu avant
+  de cliquer ;
+- un clic ouvre un court message, avec un bouton vers le formulaire de contact
+  (celui de la page s'il y en a un, sinon celui de l'accueil, comme le bouton de
+  l'en-tête) ;
+- sans JavaScript, le lien mène directement au formulaire : jamais d'impasse ;
+- le titre et le texte du message se règlent une fois pour tout le site dans
+  *Réglages → Configuration* ; vides, ils valent « Bientôt disponible » et
+  « Cette section est en cours de construction. En attendant, nos experts
+  répondent à vos questions. ».
+
+**À décocher dès que la page existe**, en mettant sa vraie adresse dans le lien.
+Le dispositif sert le temps de construire le site, pas durablement.
+
+> Les **mentions légales**, la **politique de confidentialité** et la page
+> **cookies** sont des obligations : elles peuvent être « bientôt disponibles »
+> avant la mise en ligne, jamais après.
+
+Côté code : champ `coming_soon` des liens de menu
+(`acf-json/group_optelya_menu_item.json`), `components/coming-soon-link.php`,
+`components/coming-soon-dialog.php` (un `<dialog>` natif, écrit une seule fois,
+seulement si la page a un tel lien), `assets/scripts/coming-soon.js`, textes par
+défaut dans `inc/enums/OptelyaComingSoon.php` (`tests/Unit/ComingSoonTest.php`).
 
 ## Le catalogue
 

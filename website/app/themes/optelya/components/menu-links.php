@@ -28,6 +28,12 @@ if ($links === []) {
 ?>
 <ul class="link-list <?php echo esc_attr((string) ($args['class'] ?? '')); ?>">
     <?php foreach ($links as $link) : ?>
-        <li><?php get_template_part('components/link', null, ['link' => $link]); ?></li>
+        <li>
+            <?php if ($link['coming_soon']) : ?>
+                <?php get_template_part('components/coming-soon-link', null, ['link' => $link]); ?>
+            <?php else : ?>
+                <?php get_template_part('components/link', null, ['link' => $link]); ?>
+            <?php endif; ?>
+        </li>
     <?php endforeach; ?>
 </ul>

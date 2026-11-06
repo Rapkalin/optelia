@@ -13,8 +13,7 @@ if (! defined('ABSPATH')) {
 
 $logoId = optelya_logo_id();
 $headerBackground = OptelyaHeaderColor::normalize(optelya_option(OptelyaSetting::HeaderBackground));
-$cta = optelya_link(optelya_option(OptelyaSetting::HeaderCta));
-$cta['url'] = OptelyaCatalog::localAnchor($cta['url'], OptelyaSection::Contact->value, optelya_has_contact_block());
+$cta = optelya_contact_link();
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>

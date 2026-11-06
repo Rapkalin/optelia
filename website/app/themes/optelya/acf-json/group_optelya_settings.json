@@ -207,6 +207,46 @@
             "rows": 3,
             "placeholder": "",
             "new_lines": ""
+        },
+        {
+            "key": "field_optelya_settings_coming_soon_title",
+            "label": "Titre du message « bientôt disponible »",
+            "name": "coming_soon_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Affiché quand on clique sur un lien de menu coché « Bientôt disponible » (Apparence → Menus). Vide : « Bientôt disponible ».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "Bientôt disponible",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_settings_coming_soon_text",
+            "label": "Texte du message « bientôt disponible »",
+            "name": "coming_soon_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Une ou deux phrases. Le bouton qui suit mène au formulaire de contact, comme le bouton de l’en-tête. Vide : « Cette section est en cours de construction. En attendant, nos experts répondent à vos questions. »",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "Cette section est en cours de construction. En attendant, nos experts répondent à vos questions.",
+            "new_lines": ""
         }
     ],
     "location": [

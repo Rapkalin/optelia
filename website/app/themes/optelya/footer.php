@@ -63,6 +63,10 @@ $address = optelya_option_text(OptelyaSetting::Address);
     </div>
 </footer>
 
+<?php if (optelya_coming_soon_used()) : ?>
+    <?php get_template_part('components/coming-soon-dialog'); ?>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

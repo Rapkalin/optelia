@@ -1,0 +1,79 @@
+@use '../basics/variables' as *;
+
+$coming-soon-width: 440px;
+$coming-soon-backdrop: rgba($color-ink, 0.6);
+$coming-soon-badge-size: 11px;
+
+// « Bientôt » next to a menu link: outlined in the text colour of the menu,
+// so it reads on the light header as on the dark footer.
+.coming-soon-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &__badge {
+    padding: 1px 6px;
+    border: 1px solid currentColor;
+    border-radius: $radius-control;
+    font-family: $font-mono;
+    font-size: $coming-soon-badge-size;
+    line-height: 1.4;
+    letter-spacing: $letter-spacing-wide;
+    text-transform: uppercase;
+  }
+}
+
+.coming-soon {
+  width: min(100% - 2 * $gutter, $coming-soon-width);
+  padding: 0;
+  border: 0;
+  border-radius: $radius-card;
+  background: $color-white;
+  color: $color-ink;
+
+  &::backdrop {
+    background: $coming-soon-backdrop;
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: $card-padding-wide;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $font-display;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-4xl;
+    line-height: 1.2;
+  }
+
+  &__text {
+    margin: 0;
+    color: $color-text-muted;
+    line-height: $line-height-text;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: 6px;
+  }
+
+  &__close {
+    min-height: $touch-target;
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: $color-ink;
+    font: inherit;
+    font-weight: $font-weight-semibold;
+    text-decoration: underline;
+    text-underline-offset: $underline-offset;
+    cursor: pointer;
+  }
+}

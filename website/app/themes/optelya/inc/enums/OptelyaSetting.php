@@ -24,4 +24,6 @@ enum OptelyaSetting: string
     case ContactRecipient = 'contact_recipient';
     case ContactTitle = 'contact_title';
     case Address = 'address';
+    case ComingSoonTitle = 'coming_soon_title';
+    case ComingSoonText = 'coming_soon_text';
 }

@@ -1,0 +1,44 @@
+{
+    "key": "group_optelya_menu_item",
+    "title": "Lien de menu",
+    "fields": [
+        {
+            "key": "field_optelya_menu_item_coming_soon",
+            "label": "Bientôt disponible",
+            "name": "coming_soon",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Pour une section pas encore construite : le menu affiche « Bientôt » et le lien ouvre un court message, avec un bouton vers le formulaire de contact (textes dans Réglages → Configuration). À décocher dès que la page existe.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Section bientôt disponible",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "nav_menu_item",
+                "operator": "==",
+                "value": "all"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Réglage propre à chaque lien d’un menu.",
+    "show_in_rest": 0
+}

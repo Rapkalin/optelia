@@ -7,10 +7,12 @@ import '@fontsource/ibm-plex-mono/latin-ext-500.css';
 
 import '../styles/app.scss';
 
+import { initComingSoon } from './coming-soon';
 import { initHeroVideo } from './hero-video';
 import { initNavToggle } from './nav-toggle';
 import { initVideoCards } from './video-card';
 
 initNavToggle();
+initComingSoon();
 initVideoCards();
 initHeroVideo();
