@@ -105,7 +105,7 @@ Composer les installe dans `website/app/mu-plugins/<module>/` et ils partent
 avec la release, comme le reste. Un mu-plugin n'a pas besoin d'être activé.
 
 - **Mettre à jour un module** : publier une version dans son dépôt (en-tête
-  `Version:`, `CHANGELOG.md`, tag `vX.Y.Z`), puis ici
+  `Version:`, `CHANGELOG.md`, tag `X.Y.Z`, sans « v »), puis ici
   `composer update rapkalin/<module>`, committer `composer.lock` et déployer.
   Plus rien à copier sur le serveur.
 - **Accès aux dépôts privés** : un jeton GitHub *fine-grained*, en **lecture
