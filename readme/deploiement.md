@@ -91,9 +91,10 @@ y est renommé `.htaccess.dist` (voir plus bas).
 
 ## Modules maison (mu-plugins)
 
-`rapkalin-mail` (*Réglages → Email*, voir [`email.md`](email.md)) et
+`rapkalin-mail` (*Réglages → Email*, voir [`email.md`](email.md)),
 `rapkalin-security` (*Comptes → Connexions*, *Outils → Activité* et *Outils →
-Journal*, voir [`journal.md`](journal.md)) ne
+Journal*, voir [`journal.md`](journal.md)) et `rapkalin-cache` (purge des
+caches, voir [`cache.md`](cache.md)) ne
 sont **pas dans le dépôt** (décision du 29/10/2026). Ils vivent dans
 `shared/mu-plugins/`, en local comme sur le serveur, et chaque déploiement
 relie **tout** dossier qui s'y trouve dans `website/app/mu-plugins/`. Un
@@ -104,7 +105,7 @@ mu-plugin n'a pas besoin d'être activé.
   le lien existe déjà, ou sera créé au prochain déploiement.
 
   ```bash
-  rsync -a --exclude=tests/ shared/mu-plugins/rapkalin-mail shared/mu-plugins/rapkalin-security user@serveur:~/prod-optelya/shared/mu-plugins/
+  rsync -a --exclude=tests/ shared/mu-plugins/rapkalin-mail shared/mu-plugins/rapkalin-security shared/mu-plugins/rapkalin-cache user@serveur:~/prod-optelya/shared/mu-plugins/
   ```
 
 - **Préfixe `rapkalin-` obligatoire** : rsync protège les liens par le motif
@@ -114,7 +115,9 @@ mu-plugin n'a pas besoin d'être activé.
   module **versionné** ne doit jamais porter ce préfixe : rsync ne le livrerait
   pas.
 - **Absent de `shared/`** : le site tourne sans lui — e-mails par le
-  `sendmail` de WordPress, pas de journal.
+  `sendmail` de WordPress, pas de journal, et un cache de page qui ne se vide
+  plus quand on change un réglage (le déploiement le vide quand même, avec un
+  avertissement).
 - **Contrôles** : la CI ne voit pas ces modules. PHPStan, PHPCS, Pint et leurs
   tests (rangés dans le module, `tests/`) ne tournent que sur un poste qui les
   a — voir [`qualite-code.md`](qualite-code.md). Rien ne signale qu'un module
@@ -216,7 +219,8 @@ Avant le premier déploiement :
    `'production'`), le vrai `WP_HOME` **sans slash final**, les accès base et
    des **sels uniques** (<https://roots.io/salts.html>). **`SMTP_HOST` vide** :
    l'envoi des e-mails se règle alors dans *Réglages → Email* — voir
-   [`email.md`](email.md).
+   [`email.md`](email.md). **`PAGE_CACHE='true'`** : sans lui, le cache de page
+   reste éteint — voir [`cache.md`](cache.md).
 
 Après le premier déploiement, installer WordPress et le passer en français :
 

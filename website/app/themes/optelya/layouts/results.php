@@ -20,20 +20,14 @@ if (! defined('ABSPATH')) {
             <?php get_template_part('components/link', null, ['link' => optelya_link(optelya_sub_field('all_link')), 'class' => 'text-link']); ?>
         </div>
 
-        <div class="card-grid">
-            <?php foreach (optelya_rows(optelya_sub_field('cards')) as $card) : ?>
-                <?php
-                $figure = optelya_text($card['figure'] ?? '');
-                $label = optelya_text($card['label'] ?? '');
-                ?>
-                <article class="card result-card">
-                    <p class="result-card__figure"><?php echo esc_html($figure); ?></p>
-                    <p class="result-card__label"><?php echo esc_html($label); ?></p>
-                    <p class="result-card__products"><?php echo esc_html(optelya_text($card['products'] ?? '')); ?></p>
-                    <p class="result-card__source"><?php echo esc_html(optelya_text($card['source'] ?? '')); ?></p>
-                    <?php get_template_part('components/link', null, ['link' => optelya_link($card['link'] ?? null), 'class' => 'result-card__more', 'context' => trim($figure . ' ' . $label)]); ?>
-                </article>
-            <?php endforeach; ?>
-        </div>
+        <?php get_template_part('components/result-cards', null, [
+            'cards' => array_map(static fn(array $card): array => [
+                'figure' => optelya_text($card['figure'] ?? ''),
+                'label' => optelya_text($card['label'] ?? ''),
+                'products' => optelya_text($card['products'] ?? ''),
+                'source' => optelya_text($card['source'] ?? ''),
+                'link' => optelya_link($card['link'] ?? null),
+            ], optelya_rows(optelya_sub_field('cards'))),
+        ]); ?>
     </div>
 </section>

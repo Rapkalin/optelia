@@ -9,6 +9,8 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
 | Logo et couleur de fond de l'en-tête, accroche, titre et description pour les moteurs de recherche, image de partage, bouton de l'en-tête, destinataire des demandes de contact, titre de la colonne contact, adresse | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
 | Liens de l'en-tête et du pied de page | *Apparence → Menus* |
+| Logiciels, éditeurs, industries, études de cas, enjeux | *Solutions*, *Éditeurs*, *Industries*, *Études de cas* — voir [Le catalogue](#le-catalogue) |
+| Titre et panneaux « Ce qu'Optelya ajoute » communs à toutes les fiches solution | *Solutions → Réglages des solutions* |
 
 Ces trois écrans sont ouverts au rôle **Éditeur Optelya**. Le **Contributeur
 Optelya** gère ses propres pages et médias et *Réglages → Configuration* : ni
@@ -66,6 +68,52 @@ fichier.
 | Numérotation « 01 » | Présentation |
 | « Version %s », libellés ARIA, « Aller au contenu » | Chaînes d'interface, traduisibles (`__()`) |
 
+## Le catalogue
+
+Quatre types de contenu, liés entre eux par des **relations** (on choisit un
+élément dans une liste, on ne recopie jamais un nom) :
+
+| Type | Adresse | Porte |
+| --- | --- | --- |
+| **Solution** (logiciel ou formation) | `/solutions/<nom>/` | éditeur, promesse, visuel, 3 bénéfices, vidéo, études de preuve **ou** applications + industries, aide au choix, détails techniques, fiche PDF, titre du bloc contact |
+| **Éditeur** | `/editeurs/<nom>/` | ancienneté (« développe ses logiciels depuis 1996 ») |
+| **Industrie** | `/industries/<nom>/` | champs de la future page industrie |
+| **Étude de cas** | `/etudes-de-cas/` | fiche minimale : chiffre, libellé, source, solutions liées, PDF |
+
+La taxonomie **Enjeux** (optimiser, données, tolérances, mécanismes) classe
+solutions et études ; elle n'a pas de page publique.
+
+**Champs fixes par type**, pas de contenu flexible : une fiche solution a
+toujours la même structure, dans le même ordre. Un champ facultatif laissé vide
+retire sa zone (vidéo, aide au choix, détails), et le fond alterné se recale
+sur les zones affichées.
+
+**Ce qui est calculé, pas saisi** :
+
+- le fil d'Ariane (Accueil › Solutions › éditeur › produit) ;
+- « Voir les 31 études Optimus » : nombre d'études publiées qui citent la
+  solution ;
+- la ligne « Un éditeur établi » des panneaux : l'ancienneté de l'éditeur, ou
+  rien si elle n'est pas saisie (jamais de « à fournir » publié) ;
+- dans l'aide au choix, le nom, l'éditeur et le lien de chaque logiciel, et la
+  ligne « Vous êtes sur cette page » ;
+- le texte d'introduction, les étapes et la mention du bloc contact : ceux de
+  la section Contact de l'accueil, saisis une fois.
+
+**Études ou applications** : une solution qui a des études de preuve les
+affiche ; sinon ses applications et ses industries. Le lien secondaire du hero
+vise l'une ou l'autre.
+
+**La vidéo de démonstration** ne se charge qu'au clic (MP4 ou WebM en
+médiathèque, sous-titres WebVTT en français, transcription facultative).
+
+**Titre et description pour les moteurs** : « Optimus – Noesis Solutions –
+Optelya », et la promesse comme description (sinon celle du site).
+
+Gabarit : `single-optelya_solution.php`. Les pages d'archive, industrie et
+éditeur ne sont pas encore faites : leurs adresses affichent pour l'instant la
+page générique.
+
 ## Le contenu initial
 
 `optelya_seed()` (`inc/seed.php`) pose la page d'accueil, les réglages et les
@@ -77,6 +125,13 @@ par le déploiement suivant (vérifié).
 
 Pour rejouer l'amorçage volontairement : `dwp option delete optelya_seeded`
 puis redémarrer le conteneur — seules les parties absentes sont recréées.
+
+Le **catalogue** a sa propre garde, `optelya_catalog_seeded`
+(`inc/seed-catalog.php`, données dans `inc/seed-catalog-data.php`) : 3 éditeurs,
+4 enjeux, 5 industries, 8 solutions, 39 études. Seuls les **7 chiffres
+vérifiés** dans un PDF d'étude sont posés ; les valeurs entre crochets restent à
+fournir. Une ligne de répéteur doit porter les noms de ses sous-champs, sinon
+ACF l'ignore sans erreur : `tests/Unit/SeedCatalogDataTest.php` le vérifie.
 
 Les liens amorcés sont des URL absolues (`http://localhost:8040/#expert`) :
 après un import de base d'un environnement à l'autre, passer

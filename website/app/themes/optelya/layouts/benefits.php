@@ -14,20 +14,15 @@ if (! defined('ABSPATH')) {
     <div class="section__inner">
         <?php get_template_part('components/section-heading', null, ['title' => optelya_sub_text('title')]); ?>
 
-        <div class="benefits">
-            <?php foreach (optelya_rows(optelya_sub_field('panels')) as $panel) : ?>
-                <div class="benefits__panel<?php echo ! empty($panel['is_dark']) ? ' benefits__panel--dark' : ''; ?>">
-                    <h3 class="benefits__reader"><?php echo esc_html(optelya_text($panel['reader'] ?? '')); ?></h3>
-                    <ul class="benefits__list">
-                        <?php foreach (optelya_rows($panel['items'] ?? null) as $item) : ?>
-                            <li class="benefits__item">
-                                <span class="benefits__title"><?php echo esc_html(optelya_text($item['title'] ?? '')); ?></span>
-                                <span class="benefits__text"><?php echo esc_html(optelya_text($item['text'] ?? '')); ?></span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endforeach; ?>
-        </div>
+        <?php get_template_part('components/reader-panels', null, [
+            'panels' => array_map(static fn(array $panel): array => [
+                'reader' => optelya_text($panel['reader'] ?? ''),
+                'is_dark' => ! empty($panel['is_dark']),
+                'items' => array_map(static fn(array $item): array => [
+                    'title' => optelya_text($item['title'] ?? ''),
+                    'text' => optelya_text($item['text'] ?? ''),
+                ], optelya_rows($panel['items'] ?? null)),
+            ], optelya_rows(optelya_sub_field('panels'))),
+        ]); ?>
     </div>
 </section>

@@ -28,6 +28,8 @@ parameters:
     # the stub package.
     scanFiles:
         - website/vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+        # WP-CLI: hand-written, the stub package requires WordPress stubs below 7.
+        - phpstan-stubs/wp-cli.php
 
     ignoreErrors:
         # array<…> generics are intentionally out of scope: the project's type

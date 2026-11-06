@@ -18,5 +18,9 @@
     "website/app/mu-plugins/bedrock-disallow-indexing",
     "website/app/themes/optelya/dist",
     "website/app/themes/optelya/node_modules"
+  ],
+  "notPath": [
+    "website/app/advanced-cache.php",
+    "website/app/wp-cache-config.php"
   ]
 }

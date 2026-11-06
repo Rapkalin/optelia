@@ -2,7 +2,7 @@
     "name": "rapkalin/optelya",
     "description": "Optelya's official website",
     "type": "project",
-    "version": "0.19.0",
+    "version": "0.21.0",
     "authors": [
         {
             "name": "Rapkalin",
@@ -23,7 +23,8 @@
         "roots/bedrock-autoloader": "^1.1",
         "roots/bedrock-disallow-indexing": "^2.1",
         "roots/wp-config": "^1.0",
-        "vlucas/phpdotenv": "^5.8"
+        "vlucas/phpdotenv": "^5.8",
+        "wpackagist-plugin/wp-super-cache": "^3.0"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",

@@ -10,6 +10,63 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.21.0
+
+### Ajouté
+
+- **Cache de page** (WP Super Cache) : les visiteurs anonymes reçoivent une
+  page déjà fabriquée, l'accueil répond en 40 ms au lieu de 459 ms (mesuré en
+  local). Allumé par `PAGE_CACHE` dans le `.env` de chaque serveur, éteint en
+  local. Une page a au plus 12 h : le formulaire de contact reste valable.
+- **Le cache se vide tout seul** quand un contenu, un menu ou *Réglages →
+  Configuration* change, et à chaque déploiement ; bouton **Vider le cache**
+  dans la barre d'outils pour les éditeurs et les administrateurs.
+- Module maison `rapkalin-cache`, partagé entre les sites (hors dépôt, dans
+  `shared/mu-plugins/`) : cache de page et cache applicatif tenus ensemble,
+  commande `wp rapkalin-cache`. Le cache applicatif est prêt ; ses premières
+  clés arriveront avec les archives.
+
+### À faire sur chaque serveur
+
+- Déposer `rapkalin-cache` dans `shared/mu-plugins/`.
+- Ajouter `PAGE_CACHE='true'` à `shared/.env`.
+
+## 0.20.0
+
+### Ajouté
+
+- **Fiche solution** (`/solutions/optimus/`…), d'après la maquette validée :
+  fil d'Ariane discret en tête de page (chevrons, lien parent seul sur
+  mobile), promesse et visuel, bénéfices, vidéo de démonstration chargée
+  au clic (sous-titres, transcription), études chiffrées **ou** applications
+  et industries, aide au choix entre logiciels voisins, apports d'Optelya,
+  détails techniques dépliables avec fiche PDF, bloc contact.
+- **Catalogue contribuable** : types de contenu *Solutions*, *Éditeurs*,
+  *Industries*, *Études de cas* et classement *Enjeux*, reliés entre eux ;
+  *Solutions → Réglages des solutions* pour les textes communs à toutes les
+  fiches.
+- **Contenu initial du catalogue** posé une fois par environnement : 3
+  éditeurs, 8 solutions, 5 industries, 39 études, dont les 7 chiffres
+  vérifiés.
+- Titre « Produit – Éditeur – Optelya » et promesse comme description pour les
+  moteurs ; les fiches solution entrent dans le plan du site.
+
+### Modifié
+
+- **L'en-tête prend le bleu très clair du fond du site** (#E8F0FF, au lieu de
+  #BBE1FF) ; un trait fin le sépare du contenu. La couleur reste modifiable
+  dans *Réglages → Configuration*.
+- Le bouton « Parler à un expert » de l'en-tête descend au bloc contact de la
+  page quand elle en a un, sinon mène à celui de l'accueil.
+- Les blocs de l'accueil (hero, cartes, résultats, panneaux, contact) sont
+  devenus des composants partagés avec la fiche solution — rendu de l'accueil
+  inchangé.
+
+### Corrigé
+
+- Un titre contenant un mot très long ne fait plus déborder la page sur un
+  écran de 320 px : le mot passe à la ligne.
+
 ## 0.19.0
 
 ### Ajouté

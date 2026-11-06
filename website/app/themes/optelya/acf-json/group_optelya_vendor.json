@@ -1,0 +1,76 @@
+{
+    "key": "group_optelya_vendor",
+    "title": "Éditeur",
+    "fields": [
+        {
+            "key": "field_optelya_vendor_tagline",
+            "label": "Positionnement",
+            "name": "tagline",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_optelya_vendor_since",
+            "label": "Ancienneté",
+            "name": "since",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Phrase affichée dans « Ce qu'Optelya ajoute » de ses logiciels, ex. « Noesis Solutions développe ses logiciels depuis 1996. ».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "optelya_vendor"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "author",
+        "format",
+        "page_attributes",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": true,
+    "description": "Éditeur d'un logiciel (page pôle, gabarit G4, à venir).",
+    "show_in_rest": 0
+}

@@ -4,6 +4,11 @@
 .section {
   padding: $section-space $gutter;
 
+  // Alternating band behind a section.
+  &--band {
+    background: $color-band;
+  }
+
   &__inner {
     @include container;
     @include stack(36px);

@@ -25,8 +25,9 @@ website/.env
 website/app/plugins
 website/app/uploads/*
 !website/app/uploads/.gitkeep
-website/app/cache/*
-!website/app/cache/.gitkeep
+# Cache de page : chaque purge vide tout le dossier, un .gitkeep compris.
+# Créé par bin/init.sh en local, lien vers shared/cache sur le serveur.
+website/app/cache/
 website/app/upgrade
 
 # mu-plugins : seul le chargeur de Bedrock est versionné. Les modules viennent

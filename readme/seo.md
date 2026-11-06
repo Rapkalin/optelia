@@ -11,7 +11,7 @@ Pas d'extension SEO : le thème gère seul le peu dont une page vitrine a besoin
 | Champ | Où il sort | Conseil |
 | --- | --- | --- |
 | Titre pour les moteurs de recherche (accueil) | `<title>` de l'accueil, onglet, `og:title` | 50 à 60 caractères, avec les mots que les clients cherchent. Vide : le nom du site |
-| Description pour les moteurs de recherche | `<meta name="description">`, `og:description` | 160 caractères au plus. Vide : l'accroche |
+| Description pour les moteurs de recherche | `<meta name="description">`, `og:description` | 160 caractères au plus. Vide : l'accroche. Une fiche solution prend sa **promesse** ; son titre est « Produit – Éditeur – Optelya » |
 | Image de partage | `og:image` (aperçu LinkedIn, Teams…) | 1200 × 630 px, texte alternatif renseigné dans la médiathèque. Vide : aperçu sans image |
 | Logo de l'en-tête | `logo` des données structurées | — |
 
@@ -21,7 +21,7 @@ Pas d'extension SEO : le thème gère seul le peu dont une page vitrine a besoin
 | --- | --- |
 | Open Graph et Twitter | Sur l'accueil et les pages, pas sur la 404, la recherche ni les archives |
 | Données structurées | JSON-LD `Organization` + `WebSite` sur l'accueil. Bloc de données, non exécuté : la CSP `script-src 'self'` ne s'y applique pas (aucune violation dans la console) |
-| Sitemap | `/wp-sitemap.xml` ne liste que les **pages** (`OPTELYA_SITEMAP_POST_TYPES`) : ni comptes (l'URL `/author/admin/`, en 404, aurait exposé l'identifiant), ni catégories. **Un futur type de contenu (études de cas…) doit y être ajouté** |
+| Sitemap | `/wp-sitemap.xml` ne liste que les **pages** et les **solutions** (`OPTELYA_SITEMAP_POST_TYPES`) : ni comptes (l'URL `/author/admin/`, en 404, aurait exposé l'identifiant), ni catégories. **Un type de contenu y est ajouté quand sa page existe** (industries, éditeurs, études : pas encore) |
 | Archives, flux, pages de médias | Réponse **404** : le site n'a pas de blog, elles ne faisaient que dupliquer ou appauvrir le contenu. La recherche garde le `noindex` du cœur |
 | `<head>` allégé | Plus de liens de flux, oEmbed, REST, shortlink (ni en en-têtes HTTP) |
 | Retour du formulaire | `?contact=…` en `noindex` |

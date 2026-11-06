@@ -81,5 +81,7 @@ $breakpoint-nav: 960px;
 $breakpoint-compact: 600px;
 $breakpoint-narrow: 380px;
 $touch-target: 44px;
+// Smallest target allowed (WCAG 2.5.8): text links in a dense line.
+$touch-target-min: 24px;
 $control-height-large: 52px;
 $heading-max-width: 720px;

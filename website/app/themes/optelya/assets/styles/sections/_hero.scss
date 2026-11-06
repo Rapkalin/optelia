@@ -16,6 +16,20 @@
     align-items: center;
   }
 
+  // The breadcrumb takes the top of the hero: less space above the text.
+  &--with-breadcrumb &__inner {
+    padding-top: 40px;
+
+    @include below($breakpoint-compact) {
+      padding-top: 24px;
+    }
+  }
+
+  // Without media (archive pages): the text alone, at reading width.
+  &--text-only &__inner {
+    grid-template-columns: minmax(0, $heading-max-width);
+  }
+
   &__text {
     @include stack(24px);
   }
@@ -59,15 +73,9 @@
 
   &__frame {
     position: relative;
+    @include ink-grid-frame;
     aspect-ratio: 16 / 10;
-    border-radius: $radius-card;
     overflow: hidden;
-    border: 1px solid $color-ink-border;
-    background-color: $color-ink-raised;
-    background-image:
-      linear-gradient($color-ink-grid 1px, transparent 1px),
-      linear-gradient(90deg, $color-ink-grid 1px, transparent 1px);
-    background-size: 28px 28px;
     display: flex;
     align-items: center;
     justify-content: center;

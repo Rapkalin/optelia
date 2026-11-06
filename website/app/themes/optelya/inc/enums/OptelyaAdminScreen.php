@@ -47,7 +47,14 @@ final class OptelyaAdminScreen
 
     private const array TAXONOMY_SCREENS = ['edit-tags.php', 'term.php'];
 
-    private const array POST_TYPES = ['page', 'attachment'];
+    private const array POST_TYPES = [
+        'page',
+        'attachment',
+        OptelyaPostType::Solution->value,
+        OptelyaPostType::Vendor->value,
+        OptelyaPostType::Industry->value,
+        OptelyaPostType::Study->value,
+    ];
 
     public static function isAllowed(OptelyaRole $role, string $pagenow, array $query = []): bool
     {

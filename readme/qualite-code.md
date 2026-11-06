@@ -19,6 +19,10 @@ mu-plugins). Il tourne au pré-commit (`.githooks/pre-commit`) et en CI.
 > `shared/mu-plugins/`, Pest par le second dossier de `phpunit.xml.dist`. Leurs
 > tests voyagent avec eux et sont exclus de PHPStan et PHPCS, comme `tests/`.
 > **La CI ne les voit pas** : les contrôler avant chaque dépôt sur un serveur.
+> WP-CLI n'a pas de stubs compatibles avec ceux de WordPress 7 :
+> `phpstan-stubs/wp-cli.php` déclare à la main les méthodes de `WP_CLI` que les
+> modules appellent (commande `wp rapkalin-cache`). À compléter si un module
+> en appelle une autre.
 
 ```bash
 composer check      # Pint + PHPCS + PHPStan
@@ -43,8 +47,9 @@ composer setup-hooks
 | --- | --- |
 | `inc/` | Branchements WordPress (hooks, filtres), un fichier par sujet |
 | `inc/enums/` | **Sources uniques** : enums (sections, réglages, rôles, champs…) et classes `final` de **logique pure**, sans WordPress (`OptelyaContactForm`, `OptelyaHeaderColor`, `OptelyaShareTags`, `OptelyaAdminScreen`) — c'est ce qui les rend testables |
-| `components/` | Morceaux d'interface réutilisés par plusieurs gabarits (lien, icône, titre de section, liste de liens de menu) |
-| `layouts/` | Une section de l'accueil par fichier, du nom de son layout ACF |
+| `components/` | Morceaux d'interface réutilisés par plusieurs gabarits : ils reçoivent des **tableaux déjà prêts** (`$args`) et ne lisent jamais ACF (hero, cartes, cartes chiffrées, panneaux par lecteur, bloc contact, fil d'Ariane, aiguillage, vidéo au clic, dépliants, lien, icône…) |
+| `layouts/` | Une section de l'accueil par fichier, du nom de son layout ACF : un **adaptateur** qui lit les sous-champs et appelle le composant |
+| racine | Gabarits de page (`front-page.php`, `single-optelya_solution.php`) : lisent les champs de la fiche et appellent les composants |
 | `admin/` | Vues des écrans d'administration du thème (*Outils → Contact*) |
 | `assets/styles/basics/` | Variables (toutes les couleurs, tailles, poids, espacements) et mixins (`list-reset`, `display-heading`, `eyebrow`, `stack`, `below`…) |
 
@@ -53,11 +58,17 @@ SCSS) ne peut pas être une seule constante : un **test** la garde alignée
 (couleur d'encre et couleur d'en-tête par défaut, slug de *Configuration*,
 layouts ↔ fichiers, version ↔ journal).
 
-Écarté, pour l'instant, comme de la sur-ingénierie (revue du 05/11/2026) : un
-composant pour les cartes « enjeu » et « résultat » (chacune n'existe que dans
-une boucle d'un layout ; à reconsidérer si une page « Études de cas » réutilise
-la carte résultat) et pour l'enveloppe `<section>` des layouts
-(`get_template_part` ne sait pas envelopper un contenu).
+Les cartes « enjeu » et « résultat », le hero, les panneaux et le bloc contact
+sont devenus des composants avec la fiche solution (06/11/2026), qui les
+réutilise : le HTML de l'accueil est resté identique, vérifié par diff, et ses
+styles calculés aussi (660 éléments, 3 largeurs). Reste écartée l'enveloppe
+`<section>` (`get_template_part` ne sait pas envelopper un contenu).
+
+**Ne jamais affecter `$id`, `$post`, `$posts`, `$comment`, `$user_ID`,
+`$wp_query`, `$wp`, `$wpdb`** dans un gabarit, un composant ou un layout :
+`load_template()` les déclare globales, et `$id = 'contact'` dans un composant
+a cassé `get_the_ID()` pour la suite de la page. `TemplateGlobalsTest` le
+refuse.
 
 ## Tests
 
@@ -65,17 +76,24 @@ la carte résultat) et pour l'enveloppe `<section>` des layouts
 | --- | --- |
 | `SiteVersionTest` | Le pied de page lit bien la version de `composer.json`, au format semver. |
 | `ChangelogTest` | La version de `composer.json` a sa section dans `CHANGELOG.md`. |
+| `TemplateGlobalsTest` | Aucun gabarit n'écrase une globale de WordPress. |
+| `SeedCatalogDataTest` | Chaque ligne de répéteur amorcée porte les noms de ses sous-champs. |
+| `CatalogTest` | Jamais « 0 étude » ; le bouton d'en-tête reste sur la page qui a un bloc contact ; l'ancienneté de l'éditeur arrive en 2ᵉ ligne du premier panneau sombre. |
 
 Chacun a été vu **au rouge** :
 
 - version passée à `0.2.0` sans entrée de changelog → `ChangelogTest` échoue ;
 - chemin de `composer.json` faussé dans `optelya_site_version()` →
   `SiteVersionTest` et `ChangelogTest` échouent ;
-- une fonction sans type → PHPCS sort en erreur.
+- une fonction sans type → PHPCS sort en erreur ;
+- `$id` remis dans un composant → `TemplateGlobalsTest` échoue ;
+- un item de panneau remis en liste `['titre', 'texte']` →
+  `SeedCatalogDataTest` échoue.
 
 ## Front
 
-Le CSS reprend la maquette `ux/accueil-ui/index.html` (hors dépôt).
+Le CSS reprend les maquettes de `ux/maquettes/` (hors dépôt), rangées par
+gabarit : `<Thème>/<Gxx - Page …>/maquette/`.
 `assets/styles/basics/_variables.scss` porte toutes les couleurs (aucune en dur
 ailleurs), les polices, l'échelle des tailles de texte et les mesures partagées
 (largeur des titres, hauteur des boutons, rayons, gouttière…).

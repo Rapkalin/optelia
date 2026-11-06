@@ -17,7 +17,7 @@ final class OptelyaHeaderColor
      * Also the field's default in acf-json/group_optelya_settings.json, kept in
      * step by the test.
      */
-    public const string DEFAULT = '#BBE1FF';
+    public const string DEFAULT = '#E8F0FF';
 
     /**
      * The header's two text colours: $color-ink and white

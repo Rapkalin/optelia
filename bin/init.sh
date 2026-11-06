@@ -137,6 +137,15 @@ for MODULE_DIR in "$APP_DIR"/shared/mu-plugins/*/; do
 done
 
 # -----------------------------------------------------------------------------
+# 5 ter) Cache de page (WP Super Cache, installé par Composer) : toujours actif,
+#    allumé ou non par PAGE_CACHE dans le .env. Ne jamais le désactiver : il
+#    supprime website/app/cache/ — voir readme/cache.md.
+# -----------------------------------------------------------------------------
+wp plugin activate wp-super-cache --allow-root >/dev/null 2>&1 \
+    && echo "==> [init] Cache de page actif (PAGE_CACHE='${PAGE_CACHE:-false}')." \
+    || echo "!!! [init] Activation de WP Super Cache échouée (ignoré)."
+
+# -----------------------------------------------------------------------------
 # 6) Contenu initial (accueil, réglages, menus) : APRÈS l'activation d'ACF, dont
 #    il a besoin. Idempotent — voir inc/seed.php du thème.
 # -----------------------------------------------------------------------------

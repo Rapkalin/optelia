@@ -304,11 +304,21 @@ jobs:
               for PLUGIN_DIR in "$ROOT"/shared/plugins/*/; do
                 [ -d "$PLUGIN_DIR" ] && "$WP" plugin activate "$(basename "$PLUGIN_DIR")"
               done
+              # Cache de page : livré par Composer, allumé par PAGE_CACHE dans
+              # shared/.env — voir readme/cache.md.
+              "$WP" plugin activate wp-super-cache
               # Contenu initial (accueil, réglages, menus) : posé une seule fois
               # par environnement — voir inc/seed.php.
               "$WP" eval 'foreach (optelya_seed() as $line) { echo "[seed] {$line}", PHP_EOL; }'
               "$WP" cache flush
               "$WP" rewrite flush
+              # Pages et données en cache portent l'ancienne version (pied de
+              # page, styles) : tout est vidé. Sans le module rapkalin-cache,
+              # le cache de page est vidé seul.
+              if ! "$WP" rapkalin-cache flush; then
+                echo "::warning::Module rapkalin-cache absent de shared/mu-plugins/ : seul le cache de page est vidé."
+                "$WP" eval 'if (function_exists("wp_cache_clear_cache")) { wp_cache_clear_cache(); }'
+              fi
             fi
             # ⚠️ L'OPcache n'est vidé que par un rechargement de PHP-FPM. À
             # décommenter avec la commande de l'hébergeur, sinon l'ancien code

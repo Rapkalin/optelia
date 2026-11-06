@@ -15,7 +15,7 @@ if (! defined('ABSPATH')) {
  * Post types listed in the sitemap: the site has no blog. A future content
  * type (case studies…) must be added here.
  */
-const OPTELYA_SITEMAP_POST_TYPES = ['page'];
+const OPTELYA_SITEMAP_POST_TYPES = ['page', OptelyaPostType::Solution->value];
 
 /**
  * Pages worth describing and sharing: not the 404, the search or an archive.
@@ -35,6 +35,12 @@ add_filter('document_title_parts', 'optelya_front_page_title');
 
 function optelya_meta_description(): string
 {
+    $promise = is_singular(OptelyaPostType::Solution->value) ? optelya_text(optelya_field('promise', (int) get_queried_object_id())) : '';
+
+    if ($promise !== '') {
+        return $promise;
+    }
+
     $description = optelya_option_text(OptelyaSetting::MetaDescription);
 
     return $description !== '' ? $description : optelya_option_text(OptelyaSetting::Tagline);

@@ -36,7 +36,7 @@ it('reaches the required contrast with the text it picks, mid tones excepted', f
     $text = OptelyaHeaderColor::isLight($background) ? OptelyaHeaderColor::INK : OptelyaHeaderColor::WHITE;
 
     expect(OptelyaHeaderColor::contrast($text, $background))->toBeGreaterThanOrEqual(OptelyaHeaderColor::MIN_CONTRAST);
-})->with(['#BBE1FF', '#FFFFFF', '#0F1D2B', '#1E73BE', '#0E1F5B', '#F2F8FF']);
+})->with(['#E8F0FF', '#BBE1FF', '#FFFFFF', '#0F1D2B', '#1E73BE', '#0E1F5B', '#F2F8FF']);
 
 it('flags the mid tones no text can read on', function () {
     expect(OptelyaHeaderColor::bestContrast('#777777'))->toBeLessThan(OptelyaHeaderColor::MIN_CONTRAST);

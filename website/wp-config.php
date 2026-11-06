@@ -14,6 +14,13 @@
  */
 $optelya_webroot_dir = __DIR__;
 
+/**
+ * WPCACHEHOME est défini dans config/application.php. Ce nom doit rester écrit
+ * ici : WP Super Cache le cherche dans ce fichier et, s'il ne le trouve pas, y
+ * ajoute sa propre définition, qui fait planter la configuration (constante
+ * définie deux fois). Voir readme/cache.md.
+ */
+
 require_once __DIR__ . '/vendor/autoload.php';
 require_once dirname(__DIR__) . '/config/application.php';
 require_once ABSPATH . 'wp-settings.php';

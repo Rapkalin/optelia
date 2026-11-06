@@ -9,6 +9,7 @@
  */
 
 require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaRole.php';
+require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaPostType.php';
 require_once OPTELYA_THEME_DIR . 'inc/enums/OptelyaAdminScreen.php';
 
 it('allows both roles the screens they work in', function (string $pagenow, array $query) {
@@ -25,6 +26,13 @@ it('allows both roles the screens they work in', function (string $pagenow, arra
     ['post.php', ['post_type' => 'page']],
     ['options-general.php', ['page' => OptelyaAdminScreen::SETTINGS_PAGE]],
 ]);
+
+it('opens the catalogue content types to both roles', function (OptelyaPostType $type) {
+    foreach (OptelyaRole::cases() as $role) {
+        expect(OptelyaAdminScreen::isAllowed($role, 'edit.php', ['post_type' => $type->value]))->toBeTrue();
+        expect(OptelyaAdminScreen::isAllowed($role, 'post-new.php', ['post_type' => $type->value]))->toBeTrue();
+    }
+})->with(OptelyaPostType::cases());
 
 it('opens menus, customizer and taxonomies to the editor only', function (string $pagenow, array $query) {
     expect(OptelyaAdminScreen::isAllowed(OptelyaRole::Editor, $pagenow, $query))->toBeTrue();

@@ -18,6 +18,17 @@
   }
 }
 
+// Dark frame with the simulation grid: hero visual, video poster.
+@mixin ink-grid-frame {
+  border-radius: $radius-card;
+  border: 1px solid $color-ink-border;
+  background-color: $color-ink-raised;
+  background-image:
+    linear-gradient($color-ink-grid 1px, transparent 1px),
+    linear-gradient(90deg, $color-ink-grid 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 @mixin list-reset {
   margin: 0;
   padding: 0;
@@ -25,10 +36,13 @@
 }
 
 // Titles set in the display typeface: hero, sections, cards.
+// A word wider than the screen (« l'accompagnement. » at 320 px) breaks
+// instead of widening the page. Only then: other titles keep their lines.
 @mixin display-heading {
   margin: 0;
   font-family: $font-display;
   font-weight: $font-weight-bold;
+  overflow-wrap: break-word;
 }
 
 @mixin stack($gap) {

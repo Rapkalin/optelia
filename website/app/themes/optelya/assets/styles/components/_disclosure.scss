@@ -1,0 +1,51 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+// Collapsed details, native <details>.
+.disclosure {
+  @include list-reset;
+  background: $color-white;
+  border: 1px solid $color-card-border;
+  border-radius: $radius-card;
+
+  &__item + &__item {
+    border-top: 1px solid $color-card-divider;
+  }
+
+  &__summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: $touch-target;
+    padding: 16px $card-padding;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-lg;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: '+' / '';
+      font-family: $font-mono;
+      font-size: $font-size-3xl;
+      color: $color-accent;
+    }
+
+    [open] > & {
+      &::after {
+        content: '\2212' / '';
+      }
+    }
+  }
+
+  &__content {
+    margin: 0;
+    padding: 0 $card-padding 20px;
+    line-height: $line-height-text;
+    color: $color-text-muted;
+  }
+}

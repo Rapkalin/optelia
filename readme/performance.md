@@ -54,6 +54,10 @@ priorité : vérifier `shared/.htaccess` (ci-dessous), HTTP/2 et OPcache, puis
 un cache de page — seul vrai levier sur le temps de réponse. Cache objet,
 Brotli, CDN : gain négligeable à ce poids.
 
+**Cache de page en place depuis la 0.21.0** (WP Super Cache, `PAGE_CACHE` dans
+le `.env`) : accueil de 459 à 40 ms, fiche solution de 153 à 55 ms, mesuré en
+local — voir [`cache.md`](cache.md).
+
 ## ⚠️ À reporter sur chaque serveur
 
 Le serveur applique **`shared/.htaccess`**, pas le fichier du dépôt (voir

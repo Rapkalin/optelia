@@ -49,6 +49,7 @@ voir [`email.md`](email.md).
 | `WP_ENVIRONMENT_TYPE` | = `WP_ENV` | Type d'environnement exposé par WordPress |
 | `WP_POST_REVISIONS` | illimité | Nombre de révisions gardées par page |
 | `DISABLE_WP_CRON` | `false` | `true` si une vraie tâche cron appelle `wp-cron.php` |
+| `PAGE_CACHE` | `false` | Cache de page (WP Super Cache). **`true` en préprod et en production** ; `false` en local pour voir chaque modification — voir [`cache.md`](cache.md) |
 | `WP_DEBUG_LOG` | `true` | En `development` uniquement : écrit `debug.log` |
 
 ## Local uniquement (Docker et `bin/init.sh`)

@@ -9,6 +9,8 @@ import '../styles/app.scss';
 
 import { initHeroVideo } from './hero-video';
 import { initNavToggle } from './nav-toggle';
+import { initVideoCards } from './video-card';
 
 initNavToggle();
+initVideoCards();
 initHeroVideo();

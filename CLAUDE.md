@@ -19,7 +19,8 @@ d'infrastructure, c'est la référence.
   vérifier SOLID et KISS, puis une **QA réelle** (le site tourne, les contrôles
   passent).
 - **Recette visuelle obligatoire** : comparer le rendu à la maquette
-  (`ux/accueil-ui/index.html`, hors dépôt) avant de livrer. Tout écart restant
+  du gabarit (`ux/maquettes/<Thème>/<Gxx - Page …>/maquette/`, hors dépôt) avant
+  de livrer. Tout écart restant
   est listé et justifié.
 
 ## 2. Qualité de code
@@ -51,7 +52,8 @@ d'infrastructure, c'est la référence.
 - **Jamais de secret dans le dépôt** : tout passe par le `.env`, qui vit dans
   `shared/` sur le serveur. **Le dépôt est PUBLIC.**
 - **Jamais de document interne ni de contenu sous droits** : `ux/`,
-  `prototype/`, l'inventaire et `.claude/` sont exclus par le `.gitignore`.
+  `prototype/` (aujourd'hui rangé dans `ux/maquettes/`), l'inventaire et
+  `.claude/` sont exclus par le `.gitignore`.
 - Ne pas modifier `website/wordpress-core/` ni `website/vendor/`.
 - **ACF Pro est sous licence, hors dépôt** (`shared/plugins/`) : tout appel à
   ACF passe par les enveloppes gardées de `inc/acf.php`.

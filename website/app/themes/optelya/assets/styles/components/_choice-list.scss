@@ -1,0 +1,55 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+// Which tool for which need: products side by side, the current one marked.
+.choice-list {
+  @include list-reset;
+  background: $color-white;
+  border: 1px solid $color-card-border;
+  border-radius: $radius-card;
+
+  &__item {
+    display: grid;
+    grid-template-columns: minmax(0, 15em) minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: center;
+    padding: 22px $card-padding;
+
+    & + & {
+      border-top: 1px solid $color-card-divider;
+    }
+
+    &--current {
+      box-shadow: inset 4px 0 0 $color-accent;
+    }
+
+    @include below($breakpoint-compact) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__name {
+    @include stack(2px);
+  }
+
+  &__product {
+    @include display-heading;
+    font-size: $font-size-3xl;
+  }
+
+  &__vendor {
+    @include eyebrow($letter-spacing-wide);
+    color: $color-text-muted;
+  }
+
+  &__text {
+    margin: 0;
+    line-height: $line-height-text;
+    color: $color-text-muted;
+  }
+
+  &__here {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+  }
+}

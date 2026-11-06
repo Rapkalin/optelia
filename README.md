@@ -28,11 +28,13 @@ plugin dans `shared/plugins/advanced-custom-fields-pro/` **avant** le premier
 démarrage : il est alors relié, activé, et la page d'accueil est créée avec son
 contenu. Sans lui, la page s'affiche sans ses sections.
 
-Les **modules maison** `rapkalin-mail` (*Réglages → Email*) et
+Les **modules maison** `rapkalin-mail` (*Réglages → Email*),
 `rapkalin-security` (*Comptes → Connexions*, *Outils → Activité*, *Outils →
-Journal*) ne sont pas dans le dépôt non plus :
+Journal*) et `rapkalin-cache` (bouton *Vider le cache*) ne sont pas dans le
+dépôt non plus :
 les copier dans `shared/mu-plugins/`, où le démarrage les relie. Sans eux, le
-site tourne sans réglage d'e-mail ni journal — voir
+site tourne sans réglage d'e-mail, ni journal, ni purge du cache sur un
+changement de réglage — voir
 [`readme/deploiement.md`](readme/deploiement.md#modules-maison-mu-plugins).
 
 | Service | URL | Accès |
@@ -53,6 +55,7 @@ site tourne sans réglage d'e-mail ni journal — voir
 | Formulaire de contact : envoi, anti-robots, Outils → Contact | [`readme/contact.md`](readme/contact.md) |
 | Variables du `.env` : obligatoires, facultatives, locales | [`readme/variables-env.md`](readme/variables-env.md) |
 | Performance : audit Lighthouse, réglages de cache | [`readme/performance.md`](readme/performance.md) |
+| Cache de page et cache applicatif (module `rapkalin-cache`) | [`readme/cache.md`](readme/cache.md) |
 | Accessibilité : audit RGAA, reste à faire avant la mise en ligne | [`readme/accessibilite.md`](readme/accessibilite.md) |
 | Référencement : titre, partage, sitemap, avant la mise en ligne | [`readme/seo.md`](readme/seo.md) |
 | Environnement Docker, commandes, dépannage | [`readme/docker.md`](readme/docker.md) |

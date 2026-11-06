@@ -151,6 +151,17 @@ Config::define('WP_POST_REVISIONS', env('WP_POST_REVISIONS') ?? true);
 Config::define('DISABLE_WP_CRON', env('DISABLE_WP_CRON') ?: false);
 
 /**
+ * Page cache (WP Super Cache) — see readme/cache.md.
+ *
+ * WP_CACHE stays TRUE everywhere: when it is false, the plugin writes
+ * `define('WP_CACHE', true)` into website/wp-config.php, a versioned file, on
+ * activation and on its settings screen. The cache itself is switched by
+ * PAGE_CACHE in the .env, read by website/app/wp-cache-config.php.
+ */
+Config::define('WP_CACHE', true);
+Config::define('WPCACHEHOME', $webroot_dir . '/app/plugins/wp-super-cache/');
+
+/**
  * Debugging — production defaults. Overridden in config/environments/.
  */
 Config::define('WP_DEBUG', false);

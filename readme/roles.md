@@ -12,7 +12,9 @@ Yoast, absent d'Optelya. Les deux rôles sont décrits dans un seul enum,
 | Bâti sur | l'**auteur** de WordPress | l'**éditeur** de WordPress |
 | Pages | **les siennes** : créer, publier, modifier, supprimer | **toutes** |
 | Médias | **les siens** : envoyer, modifier, supprimer | **tous** |
-| Taxonomies | — | celles des pages et des médias (aucune aujourd'hui) |
+| Catalogue (solutions, éditeurs, industries, études) | **ses fiches** : mêmes droits que ses pages | **toutes** |
+| Taxonomies | — | celles des pages, des médias et du catalogue (*Enjeux*) |
+| *Solutions → Réglages des solutions* | `optelya_manage_settings` | `optelya_manage_settings` |
 | Menus, personnalisateur | — | `edit_theme_options` |
 | *Réglages → Configuration* | `optelya_manage_settings` | `optelya_manage_settings` |
 | Email, Connexions, Activité, Journal, comptes, extensions, réglages du cœur | — | — |
@@ -48,6 +50,11 @@ Contributeur : Tableau de bord | Médias | Pages | Profil | Réglages
                  Apparence : Personnaliser · Menus
                  Réglages  : Configuration
 ```
+
+Le catalogue reprend les capacités des **pages** (`capability_type: page`) :
+aucune capacité nouvelle, et un contributeur ne modifie que les fiches qu'il a
+créées. Les fiches amorcées appartiennent à l'administrateur : **seul l'éditeur
+les modifie** (mesuré avec un compte de chaque rôle, 06/11/2026).
 
 ## Pourquoi une capacité dédiée plutôt que `manage_options`
 

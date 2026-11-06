@@ -1,0 +1,66 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+// Discreet path at the top of the page head. Whole path on a computer, parent
+// link only on a small screen.
+.breadcrumb {
+  padding: 20px $gutter 0;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+
+  &__list {
+    @include list-reset;
+    @include container;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 8px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    & + &::before {
+      content: '\203A' / '';
+      font-size: 1.2em;
+      line-height: 1;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: $touch-target-min;
+    color: $color-ink;
+    text-underline-offset: $underline-offset;
+  }
+
+  &--on-ink {
+    color: $color-on-ink-faint;
+  }
+
+  &--on-ink &__link {
+    color: $color-on-ink-muted;
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+
+  @include below($breakpoint-compact) {
+    &__item {
+      display: none;
+    }
+
+    &__item--parent {
+      display: flex;
+
+      // Same weight as the separator rule, which it must override.
+      .breadcrumb__item + &::before {
+        content: '\2190' / '';
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 /**
  * First content of the site, taken word for word from the homepage mockup
- * (ux/accueil-ui/index.html): homepage sections, site settings and menus.
+ * (ux/maquettes/Accueil/G1 - Page d'accueil/maquette/): homepage sections, site settings and menus.
  *
  * Run by bin/init.sh locally and by the deployment on the servers. It returns
  * what it did instead of printing it: the theme does not depend on WP-CLI.
@@ -27,16 +27,18 @@ const OPTELYA_SEEDED_OPTION = 'optelya_seeded';
  */
 function optelya_seed(): array
 {
-    if (get_option(OPTELYA_SEEDED_OPTION)) {
-        return ['Contenu initial déjà posé sur cet environnement : rien à faire.'];
-    }
-
     if (! function_exists('update_field')) {
         return ['ACF absent : amorçage du contenu sauté, il sera rejoué.'];
     }
 
-    $log = [optelya_seed_settings(), ...optelya_seed_menus(), optelya_seed_homepage()];
-    update_option(OPTELYA_SEEDED_OPTION, optelya_site_version(), false);
+    if (get_option(OPTELYA_SEEDED_OPTION)) {
+        $log = ['Accueil, réglages et menus déjà posés sur cet environnement.'];
+    } else {
+        $log = [optelya_seed_settings(), ...optelya_seed_menus(), optelya_seed_homepage()];
+        update_option(OPTELYA_SEEDED_OPTION, optelya_site_version(), false);
+    }
+
+    $log[] = optelya_seed_catalog();
 
     return $log;
 }

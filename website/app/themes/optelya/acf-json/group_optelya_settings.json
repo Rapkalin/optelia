@@ -33,7 +33,7 @@
             "name": "header_background",
             "aria-label": "",
             "type": "color_picker",
-            "instructions": "Le texte de l’en-tête passe automatiquement en foncé ou en blanc pour rester lisible. Éviter les orangés : le bouton de l’en-tête se confondrait avec le fond. Vide : bleu clair par défaut.",
+            "instructions": "Le texte de l’en-tête passe automatiquement en foncé ou en blanc pour rester lisible. Éviter les orangés : le bouton de l’en-tête se confondrait avec le fond. Vide : le bleu très clair du fond du site.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -41,7 +41,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "#BBE1FF",
+            "default_value": "#E8F0FF",
             "enable_opacity": 0,
             "return_format": "string",
             "custom_palette_source": "",
