@@ -78,9 +78,8 @@ directes sur `main` et `develop` sont refusées.
 
 1. PR `feature/xxx` → `develop`. Le merge déploie la **préprod**.
 2. PR `develop` → `main`, une fois la préprod validée.
-3. **Pour l'instant, chaque poussée sur `main` déploie la production**
-   (décision temporaire, avant la mise en ligne). Ensuite, seul un tag de la
-   version sur `main` la déploiera :
+3. Une poussée sur `main` ne déploie rien : **seul un tag de la version, sur
+   `main`, déploie la production** :
 
 ```bash
 git checkout main && git pull
@@ -88,6 +87,5 @@ git tag -a x.y.z -m "…" && git push origin x.y.z
 ```
 
 Un tag **doit** être la version de `composer.json` (et du `CHANGELOG.md`) et
-pointer sur `main` : sinon `deploy-prod.yml` refuse de déployer. À la mise en
-ligne, retirer `branches: [main]` de `deploy-prod.yml`. Voir
+pointer sur `main` : sinon `deploy-prod.yml` refuse de déployer. Voir
 [`CLAUDE.md`](CLAUDE.md), règle 7.

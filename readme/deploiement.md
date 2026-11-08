@@ -6,11 +6,9 @@ Actions.
 | Environnement | Déclencheur | Chemin distant |
 | --- | --- | --- |
 | Préprod | poussée sur `develop` (ou lancement manuel) | `$HOME/preprod-optelya` |
-| Production | poussée sur `main` (**temporaire**, avant la mise en ligne), ou d'un **tag** égal à la version de `composer.json`, sur `main` | `$HOME/prod-optelya` |
+| Production | poussée d'un **tag** égal à la version de `composer.json`, sur `main` (une poussée sur `main` ne déploie rien) | `$HOME/prod-optelya` |
 
-> ⚠️ **Tant que `main` déploie directement**, chaque poussée part en production
-> sans validation. À la mise en ligne, retirer `branches: [main]` de
-> `deploy-prod.yml`. Et tant que le site n'est pas lancé, garder
+> ⚠️ Tant que le site n'est pas lancé, garder
 > `WP_ENV='staging'` dans `shared/.env` : les moteurs de recherche n'indexent
 > pas le site (`noindex`). En `production`, ils le pourraient dès que le domaine
 > répond.
@@ -51,10 +49,9 @@ Le `DocumentRoot` pointe sur `~/prod-optelya/website`, avec `AllowOverride All`
 
 ## Ce que fait le workflow
 
-**Contrôle du tag** (production, sur un tag seulement) : le job `release-tag`
-refuse un tag différent de la `version` de `composer.json`, ou posé sur un
-commit absent de `main`. Sur une poussée de `main`, il est sauté et le
-déploiement n'attend que la CI et CodeQL.
+**Contrôle du tag** (production) : le job `release-tag` refuse un tag différent
+de la `version` de `composer.json`, ou posé sur un commit absent de `main`. Le
+déploiement attend ce contrôle, la CI et CodeQL.
 
 **Build** : `composer install --no-dev`, `npm ci && npm run build` dans le thème
 (`dist/` n'est pas versionné), suppression de `node_modules`, archive de

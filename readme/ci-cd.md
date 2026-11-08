@@ -9,7 +9,7 @@ La CI tourne sur **GitHub Actions**, sur le modèle de LCDS.
 | `ci.yml` | pull request vers `main`/`develop`, ou appel | Contrôles qualité et sécurité |
 | `codeql.yml` | pull request, lundi 3 h, ou appel | SAST CodeQL (JavaScript) |
 | `deploy-preprod.yml` | poussée sur `develop`, ou manuel | Préprod |
-| `deploy-prod.yml` | poussée sur `main` (temporaire) ou d'un **tag** | Production ; un tag doit égaler la version de `composer.json`, sur `main` |
+| `deploy-prod.yml` | poussée d'un **tag** | Production ; un tag doit égaler la version de `composer.json`, sur `main` |
 | `deploy.yml` | appelé par les deux précédents | Build, envoi, liens `shared/` |
 
 ## `ci.yml`

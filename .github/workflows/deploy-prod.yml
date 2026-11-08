@@ -1,21 +1,18 @@
-# Déploiement production — à chaque poussée sur main, ou d'un tag.
+# Déploiement production — uniquement à la poussée d'un tag.
 #
-# ⚠️ TEMPORAIRE (décision du 25/10/2026, avant la mise en ligne) : chaque
-# poussée sur main part en production, sans geste de validation. À la mise en
-# ligne, retirer `branches: [main]` pour ne garder que les tags :
+# Une poussée sur main ne déploie rien (décision du 08/11/2026). Pour livrer :
 #
 #   git tag -a x.y.z -m "…" && git push origin x.y.z   (x.y.z = version de composer.json)
 #
-# Rien n'est envoyé tant que la CI et CodeQL ne sont pas verts : les deux sont
-# appelés ici comme workflows réutilisables, et le job de déploiement les attend
-# via `needs`. Un `needs` non satisfait n'échoue pas le déploiement, il le
-# **saute** — aucune release partielle possible.
+# Rien n'est envoyé tant que le tag n'est pas valide et que la CI et CodeQL ne
+# sont pas verts : le job de déploiement les attend via `needs`. Un `needs` non
+# satisfait n'échoue pas le déploiement, il le **saute** — aucune release
+# partielle possible.
 
 name: Déploiement production
 
 on:
   push:
-    branches: [main]
     tags: ['*']
 
 # Un seul déploiement production à la fois. cancel-in-progress est à false :
@@ -33,7 +30,6 @@ jobs:
   # version oubliée, n'atteint jamais la production.
   release-tag:
     name: Tag = version de composer.json, sur main
-    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -65,16 +61,8 @@ jobs:
       actions: read
       security-events: write
 
-  # release-tag est SAUTÉ sur une poussée de main : sans cette condition, un
-  # `needs` sauté sauterait aussi le déploiement. Les contrôles, eux, restent
-  # obligatoires dans les deux cas.
   deploy:
     needs: [release-tag, ci, codeql]
-    if: >-
-      always()
-      && needs.ci.result == 'success'
-      && needs.codeql.result == 'success'
-      && (needs.release-tag.result == 'success' || needs.release-tag.result == 'skipped')
     uses: ./.github/workflows/deploy.yml
     with:
       environment: production

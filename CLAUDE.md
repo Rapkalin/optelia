@@ -81,5 +81,5 @@ Tenir `readme/` à jour quand une décision de socle change.
   fonctionnalité, `PATCH` = correctif seul. `0.x` jusqu'à la mise en ligne.
 - Le journal dit ce qui change pour l'utilisateur, pas la liste des fichiers.
 - Le tag de production porte la même version, sur un commit de `main` :
-  `deploy-prod.yml` refuse de déployer sinon. **Temporaire** : avant la mise en
-  ligne, chaque poussée sur `main` déploie aussi la production.
+  `deploy-prod.yml` refuse de déployer sinon. Seul le tag déploie : une poussée
+  sur `main` ne part nulle part.

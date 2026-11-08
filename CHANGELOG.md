@@ -10,6 +10,14 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.24.0
+
+### Modifié
+
+- **La production ne se déploie plus qu'avec un tag.** Une poussée sur `main`
+  ne part plus en ligne : pour livrer, poser sur `main` un tag égal à la
+  version (`git tag -a 0.24.0 -m "…" && git push origin 0.24.0`).
+
 ## 0.23.1
 
 ### Corrigé
