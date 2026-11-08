@@ -41,7 +41,7 @@ enum OptelyaContactOutcome: string
     public function message(): string
     {
         return match ($this) {
-            self::Sent, self::Honeypot => __('Merci, votre demande est envoyée. Un expert vous répond rapidement.', 'optelya'),
+            self::Sent, self::Honeypot => __('Merci, votre demande a bien été envoyée. Un expert vous répondra rapidement.', 'optelya'),
             self::MailFailed => __('Votre demande n’a pas pu être envoyée. Merci de réessayer dans quelques minutes.', 'optelya'),
             self::Invalid => __('Merci de corriger les champs signalés.', 'optelya'),
             self::Expired => __('La page a expiré : merci de renvoyer votre demande.', 'optelya'),

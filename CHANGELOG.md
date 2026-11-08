@@ -10,6 +10,13 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.25.1
+
+### Corrigé
+
+- Message après l'envoi du formulaire de contact : « Merci, votre demande a
+  bien été envoyée. Un expert vous répondra rapidement. »
+
 ## 0.25.0
 
 ### Ajouté
