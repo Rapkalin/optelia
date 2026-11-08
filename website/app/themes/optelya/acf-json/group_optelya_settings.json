@@ -121,7 +121,7 @@
             "label": "Image de partage",
             "name": "share_image",
             "type": "image",
-            "instructions": "Affichée quand un lien vers le site est partagé (LinkedIn, Teams, messageries) : 1200 × 630 px, en JPG, PNG ou WebP, avec un texte alternatif renseigné dans la médiathèque. Vide : aperçu sans image.",
+            "instructions": "Affichée quand un lien vers le site est partagé (LinkedIn, Teams, messageries), recadrée en 1200 × 630 px : garder l’essentiel au centre. JPG, PNG ou WebP, avec un texte alternatif renseigné dans la médiathèque. Une fiche solution montre plutôt son visuel, s’il en a un. Vide : aperçu sans image.",
             "return_format": "id",
             "preview_size": "medium",
             "library": "all",
@@ -132,6 +132,26 @@
             "max_height": "",
             "max_size": "",
             "mime_types": "jpg,jpeg,png,webp"
+        },
+        {
+            "key": "field_optelya_settings_social_profiles",
+            "label": "Profils de l’entreprise",
+            "name": "social_profiles",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Adresses des pages de l’entreprise ailleurs (LinkedIn, YouTube…), une par ligne, en https://. Elles disent aux moteurs de recherche et aux assistants IA qui est l’entreprise ; elles ne s’affichent pas sur le site.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "https://www.linkedin.com/company/…",
+            "rows": 3,
+            "new_lines": ""
         },
         {
             "key": "field_optelya_settings_cta",

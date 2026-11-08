@@ -43,14 +43,56 @@ it('leaves out empty values rather than printing empty tags', function () {
     expect($tags)->not->toHaveKey('og:image:alt');
 });
 
-it('links the website to its publisher in the schema.org graph', function () {
-    $graph = OptelyaShareTags::graph('Optelya', 'https://example.test/', 'fr-FR', '');
-    [$organization, $website] = $graph['@graph'];
+it('links the website to the organisation, which leaves out what it lacks', function () {
+    $organization = OptelyaShareTags::organization('Optelya', 'https://example.test/', '', '', []);
+    $website = OptelyaShareTags::website('Optelya', 'https://example.test/', 'fr-FR');
+
+    expect($organization['@type'])->toBe('Organization');
+    expect($organization['areaServed'])->toBe('FR');
+    expect($organization)->not->toHaveKeys(['logo', 'description', 'sameAs']);
+    expect($website['publisher'])->toBe(['@id' => $organization['@id']]);
+});
+
+it('says who the organisation is: logo, description and profiles', function () {
+    $organization = OptelyaShareTags::organization('Optelya', 'https://example.test/', 'https://example.test/l.png', 'Distributeur', ['https://www.linkedin.com/company/optelya']);
+
+    expect($organization['logo'])->toBe('https://example.test/l.png');
+    expect($organization['description'])->toBe('Distributeur');
+    expect($organization['sameAs'])->toBe(['https://www.linkedin.com/company/optelya']);
+});
+
+it('keeps only the http(s) profile addresses, once each', function () {
+    expect(OptelyaShareTags::profileUrls("https://www.linkedin.com/company/optelya\r\n\n  javascript:alert(1)\nlinkedin.com/x\nftp://files.example.test/a\nhttps://www.linkedin.com/company/optelya\nhttp://youtube.com/@optelya "))
+        ->toBe(['https://www.linkedin.com/company/optelya', 'http://youtube.com/@optelya']);
+});
+
+it('marks up the visible breadcrumb, the current page at its own address', function () {
+    $list = OptelyaShareTags::breadcrumb([
+        ['label' => 'Accueil', 'url' => 'https://example.test/'],
+        ['label' => 'Optimus', 'url' => ''],
+    ], 'https://example.test/solutions/optimus/');
+
+    expect($list['@type'])->toBe('BreadcrumbList');
+    expect($list['itemListElement'][0])->toBe(['@type' => 'ListItem', 'position' => 1, 'name' => 'Accueil', 'item' => 'https://example.test/']);
+    expect($list['itemListElement'][1]['item'])->toBe('https://example.test/solutions/optimus/');
+});
+
+it('presents a product made by its vendor, on a page published by the organisation', function () {
+    $url = 'https://example.test/solutions/optimus/';
+    $product = OptelyaShareTags::product('Optimus', 'Promesse', $url, 'Noesis Solutions', '');
+    $page = OptelyaShareTags::webPage($url, 'Optimus', 'https://example.test/', $product['@id']);
+
+    expect($product['@type'])->toBe('Product');
+    expect($product['manufacturer'])->toBe(['@type' => 'Organization', 'name' => 'Noesis Solutions']);
+    expect($product)->not->toHaveKey('image');
+    expect($page['about'])->toBe(['@id' => $product['@id']]);
+    expect($page['publisher'])->toBe(['@id' => OptelyaShareTags::organizationId('https://example.test/')]);
+    expect(OptelyaShareTags::product('Optimus', '', $url, '', ''))->not->toHaveKeys(['manufacturer', 'description']);
+});
+
+it('writes the characters of WordPress titles, not their HTML entities', function () {
+    $graph = OptelyaShareTags::graph([OptelyaShareTags::webPage('https://example.test/a/', 'Optimus &#8211; Noesis &amp; l&#039;éditeur', 'https://example.test/', '')]);
 
     expect($graph['@context'])->toBe('https://schema.org');
-    expect($organization['@type'])->toBe('Organization');
-    expect($organization)->not->toHaveKey('logo');
-    expect($website['publisher'])->toBe(['@id' => $organization['@id']]);
-    expect(OptelyaShareTags::graph('Optelya', 'https://example.test/', 'fr-FR', 'https://example.test/l.png')['@graph'][0]['logo'])
-        ->toBe('https://example.test/l.png');
+    expect($graph['@graph'][0]['name'])->toBe('Optimus – Noesis & l\'éditeur');
 });

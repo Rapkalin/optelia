@@ -10,6 +10,33 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.25.0
+
+### Ajouté
+
+- **Partage sur les réseaux** : l'image d'aperçu (LinkedIn, Teams,
+  messageries) est recadrée d'office au bon format, 1200 × 630 px. Une fiche
+  solution montre son propre visuel, s'il en a un.
+- **Profils de l'entreprise** dans *Réglages → Configuration* (LinkedIn,
+  YouTube…) : ils disent aux moteurs de recherche et aux assistants IA qui est
+  Optelya. Rien ne s'affiche sur le site.
+- **Données structurées sur chaque page** : l'entreprise (description, zone
+  servie, profils), et sur une fiche solution le fil d'Ariane et le produit
+  avec son éditeur.
+
+### Modifié
+
+- Les pages dont le gabarit n'existe pas encore (études, éditeurs,
+  industries, listes) sont exclues des moteurs de recherche jusqu'à leur
+  livraison.
+- Chaque page a sa propre description pour les moteurs, ou aucune : celle de
+  l'accueil n'est plus répétée partout.
+
+### Corrigé
+
+- `/page/2/` (et suivantes) ne duplique plus l'accueil : redirection vers
+  l'accueil.
+
 ## 0.24.0
 
 ### Modifié

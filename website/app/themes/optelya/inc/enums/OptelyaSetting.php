@@ -20,6 +20,7 @@ enum OptelyaSetting: string
     case MetaDescription = 'meta_description';
     case SeoTitle = 'seo_title';
     case ShareImage = 'share_image';
+    case SocialProfiles = 'social_profiles';
     case HeaderCta = 'header_cta';
     case ContactRecipient = 'contact_recipient';
     case ContactTitle = 'contact_title';

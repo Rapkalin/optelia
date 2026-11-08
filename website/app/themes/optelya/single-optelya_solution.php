@@ -48,12 +48,7 @@ $sectionClass = static function () use (&$isBand): string {
 
 <main id="<?php echo esc_attr(OPTELYA_MAIN_CONTENT_ID); ?>">
     <?php get_template_part('components/hero', null, [
-        'breadcrumb' => [
-            optelya_breadcrumb_home(),
-            ['label' => OptelyaPostType::Solution->plural(), 'url' => (string) get_post_type_archive_link(OptelyaPostType::Solution->value)],
-            ...($vendorId > 0 ? [['label' => $vendor, 'url' => (string) get_permalink($vendorId)]] : []),
-            ['label' => $product, 'url' => ''],
-        ],
+        'breadcrumb' => optelya_solution_breadcrumb($solutionId),
         'eyebrow' => $vendor,
         'title' => $product,
         'lead' => optelya_text(optelya_field('promise', $solutionId)),

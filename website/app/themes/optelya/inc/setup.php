@@ -10,9 +10,15 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Size of the sharing previews (LinkedIn, Facebook, messaging apps): 1.91:1.
+ */
+const OPTELYA_SHARE_IMAGE_SIZE = 'optelya-share';
+
 function optelya_setup(): void
 {
     add_theme_support('title-tag');
+    add_image_size(OPTELYA_SHARE_IMAGE_SIZE, 1200, 630, true);
     show_admin_bar(false);
 }
 add_action('after_setup_theme', 'optelya_setup');

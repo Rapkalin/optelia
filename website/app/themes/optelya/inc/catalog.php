@@ -64,6 +64,24 @@ function optelya_breadcrumb_home(): array
 }
 
 /**
+ * Home › Solutions › vendor › product: shown by the page, marked up for the
+ * search engines (inc/seo.php).
+ *
+ * @return list<array{label: string, url: string}>
+ */
+function optelya_solution_breadcrumb(int $solutionId): array
+{
+    $vendorId = (int) optelya_field('vendor', $solutionId);
+
+    return [
+        optelya_breadcrumb_home(),
+        ['label' => OptelyaPostType::Solution->plural(), 'url' => (string) get_post_type_archive_link(OptelyaPostType::Solution->value)],
+        ...($vendorId > 0 ? [['label' => get_the_title($vendorId), 'url' => (string) get_permalink($vendorId)]] : []),
+        ['label' => get_the_title($solutionId), 'url' => ''],
+    ];
+}
+
+/**
  * « Optimus – Noesis Solutions – Optelya »: the vendor is searched with the
  * product.
  *
