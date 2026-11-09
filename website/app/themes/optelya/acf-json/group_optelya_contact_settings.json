@@ -1,0 +1,43 @@
+{
+    "key": "group_optelya_contact_settings",
+    "title": "Formulaire de contact",
+    "fields": [
+        {
+            "key": "field_optelya_contact_recipient",
+            "label": "Destinataire des demandes de contact",
+            "name": "contact_recipient",
+            "aria-label": "",
+            "type": "email",
+            "instructions": "Adresse qui reçoit les demandes envoyées par le formulaire du site. Distincte de l’expéditeur des e-mails (Réglages → Email). Jamais affichée sur le site. Vide : l’e-mail d’administration de WordPress (Réglages → Général).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "optelya-contact-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Réglages du formulaire de contact.",
+    "show_in_rest": 0
+}

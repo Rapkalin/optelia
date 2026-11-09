@@ -10,6 +10,23 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.26.0
+
+### Ajouté
+
+- **Menu « Contact »** dans l'administration, avec deux entrées :
+  - **Tableau de bord** : le nombre de demandes par mois et l'adresse qui les
+    reçoit (auparavant *Outils → Contact*, réservé aux administrateurs) ;
+  - **Configuration** : l'adresse qui reçoit les demandes du formulaire,
+    distincte de l'expéditeur des e-mails du site (*Réglages → Email*).
+
+### Modifié
+
+- **Le destinataire des demandes quitte *Réglages → Configuration*** pour
+  *Contact → Configuration*. L'adresse déjà saisie est conservée.
+- Le menu *Contact* est ouvert aux administrateurs et aux éditeurs, **plus aux
+  contributeurs** : ils ne peuvent plus choisir qui reçoit les demandes.
+
 ## 0.25.1
 
 ### Corrigé

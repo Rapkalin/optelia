@@ -24,6 +24,14 @@ final class OptelyaAdminScreen
     public const string SETTINGS_PAGE = 'optelya-settings';
 
     /**
+     * The Contact menu: its dashboard (the counters), then its settings. The
+     * latter is the location of acf-json/group_optelya_contact_settings.json.
+     */
+    public const string CONTACT_PAGE = 'optelya-contact';
+
+    public const string CONTACT_SETTINGS_PAGE = 'optelya-contact-settings';
+
+    /**
      * Allowed to every restricted role, with Settings → Configuration.
      * `admin-ajax.php`, `admin-post.php` and
      * `async-upload.php` are not screens: denying them would break the editor
@@ -70,6 +78,11 @@ final class OptelyaAdminScreen
         if ($role === OptelyaRole::Editor) {
             if (in_array($pagenow, self::EDITOR_ONLY, true)) {
                 return true;
+            }
+
+            // admin.php serves every plugin's top-level page: ours only.
+            if ($pagenow === 'admin.php') {
+                return in_array($query['page'] ?? '', [self::CONTACT_PAGE, self::CONTACT_SETTINGS_PAGE], true);
             }
 
             // Terms of the perimeter's types only: categories and tags belong

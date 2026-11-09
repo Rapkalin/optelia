@@ -7,7 +7,8 @@ dans le code les chaînes d'interface et le formulaire (voir
 | Quoi | Où |
 | --- | --- |
 | Sections de l'accueil | *Pages → Accueil → Modifier* |
-| Logo et couleur de fond de l'en-tête, accroche, titre et description pour les moteurs de recherche, image de partage, profils de l'entreprise (LinkedIn…), bouton de l'en-tête, destinataire des demandes de contact, titre de la colonne contact, adresse, message « bientôt disponible » | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
+| Logo et couleur de fond de l'en-tête, accroche, titre et description pour les moteurs de recherche, image de partage, profils de l'entreprise (LinkedIn…), bouton de l'en-tête, titre de la colonne contact, adresse, message « bientôt disponible » | *Réglages → Configuration* — sans logo, le nom du site s'affiche |
+| Adresse qui reçoit les demandes du formulaire de contact, et leurs compteurs par mois | *Contact → Configuration* et *Contact → Tableau de bord* — administrateurs et éditeurs seulement |
 | Liens de l'en-tête et du pied de page, et lesquels sont « bientôt disponibles » | *Apparence → Menus* — voir [Une section pas encore construite](#une-section-pas-encore-construite) |
 | Logiciels, éditeurs, industries, études de cas, enjeux | *Solutions*, *Éditeurs*, *Industries*, *Études de cas* — voir [Le catalogue](#le-catalogue) |
 | Titre et panneaux « Ce qu'Optelya ajoute » communs à toutes les fiches solution | *Solutions → Réglages des solutions* |

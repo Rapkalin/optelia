@@ -19,7 +19,7 @@ if (! defined('ABSPATH')) {
 /**
  * Bump to replay the role definitions on every environment after a change.
  */
-const OPTELYA_ROLE_VERSION = 3;
+const OPTELYA_ROLE_VERSION = 4;
 const OPTELYA_ROLE_OPTION = 'optelya_role_version';
 
 /**
@@ -53,6 +53,7 @@ function optelya_register_roles(): void
 
     if ($administrator instanceof WP_Role) {
         $administrator->add_cap(OptelyaRole::SETTINGS_CAPABILITY);
+        $administrator->add_cap(OptelyaRole::CONTACT_CAPABILITY);
     }
 
     update_option(OPTELYA_ROLE_OPTION, OPTELYA_ROLE_VERSION);

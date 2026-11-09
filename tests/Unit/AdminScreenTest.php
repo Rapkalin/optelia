@@ -34,7 +34,7 @@ it('opens the catalogue content types to both roles', function (OptelyaPostType 
     }
 })->with(OptelyaPostType::cases());
 
-it('opens menus, customizer and taxonomies to the editor only', function (string $pagenow, array $query) {
+it('opens menus, customizer, taxonomies and the Contact menu to the editor only', function (string $pagenow, array $query) {
     expect(OptelyaAdminScreen::isAllowed(OptelyaRole::Editor, $pagenow, $query))->toBeTrue();
     expect(OptelyaAdminScreen::isAllowed(OptelyaRole::Contributor, $pagenow, $query))->toBeFalse();
 })->with([
@@ -42,7 +42,21 @@ it('opens menus, customizer and taxonomies to the editor only', function (string
     ['customize.php', []],
     ['edit-tags.php', ['taxonomy' => 'any', 'post_type' => 'page']],
     ['term.php', ['taxonomy' => 'any', 'post_type' => 'attachment']],
+    ['admin.php', ['page' => OptelyaAdminScreen::CONTACT_PAGE]],
+    ['admin.php', ['page' => OptelyaAdminScreen::CONTACT_SETTINGS_PAGE]],
 ]);
+
+it('opens no other plugin page through admin.php, even to the editor', function () {
+    foreach (OptelyaRole::cases() as $role) {
+        expect(OptelyaAdminScreen::isAllowed($role, 'admin.php', ['page' => 'a-future-plugin']))->toBeFalse();
+        expect(OptelyaAdminScreen::isAllowed($role, 'admin.php', ['page' => ['optelya-contact']]))->toBeFalse();
+    }
+});
+
+it('gives the Contact menu to the editor, never to the contributor', function () {
+    expect(OptelyaRole::Editor->extraCapabilities())->toContain(OptelyaRole::CONTACT_CAPABILITY);
+    expect(OptelyaRole::Contributor->extraCapabilities())->not->toContain(OptelyaRole::CONTACT_CAPABILITY);
+});
 
 it('denies everything else to both roles', function (string $pagenow, array $query) {
     foreach (OptelyaRole::cases() as $role) {
@@ -120,11 +134,12 @@ it('finds the restricted role among an account\'s roles', function () {
     expect(OptelyaRole::among([]))->toBeNull();
 });
 
-it('locates the settings field group on the settings page slug', function () {
+it('locates each settings field group on its page slug', function (string $file, string $page) {
     // The JSON cannot read the constant: this keeps both in step.
-    $group = json_decode((string) file_get_contents(
-        OPTELYA_THEME_DIR . 'acf-json/group_optelya_settings.json',
-    ), true);
+    $group = json_decode((string) file_get_contents(OPTELYA_THEME_DIR . 'acf-json/' . $file), true);
 
-    expect($group['location'][0][0]['value'])->toBe(OptelyaAdminScreen::SETTINGS_PAGE);
-});
+    expect($group['location'][0][0]['value'])->toBe($page);
+})->with([
+    ['group_optelya_settings.json', OptelyaAdminScreen::SETTINGS_PAGE],
+    ['group_optelya_contact_settings.json', OptelyaAdminScreen::CONTACT_SETTINGS_PAGE],
+]);

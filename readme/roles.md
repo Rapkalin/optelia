@@ -17,6 +17,7 @@ Yoast, absent d'Optelya. Les deux rôles sont décrits dans un seul enum,
 | *Solutions → Réglages des solutions* | `optelya_manage_settings` | `optelya_manage_settings` |
 | Menus, personnalisateur | — | `edit_theme_options` |
 | *Réglages → Configuration* | `optelya_manage_settings` | `optelya_manage_settings` |
+| *Contact* (tableau de bord, destinataire des demandes) | — | `optelya_manage_contact` |
 | Email, Connexions, Activité, Journal, comptes, extensions, réglages du cœur | — | — |
 
 Le contributeur reçoit les capacités de l'auteur (qui ne nomment que les
@@ -46,10 +47,16 @@ Ce que voit chacun, vérifié sur une session authentifiée le 29/10/2026
 ```
 Contributeur : Tableau de bord | Médias | Pages | Profil | Réglages
                  Réglages  : Configuration
-Éditeur      : Tableau de bord | Médias | Pages | Apparence | Profil | Réglages
+Éditeur      : Tableau de bord | Médias | Pages | Contact | Apparence | Profil | Réglages
+                 Contact   : Tableau de bord · Configuration
                  Apparence : Personnaliser · Menus
                  Réglages  : Configuration
 ```
+
+> **Le menu *Contact* est fermé au contributeur** (décision du 09/11/2026) :
+> il y choisirait qui reçoit les demandes, donc pourrait les détourner vers
+> sa propre adresse. Le destinataire était auparavant dans *Réglages →
+> Configuration*, ouvert à tous les rôles.
 
 Le catalogue reprend les capacités des **pages** (`capability_type: page`) :
 aucune capacité nouvelle, et un contributeur ne modifie que les fiches qu'il a
@@ -81,6 +88,7 @@ Mesuré le 29/10/2026, Configuration et Réglages du cœur le 05/11/2026 :
 | Tableau de bord, Pages, Ajouter une page, Médias, Ajouter un média, Profil | 200 | 200 | 200 |
 | *Réglages → Configuration* (affichage et enregistrement) | 200 | 200 | 200 |
 | Menus, Personnaliser | **403** | 200 | 200 |
+| *Contact → Tableau de bord*, *Contact → Configuration* (affichage et enregistrement ; mesuré le 09/11/2026) | **403** | 200 | 200 |
 | *Réglages* du cœur (Général, Lecture…), `options.php` | **403** | **403** | 200 |
 | *Réglages → Email*, *Comptes → Connexions*, *Outils → Activité*, *Outils → Journal* | **403** | **403** | 200 |
 | Outils, Articles, Comptes, Extensions, Catégories | **403** | **403** | 200 |
@@ -89,8 +97,11 @@ Mesuré le 29/10/2026, Configuration et Réglages du cœur le 05/11/2026 :
 | Modifier le média d'un autre | **403** | 200 | 200 |
 
 `isAllowed()` est une fonction **pure**, d'où `tests/Unit/AdminScreenTest.php`.
-Le même test vérifie que le slug de l'écran *Configuration* est celui du JSON
-d'ACF (`group_optelya_settings.json`), qui ne peut pas lire la constante.
+Le même test vérifie que les slugs des écrans *Configuration* et *Contact →
+Configuration* sont ceux des JSON d'ACF (`group_optelya_settings.json`,
+`group_optelya_contact_settings.json`), qui ne peuvent pas lire les
+constantes. Les pages de premier niveau d'une extension passent toutes par
+`admin.php` : seules les deux pages *Contact* y sont ouvertes, à l'éditeur.
 
 ## Trois rôles attribuables
 

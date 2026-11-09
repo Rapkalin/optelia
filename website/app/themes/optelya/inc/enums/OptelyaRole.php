@@ -20,8 +20,8 @@ enum OptelyaRole: string
     case Contributor = 'optelya_contributor';
 
     /**
-     * WordPress' Editor: every page and media, plus menus and Settings →
-     * Configuration.
+     * WordPress' Editor: every page and media, plus menus, Settings →
+     * Configuration and the Contact menu.
      */
     case Editor = 'optelya_editor';
 
@@ -32,6 +32,13 @@ enum OptelyaRole: string
      * option — it would make an editor an administrator.
      */
     public const string SETTINGS_CAPABILITY = 'optelya_manage_settings';
+
+    /**
+     * Opens the Contact menu: who receives the requests, and their counters.
+     * Not the contributor's: they could send the requests to themselves (decision
+     * of 09/11/2026).
+     */
+    public const string CONTACT_CAPABILITY = 'optelya_manage_contact';
 
     /**
      * The author's capabilities name posts only. `edit_posts` and
@@ -74,7 +81,7 @@ enum OptelyaRole: string
     {
         return match ($this) {
             self::Contributor => [...self::OWN_PAGES_CAPABILITIES, self::SETTINGS_CAPABILITY],
-            self::Editor => ['edit_theme_options', self::SETTINGS_CAPABILITY],
+            self::Editor => ['edit_theme_options', self::SETTINGS_CAPABILITY, self::CONTACT_CAPABILITY],
         };
     }
 

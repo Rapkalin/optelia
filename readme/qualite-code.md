@@ -43,7 +43,7 @@ composer setup-hooks
 | `components/` | Morceaux d'interface réutilisés par plusieurs gabarits : ils reçoivent des **tableaux déjà prêts** (`$args`) et ne lisent jamais ACF (hero, cartes, cartes chiffrées, panneaux par lecteur, bloc contact, fil d'Ariane, aiguillage, vidéo au clic, dépliants, lien, icône…) |
 | `layouts/` | Une section de l'accueil par fichier, du nom de son layout ACF : un **adaptateur** qui lit les sous-champs et appelle le composant |
 | racine | Gabarits de page (`front-page.php`, `single-optelya_solution.php`) : lisent les champs de la fiche et appellent les composants |
-| `admin/` | Vues des écrans d'administration du thème (*Outils → Contact*) |
+| `admin/` | Vues des écrans d'administration du thème (*Contact → Tableau de bord*) |
 | `assets/styles/basics/` | Variables (toutes les couleurs, tailles, poids, espacements) et mixins (`list-reset`, `display-heading`, `eyebrow`, `stack`, `below`…) |
 
 Une valeur partagée entre fichiers de natures différentes (PHP ↔ JSON ACF ↔

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Contact form: handling, e-mail, anti-robot guards and Tools → Contact.
+ * Contact form: handling, e-mail, anti-robot guards and the Contact menu.
  *
  * Nothing personal is stored: the request leaves by e-mail, the site keeps
  * monthly counters only. See readme/contact.md.
@@ -14,9 +14,9 @@ if (! defined('ABSPATH')) {
 }
 
 const OPTELYA_CONTACT_STATS_OPTION = 'optelya_contact_stats';
-const OPTELYA_CONTACT_ADMIN_PAGE = 'optelya-contact';
 const OPTELYA_CONTACT_QUERY = 'contact';
-const OPTELYA_CONTACT_CAPABILITY = 'manage_options';
+/** Field of acf-json/group_optelya_contact_settings.json (Contact → Configuration). */
+const OPTELYA_CONTACT_RECIPIENT_FIELD = 'contact_recipient';
 
 function optelya_contact_secret(): string
 {
@@ -29,12 +29,12 @@ function optelya_contact_token(): string
 }
 
 /**
- * Set in Settings → Configuration, by every role (decision of 05/11/2026), never
- * displayed on the site. Empty or invalid: the admin e-mail.
+ * Set in Contact → Configuration, by administrators and editors (decision of
+ * 09/11/2026), never displayed on the site. Empty or invalid: the admin e-mail.
  */
 function optelya_contact_recipient(): string
 {
-    $recipient = optelya_option_text(OptelyaSetting::ContactRecipient);
+    $recipient = optelya_text(optelya_field(OPTELYA_CONTACT_RECIPIENT_FIELD, 'option'));
 
     return is_email($recipient) ? $recipient : (string) get_option('admin_email');
 }
@@ -211,21 +211,41 @@ function optelya_contact_robots(array $robots): array
 }
 add_filter('wp_robots', 'optelya_contact_robots');
 
+/**
+ * Contact menu: the dashboard first (the parent's own page), then the
+ * settings, added by ACF (optelya_contact_register_settings_page()).
+ */
 function optelya_contact_register_admin_page(): void
 {
-    add_management_page(
-        __('Formulaire de contact', 'optelya'),
-        __('Contact', 'optelya'),
-        OPTELYA_CONTACT_CAPABILITY,
-        OPTELYA_CONTACT_ADMIN_PAGE,
-        'optelya_contact_render_admin_page',
-    );
+    $title = __('Formulaire de contact', 'optelya');
+
+    add_menu_page($title, __('Contact', 'optelya'), OptelyaRole::CONTACT_CAPABILITY, OptelyaAdminScreen::CONTACT_PAGE, 'optelya_contact_render_admin_page', 'dashicons-email-alt', 26);
+    add_submenu_page(OptelyaAdminScreen::CONTACT_PAGE, $title, __('Tableau de bord', 'optelya'), OptelyaRole::CONTACT_CAPABILITY, OptelyaAdminScreen::CONTACT_PAGE, 'optelya_contact_render_admin_page');
 }
 add_action('admin_menu', 'optelya_contact_register_admin_page');
 
+function optelya_contact_register_settings_page(): void
+{
+    if (! function_exists('acf_add_options_sub_page')) {
+        return;
+    }
+
+    acf_add_options_sub_page([
+        'page_title' => __('Configuration du formulaire de contact', 'optelya'),
+        'menu_title' => __('Configuration', 'optelya'),
+        'menu_slug' => OptelyaAdminScreen::CONTACT_SETTINGS_PAGE,
+        'parent_slug' => OptelyaAdminScreen::CONTACT_PAGE,
+        'capability' => OptelyaRole::CONTACT_CAPABILITY,
+        'redirect' => false,
+        'update_button' => __('Enregistrer', 'optelya'),
+        'updated_message' => __('Configuration enregistrée.', 'optelya'),
+    ]);
+}
+add_action('acf/init', 'optelya_contact_register_settings_page');
+
 function optelya_contact_render_admin_page(): void
 {
-    if (! current_user_can(OPTELYA_CONTACT_CAPABILITY)) {
+    if (! current_user_can(OptelyaRole::CONTACT_CAPABILITY)) {
         return;
     }
 

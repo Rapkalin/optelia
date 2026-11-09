@@ -52,7 +52,7 @@ Composer, dans des dépôts GitHub **privés**. Avant le premier démarrage, cr�
 | Rôles : contributeur, éditeur, périmètre de l'admin | [`readme/roles.md`](readme/roles.md) |
 | E-mails sortants : Réglages → Email, Mailpit | [`readme/email.md`](readme/email.md) |
 | Connexions, activité et erreurs du site (admin) | [`readme/journal.md`](readme/journal.md) |
-| Formulaire de contact : envoi, anti-robots, Outils → Contact | [`readme/contact.md`](readme/contact.md) |
+| Formulaire de contact : envoi, anti-robots, menu Contact (destinataire, compteurs) | [`readme/contact.md`](readme/contact.md) |
 | Variables du `.env` : obligatoires, facultatives, locales | [`readme/variables-env.md`](readme/variables-env.md) |
 | Performance : audit Lighthouse, réglages de cache | [`readme/performance.md`](readme/performance.md) |
 | Cache de page et cache applicatif (module `rapkalin-cache`) | [`readme/cache.md`](readme/cache.md) |

@@ -22,7 +22,6 @@ enum OptelyaSetting: string
     case ShareImage = 'share_image';
     case SocialProfiles = 'social_profiles';
     case HeaderCta = 'header_cta';
-    case ContactRecipient = 'contact_recipient';
     case ContactTitle = 'contact_title';
     case Address = 'address';
     case ComingSoonTitle = 'coming_soon_title';

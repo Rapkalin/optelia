@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tools → Contact: submissions per month and per outcome. Counters only, no
+ * Contact → Tableau de bord: submissions per month and per outcome. Counters only, no
  * request content — see readme/contact.md.
  *
  * @param array<string, array<string, int>> $args['stats']
@@ -22,7 +22,7 @@ $outcomes = OptelyaContactOutcome::cases();
     <p>
         <?php printf(
             /* translators: %s: recipient e-mail address */
-            esc_html__('Les demandes sont envoyées à %s (modifiable dans Réglages → Configuration). Le site ne garde que ces compteurs, aucune demande.', 'optelya'),
+            esc_html__('Les demandes sont envoyées à %s (modifiable dans Contact → Configuration). Le site ne garde que ces compteurs, aucune demande.', 'optelya'),
             '<strong>' . esc_html((string) ($args['recipient'] ?? '')) . '</strong>',
         ); ?>
     </p>

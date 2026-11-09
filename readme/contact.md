@@ -28,15 +28,23 @@ directement.
 
 ## Destinataire
 
-Champ « Destinataire des demandes de contact » de *Réglages → Configuration*,
-modifiable par **tous les rôles** (décision du 05/11/2026). Vide ou invalide :
-l'adresse de *Réglages → Général* (`admin_email`). Il était auparavant dans le
-`.env`.
+Champ « Destinataire des demandes de contact » de **_Contact →
+Configuration_**, réservé aux **administrateurs et éditeurs** (capacité
+`optelya_manage_contact`, décision du 09/11/2026). Vide ou invalide : l'adresse
+de *Réglages → Général* (`admin_email`).
 
-> **Risque accepté** : un contributeur peut rediriger les demandes vers sa
-> propre adresse. L'enregistrement est inscrit dans *Outils → Activité*
-> (« Réglages enregistrés », avec son auteur), sans l'ancienne ni la nouvelle
-> valeur. *Outils → Contact* affiche l'adresse en cours.
+Il ne faut pas le confondre avec l'**expéditeur** de *Réglages → Email*
+(`rapkalin-mail`) : l'un dit qui **reçoit** les demandes, l'autre au nom de
+qui partent **tous** les e-mails du site.
+
+Historique : dans le `.env` jusqu'à la 0.18.0, puis dans *Réglages →
+Configuration*, ouvert à tous les rôles — un contributeur pouvait donc
+détourner les demandes vers sa propre adresse. Déplacé en 0.26.0 ; la valeur
+déjà saisie est conservée (même option ACF, `options_contact_recipient`).
+Chaque enregistrement est inscrit dans *Outils → Activité* (« Réglages
+enregistrés », écran `optelya-contact-settings`, avec son auteur), sans
+l'ancienne ni la nouvelle valeur. *Contact → Tableau de bord* affiche
+l'adresse en cours.
 
 **Aucune adresse n'est affichée sur le site** : une adresse affichée, même
 masquée, finit aspirée par les robots. Le numéro de téléphone a été retiré pour
@@ -73,10 +81,12 @@ Si les compteurs montrent des robots qui passent (beaucoup d'« Envoyées »
 indésirables), l'étape suivante est Cloudflare Turnstile : clés dans le `.env`,
 script tiers, à ajouter au même socle.
 
-## Suivi : *Outils → Contact*
+## Suivi : *Contact → Tableau de bord*
 
-`tools.php?page=optelya-contact`, réservé aux administrateurs
-(`manage_options` ; les deux rôles restreints reçoivent un 403).
+`admin.php?page=optelya-contact`, menu *Contact* de premier niveau, ouvert aux
+administrateurs et aux éditeurs (`optelya_manage_contact` ; le contributeur
+reçoit un 403). Il était dans *Outils → Contact*, réservé aux
+administrateurs, jusqu'à la 0.25.1.
 
 Un tableau par mois : envoyées, e-mail en échec, champs invalides, page
 expirée, remplie trop vite, champ piège, trop d'envois. **Aucune demande
