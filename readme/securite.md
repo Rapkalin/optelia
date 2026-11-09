@@ -38,7 +38,7 @@ modification de ce bloc doit être reportée à la main sur chaque serveur — v
 | `Permissions-Policy` | `geolocation=(), camera=(), microphone=(), payment=(), browsing-topics=()` |
 | `X-Frame-Options` | `SAMEORIGIN` |
 | `Cross-Origin-Opener-Policy` | `same-origin` |
-| `Strict-Transport-Security` | *en commentaire* : à activer une fois le site en HTTPS |
+| `Strict-Transport-Security` | `max-age=31536000` (un an), depuis la 1.0.0. **Sans `includeSubDomains`** : un futur sous-domaine sans certificat deviendrait inaccessible. Ignoré sur http (site local) |
 
 > `X-Frame-Options: SAMEORIGIN` empêche d'afficher le site dans une iframe
 > d'une autre origine — y compris un outil de recette local. C'est voulu.

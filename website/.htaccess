@@ -8,6 +8,19 @@
 # <IfModule> : si un module manque, Apache démarre quand même.
 # -----------------------------------------------------------------------------
 
+# Adresse unique https://optelya.fr : http → https et www → sans www, en une
+# seule redirection permanente. Limité aux domaines de production : le site
+# local (http://localhost) n'est pas touché.
+# Tant que la protection par mot de passe est active, Apache la demande AVANT
+# cette redirection (`Require expr` pour l'éviter fait une 500 sur IONOS).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^(www\.)?optelya\.fr$ [NC]
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://optelya.fr%{REQUEST_URI} [R=301,L]
+</IfModule>
+
 # Pas de listage de répertoire. `Options -Indexes` serait plus net, mais exige
 # `AllowOverride Options` — refusé par beaucoup de mutualisés, et un refus fait
 # tomber TOUT le site en 500 ("Options not allowed here"). IndexIgnore relève de
@@ -47,8 +60,10 @@
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Cross-Origin-Opener-Policy "same-origin"
 
-  # PRODUCTION / HTTPS uniquement — à décommenter une fois le site en HTTPS.
-  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # HTTPS imposé au navigateur pendant un an (vérifié en production le
+  # 09/11/2026). Sans includeSubDomains : un futur sous-domaine sans certificat
+  # deviendrait inaccessible. Ignoré sur http (site local).
+  Header always set Strict-Transport-Security "max-age=31536000"
 
   # ---------------------------------------------------------------------------
   # CSP en Report-Only, FRONT UNIQUEMENT.

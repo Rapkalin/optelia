@@ -28,6 +28,18 @@ GEO (moteurs de réponse IA) du 08/11/2026 : corrections du code en 0.25.0.
 | `<head>` allégé | Plus de liens de flux, oEmbed, REST, shortlink (ni en en-têtes HTTP) |
 | Retour du formulaire | `?contact=…` en `noindex` |
 
+## Adresse unique
+
+`https://optelya.fr`, sans `www`. Le `.htaccess` (depuis la 1.0.0) redirige
+en **301**, en une seule étape, `http://` et `www.` vers cette adresse, chemin
+et paramètres conservés. La règle ne vise que `optelya.fr` : le site local
+n'est pas touché. HSTS impose ensuite le https au navigateur (voir
+[`securite.md`](securite.md)).
+
+`www.optelya.fr` est aussi redirigé par le panneau IONOS, mais en **302** :
+le relier à l'espace web à la place laisse la règle du `.htaccess` répondre
+en 301.
+
 ## Indexation selon l'environnement
 
 `DISALLOW_INDEXING` (`config/environments/development.php` et
@@ -60,12 +72,21 @@ lever à la mise en ligne.
 - Créer les pages légales et faire pointer les liens vers de vraies pages
   (voir [`accessibilite.md`](accessibilite.md)).
 
+## Mise en ligne (serveur)
+
+Dans `shared/.env` : `WP_ENV='production'` (`staging` force `noindex`), puis
+retirer le bloc `AuthType Basic` de `shared/.htaccess` et vider le cache
+(`wp rapkalin-cache flush`). Reporter dans `shared/.htaccess` la règle de
+redirection et la ligne HSTS du fichier versionné.
+
 ## À vérifier en production
 
-- `curl -s https://<domaine>/ | grep robots` : pas de `noindex`.
-- `curl -s https://<domaine>/robots.txt` : la ligne `Sitemap:` apparaît.
-- `/wp-sitemap.xml` : seulement les pages voulues.
-- `curl -I http://<domaine>/` : 301 vers https.
+- `curl -s https://optelya.fr/ | grep robots` : pas de `noindex`.
+- `curl -s https://optelya.fr/robots.txt` : la ligne `Sitemap:` apparaît.
+- `/wp-sitemap.xml` : seulement les pages voulues (accueil, pages, fiches
+  solution ; pas « Sample Page »).
+- `curl -I http://optelya.fr/` et `curl -I https://www.optelya.fr/` : 301
+  vers `https://optelya.fr/`.
 - Search Console : propriété, envoi du sitemap, inspection de l'accueil, test
   des résultats enrichis. Bing Webmaster Tools aussi (ChatGPT Search et
   Copilot s'appuient sur son index).

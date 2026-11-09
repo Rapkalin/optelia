@@ -8,7 +8,18 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 > version de `composer.json` n'a pas sa section ici.
 
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
-marquera la mise en production.
+marque la mise en production, le 09/11/2026.
+
+## 1.0.0
+
+Mise en ligne de **https://optelya.fr**.
+
+### Ajouté
+
+- **Une seule adresse pour le site** : `http://optelya.fr` et
+  `www.optelya.fr` redirigent définitivement (301) vers `https://optelya.fr`,
+  la même page, en une seule étape.
+- Le navigateur reste ensuite en https sur le site (HSTS, un an).
 
 ## 0.26.1
 
