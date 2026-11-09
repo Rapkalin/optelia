@@ -10,6 +10,14 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marquera la mise en production.
 
+## 0.26.1
+
+### Modifié
+
+- **En-tête plus lisible** : le nom du site passe de 22 à 26 px et les liens
+  du menu de 15 à 17 px sur ordinateur. Sur mobile, le nom gagne 2 px et le
+  menu déplié passe à 18 px. La hauteur de l'en-tête ne change pas.
+
 ## 0.26.0
 
 ### Ajouté
