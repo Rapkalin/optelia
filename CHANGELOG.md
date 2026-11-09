@@ -10,6 +10,16 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 1.0.1
+
+### Modifié
+
+- **En-tête aligné sur une référence du secteur** : le nom du site passe de
+  26 à 30 px. Les liens du menu passent en majuscules grasses de 16 px,
+  légèrement espacées, avec plus d'air entre eux sur grand écran. Le menu
+  reste sur une ligne dès 960 px de large et la hauteur de l'en-tête ne change
+  pas. Le bouton « Parler à un expert » garde son style.
+
 ## 1.0.0
 
 Mise en ligne de **https://optelya.fr**.

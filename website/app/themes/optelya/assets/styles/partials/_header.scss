@@ -3,8 +3,9 @@
 
 $toggle-bar-width: 18px;
 $toggle-bar-height: 2px;
+$letter-spacing-menu: 0.06em;
 // Site name without a logo: larger than the type scale's steps.
-$brand-size: 26px;
+$brand-size: 30px;
 $brand-size-compact: 21px;
 
 .site-header {
@@ -49,7 +50,7 @@ $brand-size-compact: 21px;
 
   &__nav {
     flex: 1 1 380px;
-    font-size: $font-size-md;
+    font-size: $font-size-base;
   }
 
   &__menu-cta {
@@ -59,7 +60,11 @@ $brand-size-compact: 21px;
   &__menu {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 26px;
+    // 48px from 1280px wide, down to 16px where the menu would wrap.
+    gap: 8px clamp(16px, 10vw - 80px, 48px);
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-menu;
+    text-transform: uppercase;
   }
 
   &__menu a {
