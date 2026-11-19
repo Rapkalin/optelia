@@ -39,7 +39,6 @@
 
 .contact-form {
   @include stack(18px);
-  padding: $panel-padding;
 
   &__field {
     @include stack(6px);
@@ -70,7 +69,6 @@
   &__submit {
     justify-content: center;
     border: 0;
-    background: $color-ink;
     font-family: inherit;
     cursor: pointer;
   }

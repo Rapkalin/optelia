@@ -39,6 +39,30 @@ final class OptelyaCatalog
     }
 
     /**
+     * Vendors of the products a text names (« Optimus · CETOL 6σ »), in the
+     * order the products appear, each once: the labels of a card.
+     *
+     * @param array<string, string> $vendorOfProduct Product name => vendor name.
+     * @return list<string>
+     */
+    public static function vendorsNamedIn(string $text, array $vendorOfProduct): array
+    {
+        $found = [];
+
+        foreach ($vendorOfProduct as $product => $vendor) {
+            $position = $product === '' ? false : mb_strpos($text, $product);
+
+            if ($position !== false) {
+                $found[] = [$position, $vendor];
+            }
+        }
+
+        usort($found, static fn(array $a, array $b): int => $a[0] <=> $b[0]);
+
+        return array_values(array_unique(array_column($found, 1)));
+    }
+
+    /**
      * The reader panels shared by every solution, with the vendor's seniority
      * second in the first dark panel (the technical director's), as in the
      * mockup.

@@ -72,7 +72,7 @@ $sectionClass = static function () use (&$isBand): string {
         <div class="section__inner">
             <?php /* translators: %s: product name */ ?>
             <?php get_template_part('components/section-heading', null, ['title' => sprintf(__('Ce que %s résout', 'optelya'), $product)]); ?>
-            <?php get_template_part('components/feature-cards', null, ['cards' => array_map(static fn(array $row): array => [
+            <?php get_template_part('components/card-grid', null, ['cards' => array_map(static fn(array $row): array => [
                 'title' => optelya_text($row['title'] ?? ''),
                 'text' => optelya_text($row['text'] ?? ''),
             ], optelya_rows(optelya_field('benefits', $solutionId)))]); ?>
@@ -114,7 +114,7 @@ $sectionClass = static function () use (&$isBand): string {
                     ]); ?>
                     <?php get_template_part('components/link', null, ['link' => ['label' => $studiesLabel, 'url' => (string) get_post_type_archive_link(OptelyaPostType::Study->value), 'target' => ''], 'class' => 'text-link']); ?>
                 </div>
-                <?php get_template_part('components/result-cards', null, ['cards' => $proofs]); ?>
+                <?php get_template_part('components/card-grid', null, ['cards' => $proofs]); ?>
             </div>
         </section>
     <?php elseif ($applications !== []) : ?>
@@ -125,7 +125,7 @@ $sectionClass = static function () use (&$isBand): string {
                     'title' => sprintf(__('%s en situation', 'optelya'), $product),
                     'intro' => optelya_text(optelya_field('applications_source', $solutionId)),
                 ]); ?>
-                <?php get_template_part('components/feature-cards', null, ['cards' => array_map(static fn(array $row): array => [
+                <?php get_template_part('components/card-grid', null, ['cards' => array_map(static fn(array $row): array => [
                     'title' => optelya_text($row['title'] ?? ''),
                     'text' => optelya_text($row['text'] ?? ''),
                 ], $applications)]); ?>

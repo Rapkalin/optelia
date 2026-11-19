@@ -18,8 +18,9 @@ if (! defined('ABSPATH')) {
             'intro' => optelya_sub_text('intro'),
         ]); ?>
 
-        <?php get_template_part('components/feature-cards', null, [
+        <?php get_template_part('components/card-grid', null, [
             'cards' => array_map(static fn(array $card): array => [
+                'vendors' => optelya_vendors_named_in(optelya_text($card['products'] ?? '')),
                 'title' => optelya_text($card['title'] ?? ''),
                 'text' => optelya_text($card['text'] ?? ''),
                 'products' => optelya_text($card['products'] ?? ''),

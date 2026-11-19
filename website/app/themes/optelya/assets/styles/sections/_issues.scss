@@ -5,47 +5,6 @@
   padding-bottom: 40px;
 }
 
-.issue-card {
-  @include stack(16px);
-  padding: $card-padding;
-  text-decoration: none;
-  color: $color-ink;
-
-  &:hover {
-    color: $color-ink;
-  }
-
-  .icon {
-    color: $color-accent;
-  }
-
-  &__title {
-    @include display-heading;
-    font-size: $font-size-4xl;
-  }
-
-  &__text {
-    font-size: $font-size-base;
-    line-height: $line-height-text;
-    color: $color-text-muted;
-  }
-
-  &__products {
-    margin-top: auto;
-    padding-top: 14px;
-    border-top: 1px solid $color-card-divider;
-    font-family: $font-mono;
-    font-size: $font-size-xs;
-    color: $color-ink;
-  }
-
-  &__more {
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-sm;
-    color: $color-accent;
-  }
-}
-
 .sectors {
   display: flex;
   flex-wrap: wrap;
@@ -84,6 +43,20 @@
   border: 1px solid $color-pill-border;
   border-radius: 20px;
   font-size: $font-size-xs;
+  font-family: inherit;
+  color: $color-ink;
   text-decoration: none;
   background: $color-white;
+
+  // A filter (button.pill) shows its state.
+  &[aria-pressed] {
+    cursor: pointer;
+  }
+
+  &[aria-pressed='true'] {
+    border-color: $color-ink;
+    background: $color-ink;
+    color: $color-white;
+    font-weight: $font-weight-semibold;
+  }
 }

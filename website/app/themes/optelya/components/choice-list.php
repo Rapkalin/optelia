@@ -23,8 +23,8 @@ if ($items === []) {
     <?php foreach ($items as $item) : ?>
         <li class="choice-list__item<?php echo ! empty($item['current']) ? ' choice-list__item--current' : ''; ?>">
             <div class="choice-list__name">
+                <?php get_template_part('components/vendor-chips', null, ['vendors' => [(string) $item['vendor']]]); ?>
                 <h3 class="choice-list__product"><?php echo esc_html((string) $item['name']); ?></h3>
-                <p class="choice-list__vendor"><?php echo esc_html((string) $item['vendor']); ?></p>
             </div>
             <p class="choice-list__text"><?php echo esc_html((string) $item['usage']); ?></p>
             <?php if (! empty($item['current'])) : ?>
@@ -33,7 +33,7 @@ if ($items === []) {
                 <?php get_template_part('components/link', null, [
                     /* translators: %s: product name */
                     'link' => ['label' => sprintf(__('Voir %s', 'optelya'), (string) $item['name']), 'url' => (string) $item['url'], 'target' => ''],
-                    'class' => 'text-link',
+                    'class' => 'card__link',
                     'context' => (string) $item['usage'],
                 ]); ?>
             <?php endif; ?>

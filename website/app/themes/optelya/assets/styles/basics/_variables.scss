@@ -60,21 +60,20 @@ $container-width: 1240px;
 $gutter: 24px;
 $radius-card: 10px;
 $radius-control: 6px;
+$radius-chip: 999px;
 // Header height with a logo (55px + padding): anchors stop below it.
 $header-offset: 88px;
 $logo-height: 55px;
 $grid-gap: 24px;
+$card-min-width: 300px;
 // Spacing that tightens on small screens: the values live in custom
 // properties (basics/_general.scss), so one media query covers every use.
 $section-space: var(--section-space);
 $card-padding: var(--card-padding);
-$panel-padding: var(--panel-padding);
 $section-space-wide: 88px;
 $section-space-compact: 56px;
 $card-padding-wide: 30px;
 $card-padding-compact: 20px;
-$panel-padding-wide: 34px;
-$panel-padding-compact: 22px;
 
 // Breakpoints: below $breakpoint-nav the header menu folds into a toggle.
 $breakpoint-nav: 960px;

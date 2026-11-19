@@ -144,10 +144,45 @@ function optelya_studies_count(int $solutionId): int
 }
 
 /**
- * A study as a figure card (components/result-cards.php); null without a
- * verified figure.
+ * Product name => vendor name of the published solutions: the vendor labels of
+ * the cards (components/vendor-chips.php).
  *
- * @return array{figure: string, label: string, products: string, source: string, link: array}|null
+ * @return array<string, string>
+ */
+function optelya_vendor_of_product(): array
+{
+    static $vendorOfProduct = null;
+
+    if ($vendorOfProduct !== null) {
+        return $vendorOfProduct;
+    }
+
+    $vendorOfProduct = [];
+
+    foreach (get_posts(['post_type' => OptelyaPostType::Solution->value, 'post_status' => 'publish', 'numberposts' => -1, 'fields' => 'ids']) as $solutionId) {
+        $vendorId = (int) optelya_field('vendor', (int) $solutionId);
+
+        if ($vendorId > 0) {
+            $vendorOfProduct[get_the_title((int) $solutionId)] = get_the_title($vendorId);
+        }
+    }
+
+    return $vendorOfProduct;
+}
+
+/**
+ * @return list<string>
+ */
+function optelya_vendors_named_in(string $text): array
+{
+    return OptelyaCatalog::vendorsNamedIn($text, optelya_vendor_of_product());
+}
+
+/**
+ * A study as a figure card (components/card.php); null without a verified
+ * figure.
+ *
+ * @return array{vendors: list<string>, figure: string, figure_label: string, products: string, source: string, link: array}|null
  */
 function optelya_study_card(int $studyId): ?array
 {
@@ -161,9 +196,12 @@ function optelya_study_card(int $studyId): ?array
     $client = optelya_text(optelya_field('client', $studyId));
     $source = optelya_text(optelya_field('source', $studyId));
 
+    $products = implode(' · ', array_map(static fn(mixed $solutionId): string => get_the_title((int) $solutionId), (array) optelya_field('solutions', $studyId)));
+
     return [
+        'vendors' => optelya_vendors_named_in($products),
         'figure' => $figure,
-        'label' => optelya_text(optelya_field('result', $studyId)),
+        'figure_label' => optelya_text(optelya_field('result', $studyId)),
         'products' => $industryId > 0 ? get_the_title($industryId) : '',
         'source' => implode(' · ', array_filter([$client, $source])),
         'link' => ['label' => __('Lire l’étude', 'optelya'), 'url' => (string) get_permalink($studyId), 'target' => ''],

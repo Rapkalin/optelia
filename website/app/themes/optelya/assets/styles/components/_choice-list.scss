@@ -29,17 +29,12 @@
   }
 
   &__name {
-    @include stack(2px);
+    @include stack(10px);
   }
 
   &__product {
     @include display-heading;
     font-size: $font-size-3xl;
-  }
-
-  &__vendor {
-    @include eyebrow($letter-spacing-wide);
-    color: $color-text-muted;
   }
 
   &__text {

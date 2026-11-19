@@ -20,10 +20,11 @@ if (! defined('ABSPATH')) {
             <?php get_template_part('components/link', null, ['link' => optelya_link(optelya_sub_field('all_link')), 'class' => 'text-link']); ?>
         </div>
 
-        <?php get_template_part('components/result-cards', null, [
+        <?php get_template_part('components/card-grid', null, [
             'cards' => array_map(static fn(array $card): array => [
+                'vendors' => optelya_vendors_named_in(optelya_text($card['products'] ?? '')),
                 'figure' => optelya_text($card['figure'] ?? ''),
-                'label' => optelya_text($card['label'] ?? ''),
+                'figure_label' => optelya_text($card['label'] ?? ''),
                 'products' => optelya_text($card['products'] ?? ''),
                 'source' => optelya_text($card['source'] ?? ''),
                 'link' => optelya_link($card['link'] ?? null),

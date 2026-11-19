@@ -1,46 +1,6 @@
 @use '../basics/variables' as *;
-@use '../basics/mixins' as *;
 
 // Closer to the issues above it, as in the mockup.
 .section--results {
   padding-top: $section-space-compact;
-}
-
-.result-card {
-  @include stack(12px);
-  padding: $card-padding;
-
-  p {
-    margin: 0;
-  }
-
-  &__figure {
-    font-family: $font-display;
-    font-weight: 800;
-    font-size: $font-size-figure;
-    line-height: 1;
-    color: $color-ink;
-  }
-
-  &__label {
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-md;
-  }
-
-  &__products {
-    font-family: $font-mono;
-    font-size: $font-size-2xs;
-    color: $color-text-muted;
-  }
-
-  &__source {
-    font-size: $font-size-xs;
-    color: $color-text-muted;
-  }
-
-  &__more {
-    margin-top: auto;
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-sm;
-  }
 }

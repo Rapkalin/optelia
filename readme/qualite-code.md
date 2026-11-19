@@ -57,6 +57,27 @@ réutilise : le HTML de l'accueil est resté identique, vérifié par diff, et s
 styles calculés aussi (660 éléments, 3 largeurs). Reste écartée l'enveloppe
 `<section>` (`get_template_part` ne sait pas envelopper un contenu).
 
+### Un élément d'interface = un seul composant
+
+Décision du 19/11/2026 : une carte, un bouton, un lien de carte sont **toujours
+présentés de la même manière**. Pour y arriver, chacun n'existe qu'une fois et
+s'appelle partout — dans le thème **et dans les maquettes** (`ux/maquettes/`
+fait rendre ses cartes par le thème, jamais à la main). Une variante est un
+paramètre, jamais une copie ni une surcharge CSS.
+
+| Élément | Composant | Ce qu'il impose |
+| --- | --- | --- |
+| Carte (enjeu, chiffre, étude, solution, éditeur, service) | `components/card.php`, en grille par `components/card-grid.php` | Cadre (30 px, bordure, coins), titre 22 px, zones facultatives dans un ordre fixe |
+| Lien d'une carte (et d'une entrée de `choice-list`) | `.card__link` | Orange, souligné, suivi de « → » dessiné par le style (une flèche saisie est retirée) |
+| Étiquette d'éditeur | `components/vendor-chips.php` | Premier élément de toute carte qui cite un logiciel ; éditeurs déduits des logiciels nommés (`OptelyaCatalog::vendorsNamedIn`) |
+| Bouton | `.button` + taille (`--small`, `--large`) | Orange : un seul bouton principal, envoi du formulaire compris |
+| Cadre sans lien (formulaire, panneaux) | `.card` | Même cadre que les cartes |
+| Pastille cliquable (secteur, filtre) | `.pill` | Un filtre est un `button.pill` à `aria-pressed` |
+
+Avant d'écrire un élément, chercher s'il existe dans `components/` ; en recette,
+mesurer les styles calculés par type de composant sur toutes les pages : une
+seule présentation par composant.
+
 **Ne jamais affecter `$id`, `$post`, `$posts`, `$comment`, `$user_ID`,
 `$wp_query`, `$wp`, `$wpdb`** dans un gabarit, un composant ou un layout :
 `load_template()` les déclare globales, et `$id = 'contact'` dans un composant

@@ -1,12 +1,142 @@
 @use '../basics/variables' as *;
 @use '../basics/mixins' as *;
 
+// The one card of the site (components/card.php), its link and its vendor
+// labels. A frame without a link (contact form, panels) is a `.card` too.
+
+$card-gap: 16px;
+$card-footer-gap: 10px;
+
 .card-grid {
-  @include auto-grid(300px);
+  @include auto-grid($card-min-width);
+
+  // A lone card keeps the width of a full row instead of spanning the page.
+  &--keep-width {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, $card-min-width), 1fr));
+  }
 }
 
 .card {
+  @include stack($card-gap);
+  padding: $card-padding;
   background: $color-white;
   border: 1px solid $color-card-border;
   border-radius: $radius-card;
+  color: $color-ink;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-ink;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .icon {
+    color: $color-accent;
+  }
+
+  &__eyebrow {
+    @include eyebrow($letter-spacing-wide);
+    color: $color-text-muted;
+  }
+
+  &__title {
+    @include display-heading;
+    font-size: $font-size-3xl;
+  }
+
+  &__figure {
+    @include stack(6px);
+    font-family: $font-display;
+    font-weight: 800;
+    font-size: $font-size-figure;
+    line-height: 1;
+  }
+
+  &__figure-label {
+    font-family: $font-text;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-md;
+    line-height: $line-height-text;
+  }
+
+  &__text {
+    font-size: $font-size-base;
+    line-height: $line-height-text;
+    color: $color-text-muted;
+  }
+
+  &__footer {
+    @include stack($card-footer-gap);
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid $color-card-divider;
+  }
+
+  &__products {
+    font-family: $font-mono;
+    font-size: $font-size-xs;
+  }
+
+  &__proof {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+
+    strong {
+      display: block;
+      font-family: $font-display;
+      font-size: $font-size-3xl;
+      color: $color-ink;
+    }
+  }
+
+  &__source {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  // Also the link of a choice-list entry: every link in a card looks the same.
+  &__link {
+    align-self: flex-start;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    color: $color-accent;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: $underline-offset;
+
+    // Not read aloud (empty alternative), not underlined (inline-block).
+    &::after {
+      content: '→';
+      content: #{"'→' / ''"};
+      display: inline-block;
+      margin-left: 6px;
+      text-decoration: none;
+    }
+
+    &:hover,
+    a.card:hover & {
+      color: $color-accent;
+      text-decoration-thickness: 2px;
+    }
+  }
+}
+
+.vendor-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vendor-chip {
+  padding: 4px 10px;
+  border: 1px solid $color-ink;
+  border-radius: $radius-chip;
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-bold;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }

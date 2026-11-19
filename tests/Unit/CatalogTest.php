@@ -32,3 +32,12 @@ it('puts the vendor seniority second in the first dark panel only', function ():
         ->and($result[2])->toBe($panels[2])
         ->and(OptelyaCatalog::readersWithVendor($panels, ''))->toBe($panels);
 });
+
+it('finds the vendors of the products a card names, in order and once', function (): void {
+    $vendors = ['Optimus' => 'Noesis Solutions', 'id8' => 'Noesis Solutions', 'CETOL 6σ' => 'Sigmetrix', 'RecurDyn' => 'FunctionBay'];
+
+    expect(OptelyaCatalog::vendorsNamedIn('CETOL 6σ + Optimus · id8', $vendors))->toBe(['Sigmetrix', 'Noesis Solutions'])
+        ->and(OptelyaCatalog::vendorsNamedIn('RecurDyn', $vendors))->toBe(['FunctionBay'])
+        ->and(OptelyaCatalog::vendorsNamedIn('Automobile & Mobilité', $vendors))->toBe([])
+        ->and(OptelyaCatalog::vendorsNamedIn('', ['' => 'Personne']))->toBe([]);
+});

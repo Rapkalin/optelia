@@ -200,7 +200,7 @@ function optelya_seed_homepage(): string
  */
 function optelya_seed_sections(): array
 {
-    $expert = optelya_seed_link('Voir les solutions →', OptelyaSection::Contact->url());
+    $expert = optelya_seed_link('Voir les solutions', OptelyaSection::Contact->url());
     $study = optelya_seed_link("Lire l'étude", OptelyaSection::Results->url());
     $publisherStudy = 'Étude Noesis Solutions';
 

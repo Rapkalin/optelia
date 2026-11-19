@@ -10,6 +10,21 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 1.1.0
+
+### Modifié
+
+- **Toutes les cartes du site se présentent de la même manière** : même cadre,
+  titre de même taille, et un lien toujours orange, souligné et suivi d'une
+  flèche.
+- **L'éditeur est affiché en tête de chaque carte** qui cite un logiciel
+  (Noesis Solutions, Sigmetrix, FunctionBay), ainsi que dans la liste « quel
+  outil pour quel besoin ».
+- **Un seul bouton principal, orange** : « Envoyer ma demande » prend la même
+  couleur que « Parler à un expert ».
+- Le formulaire de contact et les panneaux prennent le même cadre que les
+  cartes.
+
 ## 1.0.1
 
 ### Modifié

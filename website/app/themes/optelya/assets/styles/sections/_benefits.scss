@@ -10,7 +10,7 @@
 
   &__panel {
     @include stack(20px);
-    padding: $panel-padding;
+    padding: $card-padding;
     background: $color-white;
     border-radius: $radius-card;
 
