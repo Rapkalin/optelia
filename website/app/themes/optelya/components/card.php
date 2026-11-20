@@ -40,6 +40,7 @@ $filters = implode(' ', array_map('strval', (array) ($card['filters'] ?? [])));
 $hasFooter = $text('products') !== '' || $proofFigure !== '' || $text('source') !== '' || $linkLabel !== '';
 ?>
 <<?php echo $tag; ?> class="card"<?php echo $url === '' ? '' : ' href="' . $url . '"' . (($link['target'] ?? '') === '_blank' ? ' target="_blank" rel="noopener"' : ''); ?><?php echo $filters === '' ? '' : ' data-filters="' . esc_attr($filters) . '"'; ?>>
+    <div class="card__body">
     <?php get_template_part('components/vendor-chips', null, ['vendors' => $card['vendors'] ?? []]); ?>
     <?php if ($icon instanceof OptelyaIcon) : ?>
         <?php get_template_part('components/icon', null, ['icon' => $icon, 'size' => 40]); ?>
@@ -56,6 +57,7 @@ $hasFooter = $text('products') !== '' || $proofFigure !== '' || $text('source') 
     <?php if ($text('text') !== '') : ?>
         <p class="card__text"><?php echo esc_html($text('text')); ?></p>
     <?php endif; ?>
+    </div>
     <?php if ($hasFooter) : ?>
         <div class="card__footer">
             <?php if ($text('products') !== '') : ?>

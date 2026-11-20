@@ -56,6 +56,15 @@ function optelya_contact_link(): array
 }
 
 /**
+ * Whether a catalogue page has its template yet. Until then WordPress shows a
+ * bare list or an empty page: no link leads to it (breadcrumb, « all studies »).
+ */
+function optelya_is_built(OptelyaPostType $type, bool $archive = false): bool
+{
+    return locate_template(($archive ? 'archive-' : 'single-') . $type->value . '.php') !== '';
+}
+
+/**
  * @return array{label: string, url: string}
  */
 function optelya_breadcrumb_home(): array
@@ -75,8 +84,8 @@ function optelya_solution_breadcrumb(int $solutionId): array
 
     return [
         optelya_breadcrumb_home(),
-        ['label' => OptelyaPostType::Solution->plural(), 'url' => (string) get_post_type_archive_link(OptelyaPostType::Solution->value)],
-        ...($vendorId > 0 ? [['label' => get_the_title($vendorId), 'url' => (string) get_permalink($vendorId)]] : []),
+        ['label' => OptelyaPostType::Solution->plural(), 'url' => optelya_is_built(OptelyaPostType::Solution, true) ? (string) get_post_type_archive_link(OptelyaPostType::Solution->value) : ''],
+        ...($vendorId > 0 ? [['label' => get_the_title($vendorId), 'url' => optelya_is_built(OptelyaPostType::Vendor) ? (string) get_permalink($vendorId) : '']] : []),
         ['label' => get_the_title($solutionId), 'url' => ''],
     ];
 }

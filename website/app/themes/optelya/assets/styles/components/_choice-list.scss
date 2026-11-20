@@ -10,9 +10,9 @@
 
   &__item {
     display: grid;
-    grid-template-columns: minmax(0, 15em) minmax(0, 1fr) auto;
-    gap: 6px 24px;
-    align-items: center;
+    grid-template-columns: minmax(0, 15em) minmax(0, 1fr);
+    gap: 10px 24px;
+    align-items: start;
     padding: 22px $card-padding;
 
     & + & {
@@ -35,6 +35,12 @@
   &__product {
     @include display-heading;
     font-size: $font-size-3xl;
+  }
+
+  // The text, then the link under it, as in a card.
+  &__body {
+    @include stack(10px);
+    align-items: flex-start;
   }
 
   &__text {

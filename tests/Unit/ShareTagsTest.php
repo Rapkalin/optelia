@@ -96,3 +96,16 @@ it('writes the characters of WordPress titles, not their HTML entities', functio
     expect($graph['@context'])->toBe('https://schema.org');
     expect($graph['@graph'][0]['name'])->toBe('Optimus – Noesis & l\'éditeur');
 });
+
+it('leaves out of the markup a step that has no page yet, and numbers the rest', function () {
+    $list = OptelyaShareTags::breadcrumb([
+        ['label' => 'Accueil', 'url' => 'https://example.test/'],
+        ['label' => 'Solutions', 'url' => ''],
+        ['label' => 'Noesis Solutions', 'url' => ''],
+        ['label' => 'Optimus', 'url' => ''],
+    ], 'https://example.test/solutions/optimus/');
+
+    expect(array_column($list['itemListElement'], 'name'))->toBe(['Accueil', 'Optimus'])
+        ->and(array_column($list['itemListElement'], 'position'))->toBe([1, 2])
+        ->and($list['itemListElement'][1]['item'])->toBe('https://example.test/solutions/optimus/');
+});

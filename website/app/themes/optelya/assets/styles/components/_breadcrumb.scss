@@ -57,9 +57,12 @@
     &__item--parent {
       display: flex;
 
-      // Same weight as the separator rule, which it must override.
-      .breadcrumb__item + &::before {
+      // Also when it is the first step (the ones without a page are skipped);
+      // as specific as the separator rule, and after it, to override it.
+      .breadcrumb__list &::before {
         content: '\2190' / '';
+        font-size: 1.2em;
+        line-height: 1;
       }
     }
   }

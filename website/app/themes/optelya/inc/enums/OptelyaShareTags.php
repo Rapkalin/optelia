@@ -115,11 +115,17 @@ final class OptelyaShareTags
     public static function breadcrumb(array $items, string $currentUrl): array
     {
         $elements = [];
+        $last = count($items) - 1;
 
         foreach ($items as $index => $item) {
+            // A step without a page of its own yet (no template) is shown, not marked up.
+            if ($item['url'] === '' && $index !== $last) {
+                continue;
+            }
+
             $elements[] = [
                 '@type' => 'ListItem',
-                'position' => $index + 1,
+                'position' => count($elements) + 1,
                 'name' => $item['label'],
                 'item' => $item['url'] !== '' ? $item['url'] : $currentUrl,
             ];

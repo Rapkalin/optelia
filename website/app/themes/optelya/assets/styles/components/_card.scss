@@ -14,6 +14,15 @@ $card-footer-gap: 10px;
   &--keep-width {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, $card-min-width), 1fr));
   }
+
+  // Body and footer share the rows of the grid: on one line of cards, every
+  // footer (its divider, then its link) starts at the same height.
+  > .card:has(> .card__footer) {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    row-gap: $card-gap;
+  }
 }
 
 .card {
@@ -35,6 +44,10 @@ $card-footer-gap: 10px;
 
   .icon {
     color: $color-accent;
+  }
+
+  &__body {
+    @include stack($card-gap);
   }
 
   &__eyebrow {
@@ -70,7 +83,7 @@ $card-footer-gap: 10px;
 
   &__footer {
     @include stack($card-footer-gap);
-    margin-top: auto;
+    align-items: flex-start;
     padding-top: 14px;
     border-top: 1px solid $color-card-divider;
   }
@@ -98,8 +111,9 @@ $card-footer-gap: 10px;
   }
 
   // Also the link of a choice-list entry: every link in a card looks the same.
+  // At the bottom of the footer: the links of a row stay on one line.
   &__link {
-    align-self: flex-start;
+    margin-top: auto;
     font-weight: $font-weight-semibold;
     font-size: $font-size-sm;
     color: $color-accent;

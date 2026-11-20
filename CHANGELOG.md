@@ -10,6 +10,20 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 1.1.1
+
+### Corrigé
+
+- **Plus de lien vers une page pas encore construite** : dans le fil d'Ariane
+  d'une fiche solution, « Solutions » et le nom de l'éditeur s'affichent sans
+  lien tant que leur page n'existe pas, et le lien « Voir les études » n'apparaît
+  qu'avec la bibliothèque. Ils menaient à une liste brute ou à une page vide.
+  Sur mobile, le fil d'Ariane remonte à la dernière étape qui a une page.
+- **Cartes alignées** : sur une même ligne de cartes, le trait de séparation et
+  le lien « Lire l'étude » sont à la même hauteur partout.
+- Dans la liste « quel outil pour quel besoin », le lien « Voir … » se place
+  sous la description, comme dans une carte.
+
 ## 1.1.0
 
 ### Modifié

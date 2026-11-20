@@ -26,6 +26,7 @@ if ($items === []) {
                 <?php get_template_part('components/vendor-chips', null, ['vendors' => [(string) $item['vendor']]]); ?>
                 <h3 class="choice-list__product"><?php echo esc_html((string) $item['name']); ?></h3>
             </div>
+            <div class="choice-list__body">
             <p class="choice-list__text"><?php echo esc_html((string) $item['usage']); ?></p>
             <?php if (! empty($item['current'])) : ?>
                 <span class="choice-list__here" aria-current="page"><?php esc_html_e('Vous êtes sur cette page', 'optelya'); ?></span>
@@ -37,6 +38,7 @@ if ($items === []) {
                     'context' => (string) $item['usage'],
                 ]); ?>
             <?php endif; ?>
+            </div>
         </li>
     <?php endforeach; ?>
 </ul>

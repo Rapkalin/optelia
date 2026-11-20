@@ -112,7 +112,7 @@ $sectionClass = static function () use (&$isBand): string {
                         'title' => sprintf(__('%s en situation', 'optelya'), $product),
                         'intro' => __('Des gains mesurés, tirés d’études publiées.', 'optelya'),
                     ]); ?>
-                    <?php get_template_part('components/link', null, ['link' => ['label' => $studiesLabel, 'url' => (string) get_post_type_archive_link(OptelyaPostType::Study->value), 'target' => ''], 'class' => 'text-link']); ?>
+                    <?php get_template_part('components/link', null, ['link' => ['label' => $studiesLabel, 'url' => optelya_is_built(OptelyaPostType::Study, true) ? (string) get_post_type_archive_link(OptelyaPostType::Study->value) : '', 'target' => ''], 'class' => 'text-link']); ?>
                 </div>
                 <?php get_template_part('components/card-grid', null, ['cards' => $proofs]); ?>
             </div>
