@@ -10,6 +10,17 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 1.1.2
+
+### Modifié
+
+- **Liste « quel outil pour quel besoin » revue** : un tableau sur toute la
+  largeur, avec le nom de la solution, son usage, puis le lien « Voir … » au
+  bout de la ligne ; chaque ligne est cliquable en entier. L'éditeur n'y est
+  plus rappelé quand toutes les solutions sont du même éditeur.
+- **Pas de lien « tout voir » qui répète la seule carte** : il n'apparaît que
+  s'il reste des études à voir au-delà des cartes affichées.
+
 ## 1.1.1
 
 ### Corrigé

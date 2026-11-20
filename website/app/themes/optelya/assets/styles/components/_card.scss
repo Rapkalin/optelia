@@ -131,7 +131,8 @@ $card-footer-gap: 10px;
     }
 
     &:hover,
-    a.card:hover & {
+    a.card:hover &,
+    a.choice-list__item:hover & {
       color: $color-accent;
       text-decoration-thickness: 2px;
     }

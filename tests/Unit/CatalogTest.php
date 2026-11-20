@@ -8,6 +8,12 @@ it('never shows « 0 étude » and agrees the label with the count', function ()
         ->and(OptelyaCatalog::studiesLabel(31, 'Optimus'))->toBe('Voir les 31 études Optimus');
 });
 
+it('offers no « see all » when the cards shown are all the studies', function (): void {
+    expect(OptelyaCatalog::studiesLabel(1, 'Sigmetrix', 1))->toBe('')
+        ->and(OptelyaCatalog::studiesLabel(3, 'Optimus', 3))->toBe('')
+        ->and(OptelyaCatalog::studiesLabel(31, 'Optimus', 3))->toBe('Voir les 31 études Optimus');
+});
+
 it('keeps the header button on the page when the page has the section', function (): void {
     $url = 'https://optelya.test/#expert';
 

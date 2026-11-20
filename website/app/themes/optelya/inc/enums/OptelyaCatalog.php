@@ -14,13 +14,14 @@ if (! defined('ABSPATH')) {
 final class OptelyaCatalog
 {
     /**
-     * Label of the link to every study of a product; '' when there is none:
-     * never « 0 étude » (zoning v2, decision 11).
+     * Label of the link to every study of a product; '' when the cards shown
+     * already are all of them: never « 0 étude » (zoning v2, decision 11), and
+     * no « see all » repeating the only card (decision of 20/11/2026).
      */
-    public static function studiesLabel(int $count, string $product): string
+    public static function studiesLabel(int $count, string $product, int $shown = 0): string
     {
         return match (true) {
-            $count < 1 => '',
+            $count < 1, $count <= $shown => '',
             /* translators: %s: product name */
             $count === 1 => sprintf(__('Voir l’étude %s', 'optelya'), $product),
             /* translators: 1: number of studies, 2: product name */

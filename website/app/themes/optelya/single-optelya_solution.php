@@ -103,7 +103,7 @@ $sectionClass = static function () use (&$isBand): string {
     <?php endif; ?>
 
     <?php if ($proofs !== []) : ?>
-        <?php $studiesLabel = OptelyaCatalog::studiesLabel(optelya_studies_count($solutionId), $product); ?>
+        <?php $studiesLabel = OptelyaCatalog::studiesLabel(optelya_studies_count($solutionId), $product, count($proofs)); ?>
         <section id="<?php echo esc_attr($proofAnchor); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">

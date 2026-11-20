@@ -68,7 +68,8 @@ paramètre, jamais une copie ni une surcharge CSS.
 | Élément | Composant | Ce qu'il impose |
 | --- | --- | --- |
 | Carte (enjeu, chiffre, étude, solution, éditeur, service) | `components/card.php`, en grille par `components/card-grid.php` | Cadre (30 px, bordure, coins), titre 22 px, zones facultatives dans un ordre fixe ; corps et pied partagent les lignes de la grille (`subgrid`) : sur une ligne de cartes, séparateurs et liens à la même hauteur |
-| Lien d'une carte (et d'une entrée de `choice-list`) | `.card__link` | Orange, souligné, suivi de « → » dessiné par le style (une flèche saisie est retirée) ; en bas de la carte, sous le contenu, jamais à droite |
+| Lien d'une carte (et d'une entrée de `choice-list`) | `.card__link` | Orange, souligné, suivi de « → » dessiné par le style (une flèche saisie est retirée) ; en bas de la carte |
+| Tableau « quel outil pour quel besoin » | `components/choice-list.php` | Toute la largeur : solution, besoin, lien « Voir … » au bout ; chaque ligne est un lien ; en-tête discret ; étiquette d'éditeur seulement si les solutions viennent de plusieurs éditeurs |
 | Étiquette d'éditeur | `components/vendor-chips.php` | Premier élément de toute carte qui cite un logiciel ; éditeurs déduits des logiciels nommés (`OptelyaCatalog::vendorsNamedIn`) |
 | Bouton | `.button` + taille (`--small`, `--large`) | Orange : un seul bouton principal, envoi du formulaire compris |
 | Cadre sans lien (formulaire, panneaux) | `.card` | Même cadre que les cartes |

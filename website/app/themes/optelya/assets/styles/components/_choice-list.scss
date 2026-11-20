@@ -1,35 +1,69 @@
 @use '../basics/variables' as *;
 @use '../basics/mixins' as *;
 
-// Which tool for which need: products side by side, the current one marked.
+// Which tool for which need: a table of products across the whole width
+// (name, need, link at the end), each row a link, the current one marked.
+// In rem: the head (smaller text) and the rows share the same first column.
+$choice-columns: minmax(0, 14rem) minmax(0, 1fr) auto;
+$choice-row-padding: 22px;
+
 .choice-list {
-  @include list-reset;
   background: $color-white;
   border: 1px solid $color-card-border;
   border-radius: $radius-card;
+  overflow: hidden;
 
+  &__head,
   &__item {
     display: grid;
-    grid-template-columns: minmax(0, 15em) minmax(0, 1fr);
-    gap: 10px 24px;
-    align-items: start;
-    padding: 22px $card-padding;
+    grid-template-columns: $choice-columns;
+    gap: 10px 32px;
+    align-items: center;
+    padding-right: $card-padding;
+    padding-left: $card-padding;
+  }
 
-    & + & {
+  &__head {
+    @include eyebrow($letter-spacing-wide);
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid $color-card-divider;
+    color: $color-text-muted;
+  }
+
+  &__items {
+    @include list-reset;
+
+    li + li {
       border-top: 1px solid $color-card-divider;
+    }
+  }
+
+  &__item {
+    padding-top: $choice-row-padding;
+    padding-bottom: $choice-row-padding;
+    color: $color-ink;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-ink;
+      background: $color-paper;
     }
 
     &--current {
       box-shadow: inset 4px 0 0 $color-accent;
     }
 
-    @include below($breakpoint-compact) {
-      grid-template-columns: minmax(0, 1fr);
+    .card__link,
+    .choice-list__here {
+      justify-self: end;
+      margin-top: 0;
     }
   }
 
   &__name {
     @include stack(10px);
+    align-items: flex-start;
   }
 
   &__product {
@@ -37,14 +71,7 @@
     font-size: $font-size-3xl;
   }
 
-  // The text, then the link under it, as in a card.
-  &__body {
-    @include stack(10px);
-    align-items: flex-start;
-  }
-
   &__text {
-    margin: 0;
     line-height: $line-height-text;
     color: $color-text-muted;
   }
@@ -52,5 +79,21 @@
   &__here {
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
+  }
+
+  // One column: name, need, then the link, on the left.
+  @include below($breakpoint-compact) {
+    &__head {
+      display: none;
+    }
+
+    &__item {
+      grid-template-columns: minmax(0, 1fr);
+
+      .card__link,
+      .choice-list__here {
+        justify-self: start;
+      }
+    }
   }
 }
