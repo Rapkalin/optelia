@@ -68,6 +68,26 @@
             "new_lines": ""
         },
         {
+            "key": "field_optelya_solution_card_text",
+            "label": "Phrase de carte",
+            "name": "card_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Une phrase sur la carte de la solution : liste des solutions, autres solutions de l'éditeur. 90 caractères au plus.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 90,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_optelya_solution_secondary_label",
             "label": "Lien vers les preuves",
             "name": "secondary_label",
@@ -497,135 +517,6 @@
             "elements": "",
             "bidirectional": 0,
             "bidirectional_target": []
-        },
-        {
-            "key": "field_optelya_solution_tab_choice",
-            "label": "Aide au choix",
-            "name": "",
-            "aria-label": "",
-            "type": "tab",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "placement": "top",
-            "endpoint": 0
-        },
-        {
-            "key": "field_optelya_solution_choice_title",
-            "label": "Titre",
-            "name": "choice_title",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "Ex. « Optimus, id8 ou nvision ? ». Vide : la zone n'apparaît pas.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_optelya_solution_choice_intro",
-            "label": "Introduction",
-            "name": "choice_intro",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
-            "key": "field_optelya_solution_choice_items",
-            "label": "Logiciels comparés",
-            "name": "choice_items",
-            "aria-label": "",
-            "type": "repeater",
-            "instructions": "Ce logiciel compris : il est marqué « Vous êtes sur cette page ».",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "layout": "block",
-            "pagination": 0,
-            "min": 0,
-            "max": 4,
-            "collapsed": "",
-            "button_label": "Ajouter",
-            "rows_per_page": 20,
-            "sub_fields": [
-                {
-                    "key": "field_optelya_solution_choice_items_solution",
-                    "label": "Logiciel",
-                    "name": "solution",
-                    "aria-label": "",
-                    "type": "post_object",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "post_type": [
-                        "optelya_solution"
-                    ],
-                    "post_status": [
-                        "publish"
-                    ],
-                    "taxonomy": "",
-                    "return_format": "id",
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "ui": 1,
-                    "bidirectional": 0,
-                    "bidirectional_target": []
-                },
-                {
-                    "key": "field_optelya_solution_choice_items_usage",
-                    "label": "Usage en une phrase",
-                    "name": "usage",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": 90,
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                }
-            ]
         },
         {
             "key": "field_optelya_solution_tab_details",

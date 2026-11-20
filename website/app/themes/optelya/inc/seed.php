@@ -39,6 +39,7 @@ function optelya_seed(): array
     }
 
     $log[] = optelya_seed_catalog();
+    $log[] = optelya_seed_card_texts();
 
     return $log;
 }

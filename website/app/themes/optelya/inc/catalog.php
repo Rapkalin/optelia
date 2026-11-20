@@ -187,6 +187,42 @@ function optelya_vendors_named_in(string $text): array
     return OptelyaCatalog::vendorsNamedIn($text, optelya_vendor_of_product());
 }
 
+/** At most one row of cards: beyond, a link to the vendor's page. */
+const OPTELYA_OTHER_SOLUTIONS_SHOWN = 3;
+
+/**
+ * The other published solutions of the same vendor, as cards
+ * (components/card.php), without vendor label: the heading names it.
+ *
+ * @return array{cards: list<array<string, mixed>>, count: int}
+ */
+function optelya_other_solutions(int $solutionId, int $vendorId): array
+{
+    if ($vendorId <= 0) {
+        return ['cards' => [], 'count' => 0];
+    }
+
+    $ids = get_posts([
+        'post_type' => OptelyaPostType::Solution->value,
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'fields' => 'ids',
+        'post__not_in' => [$solutionId],
+        'orderby' => ['menu_order' => 'ASC', 'title' => 'ASC'],
+        'meta_query' => [['key' => 'vendor', 'value' => $vendorId]],
+    ]);
+
+    return [
+        'cards' => array_map(static fn(int $id): array => [
+            'title' => get_the_title($id),
+            'text' => optelya_text(optelya_field('card_text', $id)),
+            /* translators: %s: product name */
+            'link' => ['label' => sprintf(__('Voir %s', 'optelya'), get_the_title($id)), 'url' => (string) get_permalink($id), 'target' => ''],
+        ], array_slice(array_map('intval', $ids), 0, OPTELYA_OTHER_SOLUTIONS_SHOWN)),
+        'count' => count($ids),
+    ];
+}
+
 /**
  * A study as a figure card (components/card.php); null without a verified
  * figure.

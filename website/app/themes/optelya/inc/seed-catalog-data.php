@@ -92,6 +92,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'noesis-solutions',
                 'issue' => 'optimiser',
                 'promise' => 'Automatisez vos chaînes de calcul et trouvez le meilleur compromis de conception. Démonstration possible sur votre cas.',
+                'card_text' => 'Automatiser vos chaînes de calcul CAE et trouver le meilleur compromis.',
                 'benefits' => [
                     [
                         'title' => 'Automatiser',
@@ -104,24 +105,6 @@ function optelya_seed_catalog_data(): array
                     [
                         'title' => 'Fiabiliser',
                         'text' => 'Robustesse et sensibilité de la conception.',
-                    ],
-                ],
-                'choice' => [
-                    'title' => 'Optimus, id8 ou nvision ?',
-                    'intro' => 'Trois logiciels Noesis Solutions, trois usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'optimus',
-                            'usage' => 'Automatiser et optimiser vos simulations.',
-                        ],
-                        [
-                            'solution' => 'id8',
-                            'usage' => 'Partager des workflows validés dans le cloud.',
-                        ],
-                        [
-                            'solution' => 'nvision',
-                            'usage' => 'Prédire à partir de vos données de simulation.',
-                        ],
                     ],
                 ],
                 'details' => [
@@ -161,6 +144,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'noesis-solutions',
                 'issue' => 'optimiser',
                 'promise' => 'Plateforme cloud-native, ouverte et collaborative pour industrialiser les workflows de simulation et partager des applications d’ingénierie.',
+                'card_text' => 'Partager workflows et applications de simulation, dans le cloud.',
                 'benefits' => [
                     [
                         'title' => 'Plateforme ouverte et personnalisable',
@@ -175,24 +159,6 @@ function optelya_seed_catalog_data(): array
                         'text' => '',
                     ],
                 ],
-                'choice' => [
-                    'title' => 'Optimus, id8 ou nvision ?',
-                    'intro' => 'Trois logiciels Noesis Solutions, trois usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'optimus',
-                            'usage' => 'Automatiser et optimiser vos simulations.',
-                        ],
-                        [
-                            'solution' => 'id8',
-                            'usage' => 'Partager des workflows validés dans le cloud.',
-                        ],
-                        [
-                            'solution' => 'nvision',
-                            'usage' => 'Prédire à partir de vos données de simulation.',
-                        ],
-                    ],
-                ],
                 'details' => [],
                 'applications' => [],
                 'applications_source' => '',
@@ -205,6 +171,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'noesis-solutions',
                 'issue' => 'donnees',
                 'promise' => 'Transformation des données de simulation existantes en modèles prédictifs capables d’évaluer de nouveaux cas en temps quasi réel.',
+                'card_text' => 'Des modèles prédictifs entraînés sur vos simulations : une réponse en secondes.',
                 'benefits' => [
                     [
                         'title' => 'Modèles surrogate à partir de données CAE',
@@ -219,24 +186,6 @@ function optelya_seed_catalog_data(): array
                         'text' => '',
                     ],
                 ],
-                'choice' => [
-                    'title' => 'Optimus, id8 ou nvision ?',
-                    'intro' => 'Trois logiciels Noesis Solutions, trois usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'optimus',
-                            'usage' => 'Automatiser et optimiser vos simulations.',
-                        ],
-                        [
-                            'solution' => 'id8',
-                            'usage' => 'Partager des workflows validés dans le cloud.',
-                        ],
-                        [
-                            'solution' => 'nvision',
-                            'usage' => 'Prédire à partir de vos données de simulation.',
-                        ],
-                    ],
-                ],
                 'details' => [],
                 'applications' => [],
                 'applications_source' => '',
@@ -249,6 +198,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'sigmetrix',
                 'issue' => 'tolerances',
                 'promise' => 'Analyse de tolérances 3D dans l’environnement CAO pour anticiper les variations de fabrication et les risques d’assemblage.',
+                'card_text' => 'Analyse de tolérances 3D, directement dans la CAO.',
                 'benefits' => [
                     [
                         'title' => 'Analyse 3D de chaînes de cotes',
@@ -261,28 +211,6 @@ function optelya_seed_catalog_data(): array
                     [
                         'title' => 'Réduction des risques avant outillage',
                         'text' => '',
-                    ],
-                ],
-                'choice' => [
-                    'title' => 'CETOL 6σ, EZtol, Varisight ou la formation ?',
-                    'intro' => 'Quatre offres Sigmetrix, quatre usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'cetol-6-sigma',
-                            'usage' => 'Analyse de tolérances 3D, directement dans la CAO.',
-                        ],
-                        [
-                            'solution' => 'eztol',
-                            'usage' => 'Chaînes de cotes 1D, rapides, dès l\'avant-projet.',
-                        ],
-                        [
-                            'solution' => 'varisight',
-                            'usage' => 'Piloter et capitaliser la variation, de la conception aux fournisseurs.',
-                        ],
-                        [
-                            'solution' => 'formation-iso-gps',
-                            'usage' => 'Un socle commun ISO GPS / GD&T, en ligne.',
-                        ],
                     ],
                 ],
                 'details' => [],
@@ -299,6 +227,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'sigmetrix',
                 'issue' => 'tolerances',
                 'promise' => 'Solution rapide pour les analyses de chaînes de cotes 1D, utile en avant-projet, revue de conception et arbitrage de tolérances.',
+                'card_text' => 'Chaînes de cotes 1D, rapides, dès l’avant-projet.',
                 'benefits' => [
                     [
                         'title' => 'Analyses 1D simples et rapides',
@@ -313,28 +242,6 @@ function optelya_seed_catalog_data(): array
                         'text' => '',
                     ],
                 ],
-                'choice' => [
-                    'title' => 'CETOL 6σ, EZtol, Varisight ou la formation ?',
-                    'intro' => 'Quatre offres Sigmetrix, quatre usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'cetol-6-sigma',
-                            'usage' => 'Analyse de tolérances 3D, directement dans la CAO.',
-                        ],
-                        [
-                            'solution' => 'eztol',
-                            'usage' => 'Chaînes de cotes 1D, rapides, dès l\'avant-projet.',
-                        ],
-                        [
-                            'solution' => 'varisight',
-                            'usage' => 'Piloter et capitaliser la variation, de la conception aux fournisseurs.',
-                        ],
-                        [
-                            'solution' => 'formation-iso-gps',
-                            'usage' => 'Un socle commun ISO GPS / GD&T, en ligne.',
-                        ],
-                    ],
-                ],
                 'details' => [],
                 'applications' => [],
                 'applications_source' => '',
@@ -347,6 +254,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'sigmetrix',
                 'issue' => 'tolerances',
                 'promise' => 'Approche orientée pilotage de la variation, capitalisation et analyse des risques dimensionnels dans le développement produit.',
+                'card_text' => 'Piloter et capitaliser la variation, de la conception aux fournisseurs.',
                 'benefits' => [
                     [
                         'title' => 'Gestion de la variation produit',
@@ -361,28 +269,6 @@ function optelya_seed_catalog_data(): array
                         'text' => '',
                     ],
                 ],
-                'choice' => [
-                    'title' => 'CETOL 6σ, EZtol, Varisight ou la formation ?',
-                    'intro' => 'Quatre offres Sigmetrix, quatre usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'cetol-6-sigma',
-                            'usage' => 'Analyse de tolérances 3D, directement dans la CAO.',
-                        ],
-                        [
-                            'solution' => 'eztol',
-                            'usage' => 'Chaînes de cotes 1D, rapides, dès l\'avant-projet.',
-                        ],
-                        [
-                            'solution' => 'varisight',
-                            'usage' => 'Piloter et capitaliser la variation, de la conception aux fournisseurs.',
-                        ],
-                        [
-                            'solution' => 'formation-iso-gps',
-                            'usage' => 'Un socle commun ISO GPS / GD&T, en ligne.',
-                        ],
-                    ],
-                ],
                 'details' => [],
                 'applications' => [],
                 'applications_source' => '',
@@ -395,6 +281,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'sigmetrix',
                 'issue' => 'tolerances',
                 'promise' => 'Former les ingénieurs, concepteurs, qualité et méthodes aux fondamentaux ISO GPS / GD&T, MBD/MBE et analyse de tolérances.',
+                'card_text' => 'Un socle commun ISO GPS / GD&T, en ligne.',
                 'benefits' => [
                     [
                         'title' => 'Formation autonome et progressive',
@@ -409,28 +296,6 @@ function optelya_seed_catalog_data(): array
                         'text' => '',
                     ],
                 ],
-                'choice' => [
-                    'title' => 'CETOL 6σ, EZtol, Varisight ou la formation ?',
-                    'intro' => 'Quatre offres Sigmetrix, quatre usages.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'cetol-6-sigma',
-                            'usage' => 'Analyse de tolérances 3D, directement dans la CAO.',
-                        ],
-                        [
-                            'solution' => 'eztol',
-                            'usage' => 'Chaînes de cotes 1D, rapides, dès l\'avant-projet.',
-                        ],
-                        [
-                            'solution' => 'varisight',
-                            'usage' => 'Piloter et capitaliser la variation, de la conception aux fournisseurs.',
-                        ],
-                        [
-                            'solution' => 'formation-iso-gps',
-                            'usage' => 'Un socle commun ISO GPS / GD&T, en ligne.',
-                        ],
-                    ],
-                ],
                 'details' => [],
                 'applications' => [],
                 'applications_source' => '',
@@ -443,6 +308,7 @@ function optelya_seed_catalog_data(): array
                 'vendor' => 'functionbay',
                 'issue' => 'mecanismes',
                 'promise' => 'Simulez vos mécanismes : contacts, engrenages, corps flexibles, charges dynamiques. Démonstration possible sur votre cas.',
+                'card_text' => 'Dynamique multi-corps : contacts, engrenages, corps flexibles.',
                 'benefits' => [
                     [
                         'title' => 'Simuler le mouvement réel',
@@ -455,24 +321,6 @@ function optelya_seed_catalog_data(): array
                     [
                         'title' => 'Prendre en compte la flexibilité',
                         'text' => 'Corps flexibles et mouvements rapides.',
-                    ],
-                ],
-                'choice' => [
-                    'title' => 'RecurDyn, Optimus ou CETOL 6σ ?',
-                    'intro' => 'RecurDyn est le seul logiciel FunctionBay : le choix se fait entre éditeurs.',
-                    'choice_items' => [
-                        [
-                            'solution' => 'recurdyn',
-                            'usage' => 'Simuler le mouvement réel d\'un mécanisme.',
-                        ],
-                        [
-                            'solution' => 'optimus',
-                            'usage' => 'Optimiser la conception, y compris en pilotant un solveur.',
-                        ],
-                        [
-                            'solution' => 'cetol-6-sigma',
-                            'usage' => 'Fiabiliser vos tolérances.',
-                        ],
                     ],
                 ],
                 'details' => [

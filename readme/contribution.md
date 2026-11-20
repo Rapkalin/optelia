@@ -106,7 +106,7 @@ Quatre types de contenu, liés entre eux par des **relations** (on choisit un
 
 | Type | Adresse | Porte |
 | --- | --- | --- |
-| **Solution** (logiciel ou formation) | `/solutions/<nom>/` | éditeur, promesse, visuel, 3 bénéfices, vidéo, études de preuve **ou** applications + industries, aide au choix, détails techniques, fiche PDF, titre du bloc contact |
+| **Solution** (logiciel ou formation) | `/solutions/<nom>/` | éditeur, promesse, **phrase de carte**, visuel, 3 bénéfices, vidéo, études de preuve **ou** applications + industries, détails techniques, fiche PDF, titre du bloc contact |
 | **Éditeur** | `/editeurs/<nom>/` | ancienneté (« développe ses logiciels depuis 1996 ») |
 | **Industrie** | `/industries/<nom>/` | champs de la future page industrie |
 | **Étude de cas** | `/etudes-de-cas/` | fiche minimale : chiffre, libellé, source, solutions liées, PDF |
@@ -116,18 +116,21 @@ solutions et études ; elle n'a pas de page publique.
 
 **Champs fixes par type**, pas de contenu flexible : une fiche solution a
 toujours la même structure, dans le même ordre. Un champ facultatif laissé vide
-retire sa zone (vidéo, aide au choix, détails), et le fond alterné se recale
+retire sa zone (vidéo, détails), et le fond alterné se recale
 sur les zones affichées.
 
 **Ce qui est calculé, pas saisi** :
 
-- le fil d'Ariane (Accueil › Solutions › éditeur › produit) ;
+- le fil d'Ariane (Accueil › Solutions › éditeur › produit) — une étape dont la
+  page n'est pas encore construite s'affiche sans lien ;
 - « Voir les 31 études Optimus » : nombre d'études publiées qui citent la
   solution ;
 - la ligne « Un éditeur établi » des panneaux : l'ancienneté de l'éditeur, ou
   rien si elle n'est pas saisie (jamais de « à fournir » publié) ;
-- dans l'aide au choix, le nom, l'éditeur et le lien de chaque logiciel, et la
-  ligne « Vous êtes sur cette page » ;
+- « Découvrir les autres solutions <éditeur> » : les autres solutions publiées du
+  même éditeur, avec leur **phrase de carte** (3 au plus ; au-delà, « Voir les N
+  solutions » vers la page de l'éditeur) ; rien si l'éditeur n'en a pas d'autre.
+  Remplace l'« aide au choix » saisie à la main (2.0.0) ;
 - le texte d'introduction, les étapes et la mention du bloc contact : ceux de
   la section Contact de l'accueil, saisis une fois.
 

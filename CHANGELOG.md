@@ -10,6 +10,27 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 2.0.0
+
+Version majeure : la saisie d'une fiche solution change (un onglet disparaît,
+un champ obligatoire arrive).
+
+### Modifié
+
+- **« Découvrir les autres solutions de l'éditeur »** remplace l'aide au choix
+  sur la fiche solution : les autres solutions du même éditeur s'affichent
+  toutes seules, en cartes (3 au plus, puis un lien vers la page de l'éditeur
+  quand elle existera). Rien n'est plus à saisir pour ce bloc.
+- **Nouveau champ « Phrase de carte »** sur chaque solution (une phrase, 90
+  caractères) : c'est le texte de sa carte. Les 8 solutions existantes le
+  reçoivent automatiquement au déploiement ; une phrase déjà saisie n'est
+  jamais remplacée.
+
+### Retiré
+
+- L'onglet **« Aide au choix »** de la fiche solution (titre, introduction et
+  lignes) : son contenu n'est plus affiché.
+
 ## 1.1.2
 
 ### Modifié

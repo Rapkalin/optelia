@@ -13,6 +13,7 @@ if (! defined('ABSPATH')) {
 }
 
 const OPTELYA_CATALOG_SEEDED_OPTION = 'optelya_catalog_seeded';
+const OPTELYA_CARD_TEXTS_SEEDED_OPTION = 'optelya_card_texts_seeded';
 
 function optelya_seed_catalog(): string
 {
@@ -43,7 +44,7 @@ function optelya_seed_catalog(): string
         update_field('summary', $industry['summary'], $id);
     }
 
-    // Solutions first, empty: the studies and the choice lists point to them.
+    // Solutions first, empty: the studies point to them.
     foreach ($data['solutions'] as $solution) {
         $ids['solution'][$solution['slug']] = optelya_seed_post(OptelyaPostType::Solution, $solution['slug'], $solution['title']);
     }
@@ -64,17 +65,12 @@ function optelya_seed_catalog(): string
         wp_set_object_terms($id, [$ids['issue'][$solution['issue']]], OptelyaTaxonomy::Issue->value);
         update_field('vendor', $ids['vendor'][$solution['vendor']], $id);
         update_field('promise', $solution['promise'], $id);
+        update_field('card_text', $solution['card_text'], $id);
         update_field('benefits', $solution['benefits'], $id);
         update_field('proofs', array_map(static fn(string $slug): int => $ids['study'][$slug], $solution['proofs']), $id);
         update_field('applications', $solution['applications'], $id);
         update_field('applications_source', $solution['applications_source'], $id);
         update_field('industries', array_map(static fn(string $slug): int => $ids['industry'][$slug], $solution['industries']), $id);
-        update_field('choice_title', $solution['choice']['title'], $id);
-        update_field('choice_intro', $solution['choice']['intro'], $id);
-        update_field('choice_items', array_map(static fn(array $item): array => [
-            'solution' => $ids['solution'][$item['solution']],
-            'usage' => $item['usage'],
-        ], $solution['choice']['choice_items']), $id);
         update_field('details', $solution['details'], $id);
     }
 
@@ -95,6 +91,37 @@ function optelya_seed_catalog(): string
         count($data['solutions']),
         count($data['studies']),
     );
+}
+
+/**
+ * The card phrase arrived after the catalogue (2.0.0): a site seeded before
+ * gets it once, only where it is still empty — a phrase written in the admin
+ * is never overruled.
+ */
+function optelya_seed_card_texts(): string
+{
+    if (get_option(OPTELYA_CARD_TEXTS_SEEDED_OPTION)) {
+        return 'Phrases de carte déjà posées sur cet environnement.';
+    }
+
+    if (! function_exists('update_field')) {
+        return 'ACF absent : phrases de carte non posées, elles seront rejouées.';
+    }
+
+    $filled = 0;
+
+    foreach (optelya_seed_catalog_data()['solutions'] as $solution) {
+        $existing = get_page_by_path($solution['slug'], OBJECT, OptelyaPostType::Solution->value);
+
+        if ($existing instanceof WP_Post && optelya_text(optelya_field('card_text', $existing->ID)) === '') {
+            update_field('card_text', $solution['card_text'], $existing->ID);
+            $filled++;
+        }
+    }
+
+    update_option(OPTELYA_CARD_TEXTS_SEEDED_OPTION, optelya_site_version(), false);
+
+    return sprintf('Phrases de carte posées : %d solution(s).', $filled);
 }
 
 /**

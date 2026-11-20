@@ -69,3 +69,15 @@ it('seeds every repeater row with its sub-field names', function (): void {
         expect(array_diff(array_keys($row), $repeaters[$repeater]))->toBe([], "{$path} has keys that are not sub-fields of {$repeater}.");
     }
 });
+
+it('seeds a card phrase for every solution, within the field limit', function () {
+    $field = array_values(array_filter(
+        json_decode((string) file_get_contents(OPTELYA_THEME_DIR . 'acf-json/group_optelya_solution.json'), true)['fields'],
+        static fn(array $field): bool => $field['name'] === 'card_text',
+    ))[0];
+
+    foreach (optelya_seed_catalog_data()['solutions'] as $solution) {
+        expect($solution['card_text'] ?? '')->not->toBe('', $solution['slug'])
+            ->and(mb_strlen($solution['card_text']))->toBeLessThanOrEqual($field['maxlength']);
+    }
+});

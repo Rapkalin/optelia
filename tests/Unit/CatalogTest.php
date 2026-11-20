@@ -47,3 +47,9 @@ it('finds the vendors of the products a card names, in order and once', function
         ->and(OptelyaCatalog::vendorsNamedIn('Automobile & Mobilité', $vendors))->toBe([])
         ->and(OptelyaCatalog::vendorsNamedIn('', ['' => 'Personne']))->toBe([]);
 });
+
+it('links to all the solutions of a vendor only beyond the cards shown', function (): void {
+    expect(OptelyaCatalog::solutionsLabel(2, 'Noesis Solutions', 2))->toBe('')
+        ->and(OptelyaCatalog::solutionsLabel(3, 'Sigmetrix', 3))->toBe('')
+        ->and(OptelyaCatalog::solutionsLabel(5, 'Sigmetrix', 3))->toBe('Voir les 5 solutions Sigmetrix');
+});

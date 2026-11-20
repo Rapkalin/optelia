@@ -30,7 +30,7 @@ $proofAnchor = $proofs !== [] ? 'etudes' : 'applications';
 $secondaryLabel = optelya_text(optelya_field('secondary_label', $solutionId));
 
 $videoId = optelya_attachment_id(optelya_field('video_file', $solutionId));
-$choiceTitle = optelya_text(optelya_field('choice_title', $solutionId));
+$others = optelya_other_solutions($solutionId, $vendorId);
 $details = optelya_rows(optelya_field('details', $solutionId));
 $datasheetId = optelya_attachment_id(optelya_field('datasheet', $solutionId));
 $contactTitle = optelya_text(optelya_field('contact_title', $solutionId));
@@ -141,25 +141,18 @@ $sectionClass = static function () use (&$isBand): string {
         </section>
     <?php endif; ?>
 
-    <?php if ($choiceTitle !== '') : ?>
-        <section class="<?php echo esc_attr($sectionClass()); ?>">
+    <?php if ($others['cards'] !== []) : ?>
+        <?php $othersLabel = OptelyaCatalog::solutionsLabel($others['count'], $vendor, count($others['cards'])); ?>
+        <section id="autres-solutions" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
-                <?php get_template_part('components/section-heading', null, [
-                    'title' => $choiceTitle,
-                    'intro' => optelya_text(optelya_field('choice_intro', $solutionId)),
-                ]); ?>
-                <?php get_template_part('components/choice-list', null, ['items' => array_map(static function (array $row) use ($solutionId): array {
-                    $choiceId = (int) ($row['solution'] ?? 0);
-                    $choiceVendor = (int) optelya_field('vendor', $choiceId);
-
-                    return [
-                        'name' => get_the_title($choiceId),
-                        'vendor' => $choiceVendor > 0 ? get_the_title($choiceVendor) : '',
-                        'usage' => optelya_text($row['usage'] ?? ''),
-                        'url' => (string) get_permalink($choiceId),
-                        'current' => $choiceId === $solutionId,
-                    ];
-                }, optelya_rows(optelya_field('choice_items', $solutionId)))]); ?>
+                <div class="section__header">
+                    <?php get_template_part('components/section-heading', null, [
+                        /* translators: %s: vendor name */
+                        'title' => sprintf(__('Découvrir les autres solutions %s', 'optelya'), $vendor),
+                    ]); ?>
+                    <?php get_template_part('components/link', null, ['link' => ['label' => $othersLabel, 'url' => optelya_is_built(OptelyaPostType::Vendor) ? (string) get_permalink($vendorId) : '', 'target' => ''], 'class' => 'text-link']); ?>
+                </div>
+                <?php get_template_part('components/card-grid', null, ['cards' => $others['cards'], 'keep_width' => true]); ?>
             </div>
         </section>
     <?php endif; ?>

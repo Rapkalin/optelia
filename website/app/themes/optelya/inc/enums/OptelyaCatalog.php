@@ -30,6 +30,16 @@ final class OptelyaCatalog
     }
 
     /**
+     * Label of the link to every solution of a vendor, under a few of them;
+     * '' when the cards shown already are all of them.
+     */
+    public static function solutionsLabel(int $count, string $vendor, int $shown): string
+    {
+        /* translators: 1: number of solutions, 2: vendor name */
+        return $count > $shown ? sprintf(__('Voir les %1$d solutions %2$s', 'optelya'), $count, $vendor) : '';
+    }
+
+    /**
      * A link to a section of the homepage (`…/#expert`) kept on the current
      * page when it has that section too: the header button then opens the
      * page's own contact block.
