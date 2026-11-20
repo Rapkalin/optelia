@@ -2,7 +2,7 @@
     "name": "rapkalin/optelya",
     "description": "Optelya's official website",
     "type": "project",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "authors": [
         {
             "name": "Rapkalin",
@@ -30,7 +30,7 @@
     "require": {
         "php": ">=8.5",
         "composer/installers": "^2.3",
-        "johnpbloch/wordpress": "^7.1.4",
+        "johnpbloch/wordpress": "^7.1.5",
         "oscarotero/env": "^2.1.1",
         "rapkalin/rapkalin-cache": "^1.0",
         "rapkalin/rapkalin-mail": "^1.0",

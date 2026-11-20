@@ -10,6 +10,15 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 2.0.1
+
+### Sécurité
+
+- **WordPress 7.1.5** : corrige la faille signalée sur les versions
+  antérieures. Le site refuse désormais toute version plus ancienne.
+- Outils de développement et de compilation mis à jour (versions correctives,
+  sans effet sur le site).
+
 ## 2.0.0
 
 Version majeure : la saisie d'une fiche solution change (un onglet disparaît,
