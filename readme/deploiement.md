@@ -76,8 +76,13 @@ y est renommé `.htaccess.dist` (voir plus bas).
 3. recréation des liens vers `shared/` ;
 4. si WP-CLI tourne avec un PHP ≥ 8.5 : activation des plugins de
    `shared/plugins/`, contenu initial (`optelya_seed()`, joué une seule fois
-   par environnement), `wp cache flush` et `wp rewrite flush`. Sinon un avertissement apparaît
-   dans le résumé du run, et le déploiement reste réussi.
+   par environnement), `wp cache flush`, `wp rewrite flush` et
+   `wp rapkalin-cache flush`. WP-CLI est cherché d'abord en `/usr/bin/wp`
+   (le phar, celui qui marche à la main : `php8.5 /usr/bin/wp …`), puis par
+   `command -v wp`. **Sans WP-CLI, le déploiement finit en rouge** : le code est
+   en ligne mais pas son contenu, et l'erreur donne les deux commandes à lancer
+   à la main. Jusqu'à la 2.2.0, ce n'était qu'un avertissement, passé inaperçu :
+   l'amorçage des 2.0.0 à 2.2.0 a été joué à la main le 21/11/2026.
 
 > **ACF Pro est exclu de rsync, nommément** (`--exclude=/website/app/plugins/advanced-custom-fields-pro`) :
 > sans ça, `--delete` emporte son lien et l'accueil perd ses sections jusqu'à

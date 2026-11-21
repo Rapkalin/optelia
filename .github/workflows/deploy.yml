@@ -268,7 +268,11 @@ jobs:
             # Le choix se fait sur la SORTIE de `--version`, jamais sur le code
             # de retour : `php8.5 <script shell>` recopie le script et sort en 0
             # — c'est ainsi qu'aucune commande wp n'avait tourné, sans alerte.
-            WP_BIN=$(command -v wp 2>/dev/null || true)
+            # Candidats : `/usr/bin/wp` d'abord (celui qui marche à la main,
+            # `php8.5 /usr/bin/wp …`) — dans la session SSH du déploiement,
+            # `command -v wp` ne le trouvait pas (constaté du 2.0.0 au 2.2.0 :
+            # amorçage jamais joué, 21/11/2026).
+            WP_CANDIDATES="/usr/bin/wp /usr/local/bin/wp $(command -v wp 2>/dev/null || true)"
             PHP_BIN=""
             for CANDIDATE in php8.5 php8.5-cli php85 /usr/bin/php8.5 /usr/bin/php8.5-cli /usr/local/bin/php8.5 php; do
               CANDIDATE_PATH=$(command -v "$CANDIDATE" 2>/dev/null) || continue
@@ -280,18 +284,27 @@ jobs:
             wp_phar() { "$PHP_BIN" "$WP_BIN" "$@"; }
             wp_wrapper() { uiwpcli_PHP_FLAVOR="$(basename "$PHP_BIN" -cli)" "$WP_BIN" "$@"; }
             WP=""
-            if [ -n "$WP_BIN" ] && [ -n "$PHP_BIN" ]; then
-              for RUNNER in wp_phar wp_wrapper; do
-                "$RUNNER" --info 2>/dev/null | grep -Eq '^PHP version:[[:space:]]+8\.([5-9]|[1-9][0-9])' || continue
-                WP="$RUNNER"
-                break
+            WP_BIN=""
+            if [ -n "$PHP_BIN" ]; then
+              for CANDIDATE in $WP_CANDIDATES; do
+                [ -f "$CANDIDATE" ] || continue
+                WP_BIN="$CANDIDATE"
+                for RUNNER in wp_phar wp_wrapper; do
+                  "$RUNNER" --info 2>/dev/null | grep -Eq '^PHP version:[[:space:]]+8\.([5-9]|[1-9][0-9])' || continue
+                  WP="$RUNNER"
+                  break 2
+                done
               done
             fi
 
-            if [ -z "$WP_BIN" ]; then
-              echo "::warning::WP-CLI absent du serveur : activation des plugins, amorçage du contenu et purge des caches à faire à la main."
-            elif [ -z "$PHP_BIN" ]; then
+            # Sans WP-CLI, le code est en ligne mais pas son contenu : le
+            # déploiement finit en ROUGE pour qu'on le voie (un avertissement
+            # vert est passé inaperçu pendant trois versions).
+            WP_FAILED=1
+            if [ -z "$PHP_BIN" ]; then
               echo "::warning::Aucun PHP >= 8.5 en ligne de commande sur le serveur (défaut : $(php -v 2>/dev/null | head -1)). Activation des plugins, amorçage et purge NON exécutés."
+            elif [ -z "$WP_BIN" ]; then
+              echo "::warning::WP-CLI absent du serveur : activation des plugins, amorçage du contenu et purge des caches à faire à la main."
             elif [ -z "$WP" ]; then
               echo "::warning::WP-CLI ne démarre pas avec $PHP_BIN, ni en direct ni par son enveloppe. Activation des plugins, amorçage et purge NON exécutés."
             elif ! "$WP" core is-installed 2>/dev/null; then
@@ -312,11 +325,16 @@ jobs:
               # Pages et données en cache portent l'ancienne version (pied de
               # page, styles) : tout est vidé.
               "$WP" rapkalin-cache flush
+              WP_FAILED=0
             fi
             # ⚠️ L'OPcache n'est vidé que par un rechargement de PHP-FPM. À
             # décommenter avec la commande de l'hébergeur, sinon l'ancien code
             # continue de tourner après le déploiement.
             # sudo systemctl reload php8.5-fpm
+            if [ "$WP_FAILED" = 1 ]; then
+              echo "::error::Release en ligne, mais amorçage et purge non faits. À la main sur le serveur : php8.5 /usr/bin/wp eval 'foreach (optelya_seed() as \$l) { echo \$l, PHP_EOL; }' puis php8.5 /usr/bin/wp rapkalin-cache flush (candidats essayés : $WP_CANDIDATES)."
+              exit 1
+            fi
             exit 0
 
       # Seul composer.lock est nécessaire ici (voir l'étape suivante) : on évite

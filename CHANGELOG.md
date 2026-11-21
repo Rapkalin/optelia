@@ -10,7 +10,16 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
-## 2.2.0
+## 2.2.1
+
+### Corrigé
+
+- **Le déploiement joue de nouveau l'amorçage et la purge des caches** : il ne
+  trouvait plus WP-CLI sur le serveur depuis au moins la 2.0.0 (phrases de
+  carte, textes des listes et titres des fiches absents en ligne, posés à la
+  main le 21/11). S'il ne le trouve pas, le déploiement échoue désormais au
+  lieu d'afficher un simple avertissement.
+
 
 ### Ajouté
 
