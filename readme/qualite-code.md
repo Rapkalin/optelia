@@ -77,7 +77,7 @@ paramètre, jamais une copie ni une surcharge CSS.
 | Filtre par enjeu (liste des solutions) | `components/issue-filter.php` + `assets/scripts/issue-filter.js` | Un bloc à la fois (titre, cartes, lien de comparaison), choix gardé dans l'adresse (`?enjeu=`) ; sans script, toutes les cartes |
 | État vide | `components/empty-state.php` | Dans un cadre `.card`, toujours suivi de contenus proches : jamais une impasse |
 | En-tête de page | `components/hero.php` | Titre = nom de la fiche ; `claim` en sous-titre (industrie) ; sans visuel : texte seul (listes) |
-| Saisie d'un élément commun | `acf-json/group_optelya_part_*.json`, clonés | En-tête de liste, titre de section, bandeau d'aide, visuel, vidéo : définis une fois, lus par `optelya_page_head()`, `optelya_heading()`, `optelya_band()`, `optelya_head_media()`, `optelya_video()` |
+| Saisie d'un élément commun | `acf-json/group_optelya_part_*.json`, clonés | En-tête de liste, titre de section, bandeau d'aide, visuel, vidéo : définis une fois, lus par `optelya_page_head()`, `optelya_heading()`, `optelya_band()`, `optelya_head_media()`, `optelya_video()` ; les réglages du catalogue sont nommés par `OptelyaCatalogSetting` (`CatalogSettingTest` le garde aligné sur le JSON) |
 
 **Aucun lien vers une page pas encore construite** : `optelya_is_built()` dit si
 le gabarit d'un type existe ; sinon l'étape du fil d'Ariane s'affiche sans lien

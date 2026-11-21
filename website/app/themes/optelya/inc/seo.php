@@ -12,20 +12,20 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Content types whose page is built: indexed and listed in the sitemap. The
- * others (studies) and their list answer `noindex` until their template
- * ships — then add the type here.
+ * Pages, and the content types whose page is built (optelya_built_types()):
+ * indexed and in the sitemap. A type without template yet (studies) and its
+ * list answer `noindex`; shipping the template is enough to index it.
+ *
+ * @return list<string>
  */
-const OPTELYA_INDEXED_POST_TYPES = ['page', OptelyaPostType::Solution->value, OptelyaPostType::Industry->value, OptelyaPostType::Vendor->value];
-
-/**
- * Lists of the catalogue whose page is built, indexed and in the sitemap.
- */
-const OPTELYA_INDEXED_ARCHIVES = [OptelyaPostType::Solution->value, OptelyaPostType::Industry->value];
+function optelya_indexed_post_types(): array
+{
+    return ['page', ...optelya_built_types()];
+}
 
 function optelya_is_indexed_archive(): bool
 {
-    return is_post_type_archive(OPTELYA_INDEXED_ARCHIVES) && ! is_paged();
+    return optelya_current_list() !== null && ! is_paged();
 }
 
 /**
@@ -38,7 +38,17 @@ function optelya_is_shareable(): bool
 
 function optelya_is_indexable(): bool
 {
-    return is_front_page() || is_singular(OPTELYA_INDEXED_POST_TYPES) || optelya_is_indexed_archive();
+    return is_front_page() || is_singular(optelya_indexed_post_types()) || optelya_is_indexed_archive();
+}
+
+/**
+ * Head of the current list (its settings), if the page is one.
+ */
+function optelya_list_head(): ?OptelyaCatalogSetting
+{
+    $list = optelya_current_list();
+
+    return $list !== null ? OptelyaCatalogSetting::listHead($list) : null;
 }
 
 /**
@@ -49,7 +59,7 @@ function optelya_current_url(): string
 {
     return match (true) {
         is_front_page() => home_url('/'),
-        optelya_is_indexed_archive() => (string) get_post_type_archive_link((string) get_query_var('post_type')),
+        optelya_is_indexed_archive() => (string) get_post_type_archive_link((string) optelya_current_list()?->value),
         default => (string) wp_get_canonical_url(),
     };
 }
@@ -89,12 +99,11 @@ add_filter('wp_robots', 'optelya_noindex_unbuilt_pages');
  */
 function optelya_catalog_document_title(array $parts): array
 {
-    foreach (['solutions_head' => OptelyaPostType::Solution, 'industries_head' => OptelyaPostType::Industry] as $selector => $type) {
-        $title = is_post_type_archive($type->value) ? rtrim(optelya_page_head($selector)['title'], ' .') : '';
+    $head = optelya_list_head();
+    $title = $head !== null ? rtrim(optelya_page_head($head)['title'], ' .') : '';
 
-        if ($title !== '') {
-            return ['title' => $title] + $parts;
-        }
+    if ($title !== '') {
+        return ['title' => $title] + $parts;
     }
 
     if (is_singular(OptelyaPostType::Vendor->value)) {
@@ -139,14 +148,14 @@ function optelya_meta_description(): string
         return optelya_site_description();
     }
 
-    $id = (int) get_queried_object_id();
+    $postId = (int) get_queried_object_id();
+    $listHead = optelya_list_head();
 
     return optelya_text(match (true) {
-        is_singular(OptelyaPostType::Solution->value) => optelya_field('promise', $id),
-        is_singular(OptelyaPostType::Industry->value) => optelya_field('lead', $id),
-        is_singular(OptelyaPostType::Vendor->value) => optelya_field('tagline', $id),
-        is_post_type_archive(OptelyaPostType::Solution->value) => optelya_page_head('solutions_head')['lead'],
-        is_post_type_archive(OptelyaPostType::Industry->value) => optelya_page_head('industries_head')['lead'],
+        is_singular(OptelyaPostType::Solution->value) => optelya_field('promise', $postId),
+        is_singular(OptelyaPostType::Industry->value) => optelya_field('lead', $postId),
+        is_singular(OptelyaPostType::Vendor->value) => optelya_field('tagline', $postId),
+        $listHead !== null => optelya_page_head($listHead)['lead'],
         default => '',
     });
 }
@@ -253,7 +262,7 @@ add_action('wp_head', 'optelya_print_head_meta', 1);
 /* Sitemap: pages only — no accounts, no categories. ------------------------ */
 
 add_filter('wp_sitemaps_add_provider', static fn(mixed $provider, string $name): mixed => $name === 'users' ? false : $provider, 10, 2);
-add_filter('wp_sitemaps_post_types', static fn(array $types): array => array_intersect_key($types, array_flip(OPTELYA_INDEXED_POST_TYPES)));
+add_filter('wp_sitemaps_post_types', static fn(array $types): array => array_intersect_key($types, array_flip(optelya_indexed_post_types())));
 add_filter('wp_sitemaps_taxonomies', '__return_empty_array');
 
 /**
@@ -285,7 +294,7 @@ add_action('init', 'optelya_remove_feed_links');
  */
 function optelya_light_archive_query(WP_Query $query): void
 {
-    if ($query->is_main_query() && ! is_admin() && $query->is_post_type_archive(OPTELYA_INDEXED_ARCHIVES)) {
+    if ($query->is_main_query() && ! is_admin() && $query->is_post_type_archive(optelya_built_types(true))) {
         $query->set('posts_per_page', 1);
         $query->set('no_found_rows', true);
     }
@@ -316,7 +325,7 @@ function optelya_register_archives_sitemap(): void
         public function get_url_list(mixed $page_num, mixed $object_subtype = ''): array
         {
             // One page: a second one answers 404 instead of repeating the first.
-            return (int) $page_num === 1 ? array_map(static fn(string $type): array => ['loc' => (string) get_post_type_archive_link($type)], OPTELYA_INDEXED_ARCHIVES) : [];
+            return (int) $page_num === 1 ? array_map(static fn(string $type): array => ['loc' => (string) get_post_type_archive_link($type)], optelya_built_types(true)) : [];
         }
 
         public function get_max_num_pages(mixed $object_subtype = ''): int

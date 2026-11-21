@@ -23,45 +23,45 @@ function optelya_seed_catalog_pages_data(): array
 
     return [
         'options' => [
-            'solutions_head' => [
+            OptelyaCatalogSetting::SolutionsHead->value => [
                 'eyebrow' => 'Solutions',
                 'title' => '7 logiciels, 1 formation : partez de votre enjeu.',
                 'lead' => 'Optelya sélectionne parmi trois éditeurs complémentaires. Un expert vous aide à choisir.',
                 'primary_link' => $expert,
                 'secondary_link' => ['title' => 'Nos 3 éditeurs', 'url' => '#editeurs', 'target' => ''],
             ],
-            'solutions_band' => [
+            OptelyaCatalogSetting::SolutionsBand->value => [
                 'help_text' => 'Vous hésitez entre deux logiciels ?',
                 'help_link' => ['title' => 'Un expert vous oriente', 'url' => '{home}#expert', 'target' => ''],
             ],
-            'solutions_filter_label' => 'Enjeux',
-            'solutions_all' => ['title' => 'Toutes les solutions', 'intro' => '7 logiciels et 1 formation, de 3 éditeurs.'],
-            'solutions_vendors' => ['title' => 'Nos 3 éditeurs', 'intro' => 'Trois spécialistes complémentaires, un seul interlocuteur en France.'],
-            'solutions_contact_title' => 'Pas sûr du bon logiciel ? Parlons-en.',
-            'vendor_tools_link' => 'Quel outil pour quel besoin ?',
-            'vendor_tools' => ['title' => 'Quel outil {nom} pour quel besoin ?', 'intro' => ''],
-            'vendor_proofs' => ['title' => '{nom} en situation', 'intro' => 'Des gains mesurés, tirés d’études publiées.'],
-            'vendor_demo' => ['title' => '{nom} en démonstration', 'intro' => 'Moins de 3 minutes, sous-titrée.'],
-            'vendor_contact_title' => 'Un projet autour de {nom} ? Parlons-en.',
-            'industries_head' => [
+            OptelyaCatalogSetting::SolutionsFilterLabel->value => 'Enjeux',
+            OptelyaCatalogSetting::SolutionsAll->value => ['title' => 'Toutes les solutions', 'intro' => '7 logiciels et 1 formation, de 3 éditeurs.'],
+            OptelyaCatalogSetting::SolutionsVendors->value => ['title' => 'Nos 3 éditeurs', 'intro' => 'Trois spécialistes complémentaires, un seul interlocuteur en France.'],
+            OptelyaCatalogSetting::SolutionsContactTitle->value => 'Pas sûr du bon logiciel ? Parlons-en.',
+            OptelyaCatalogSetting::VendorToolsLink->value => 'Quel outil pour quel besoin ?',
+            OptelyaCatalogSetting::VendorTools->value => ['title' => 'Quel outil {nom} pour quel besoin ?', 'intro' => ''],
+            OptelyaCatalogSetting::VendorProofs->value => ['title' => '{nom} en situation', 'intro' => 'Des gains mesurés, tirés d’études publiées.'],
+            OptelyaCatalogSetting::VendorDemo->value => ['title' => '{nom} en démonstration', 'intro' => 'Moins de 3 minutes, sous-titrée.'],
+            OptelyaCatalogSetting::VendorContactTitle->value => 'Un projet autour de {nom} ? Parlons-en.',
+            OptelyaCatalogSetting::IndustriesHead->value => [
                 'eyebrow' => 'Industries',
                 'title' => 'Votre secteur d’abord, le bon logiciel ensuite.',
                 'lead' => 'Les secteurs où nos experts accompagnent les équipes de conception et de calcul.',
                 'primary_link' => $expert,
             ],
-            'industries_choose' => ['title' => 'Choisissez votre secteur', 'intro' => ''],
-            'industries_band' => [
+            OptelyaCatalogSetting::IndustriesChoose->value => ['title' => 'Choisissez votre secteur', 'intro' => ''],
+            OptelyaCatalogSetting::IndustriesBand->value => [
                 'help_text' => 'Un autre secteur ? Nos études couvrent aussi l’énergie, le médical et l’optique.',
                 'label' => 'Vous connaissez votre enjeu ?',
                 'links' => [['link' => ['title' => 'Voir les solutions par enjeu', 'url' => '{home}solutions/', 'target' => '']]],
             ],
-            'industries_contact_title' => 'Un projet dans votre secteur ? Parlons-en.',
-            'industry_studies_link' => 'Voir les études du secteur',
-            'industry_near_link' => 'Voir des cas proches',
-            'industry_issues' => ['title' => 'Vos enjeux, nos réponses', 'intro' => $proved],
-            'industry_figures' => ['title' => 'Les résultats en chiffres', 'intro' => 'Des gains mesurés, tirés d’études publiées.'],
-            'industry_studies' => ['title' => 'Autres études du secteur', 'intro' => ''],
-            'industry_contact_title' => 'Un projet dans votre secteur ? Parlons-en.',
+            OptelyaCatalogSetting::IndustriesContactTitle->value => 'Un projet dans votre secteur ? Parlons-en.',
+            OptelyaCatalogSetting::IndustryStudiesLink->value => 'Voir les études du secteur',
+            OptelyaCatalogSetting::IndustryNearLink->value => 'Voir des cas proches',
+            OptelyaCatalogSetting::IndustryIssues->value => ['title' => 'Vos enjeux, nos réponses', 'intro' => $proved],
+            OptelyaCatalogSetting::IndustryFigures->value => ['title' => 'Les résultats en chiffres', 'intro' => 'Des gains mesurés, tirés d’études publiées.'],
+            OptelyaCatalogSetting::IndustryStudies->value => ['title' => 'Autres études du secteur', 'intro' => ''],
+            OptelyaCatalogSetting::IndustryContactTitle->value => 'Un projet dans votre secteur ? Parlons-en.',
         ],
         'issues' => [
             'optimiser' => 'Automatiser vos chaînes de calcul et explorer les compromis de conception.',

@@ -18,15 +18,13 @@ $solutionId = (int) get_the_ID();
 $product = get_the_title($solutionId);
 $vendorId = (int) optelya_field('vendor', $solutionId);
 $vendor = $vendorId > 0 ? get_the_title($vendorId) : '';
-$expert = optelya_link(optelya_option(OptelyaSetting::HeaderCta));
-$expert['url'] = '#' . OptelyaSection::Contact->value;
 
 $proofs = array_values(array_filter(array_map(
     static fn(mixed $studyId): ?array => optelya_study_card((int) $studyId),
     (array) optelya_field('proofs', $solutionId),
 )));
 $applications = $proofs === [] ? optelya_rows(optelya_field('applications', $solutionId)) : [];
-$proofAnchor = $proofs !== [] ? OptelyaSection::Studies->value : 'applications';
+$proofSection = $proofs !== [] ? OptelyaSection::Studies : OptelyaSection::Applications;
 $secondaryLabel = optelya_text(optelya_field('secondary_label', $solutionId));
 
 $video = optelya_video($solutionId, $product);
@@ -44,11 +42,11 @@ $sectionClass = optelya_section_classes();
         'eyebrow' => $vendor,
         'title' => $product,
         'lead' => optelya_text(optelya_field('promise', $solutionId)),
-        'primary' => $expert,
+        'primary' => optelya_contact_link(),
         'secondary' => [
             /* translators: %s: product name */
             'label' => $secondaryLabel !== '' ? $secondaryLabel : sprintf(__('Voir %s en situation', 'optelya'), $product),
-            'url' => $proofs !== [] || $applications !== [] ? '#' . $proofAnchor : '',
+            'url' => $proofs !== [] || $applications !== [] ? $proofSection->anchor() : '',
             'target' => '',
         ],
         /* translators: 1: product name, 2: vendor name */
@@ -81,7 +79,7 @@ $sectionClass = optelya_section_classes();
 
     <?php if ($proofs !== []) : ?>
         <?php $studiesLabel = OptelyaCatalog::studiesLabel(optelya_studies_count($solutionId), $product, count($proofs)); ?>
-        <section id="<?php echo esc_attr($proofAnchor); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
+        <section id="<?php echo esc_attr($proofSection->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">
                     <?php get_template_part('components/section-heading', null, [
@@ -95,7 +93,7 @@ $sectionClass = optelya_section_classes();
             </div>
         </section>
     <?php elseif ($applications !== []) : ?>
-        <section id="<?php echo esc_attr($proofAnchor); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
+        <section id="<?php echo esc_attr($proofSection->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <?php get_template_part('components/section-heading', null, [
                     /* translators: %s: product name */
@@ -116,7 +114,7 @@ $sectionClass = optelya_section_classes();
 
     <?php if ($others['cards'] !== []) : ?>
         <?php $othersLabel = OptelyaCatalog::solutionsLabel($others['count'], $vendor, count($others['cards'])); ?>
-        <section id="autres-solutions" class="<?php echo esc_attr($sectionClass()); ?>">
+        <section id="<?php echo esc_attr(OptelyaSection::OtherSolutions->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">
                     <?php get_template_part('components/section-heading', null, [
@@ -132,7 +130,7 @@ $sectionClass = optelya_section_classes();
 
     <section class="<?php echo esc_attr($sectionClass()); ?>">
         <div class="section__inner">
-            <?php get_template_part('components/section-heading', null, ['title' => optelya_text(optelya_field('readers_title', 'option'))]); ?>
+            <?php get_template_part('components/section-heading', null, ['title' => optelya_catalog_text(OptelyaCatalogSetting::ReadersTitle)]); ?>
             <?php get_template_part('components/reader-panels', null, ['panels' => optelya_solution_readers($vendorId)]); ?>
         </div>
     </section>

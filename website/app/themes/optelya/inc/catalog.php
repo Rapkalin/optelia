@@ -11,6 +11,8 @@ if (! defined('ABSPATH')) {
 }
 
 const OPTELYA_SOLUTION_SETTINGS_PAGE = 'optelya-solution-settings';
+/** Cards shown before a « see all » link: one row (three columns at full width). */
+const OPTELYA_ROW_OF_CARDS = 3;
 const OPTELYA_INDUSTRY_SETTINGS_PAGE = 'optelya-industry-settings';
 
 /**
@@ -50,9 +52,7 @@ add_action('acf/init', 'optelya_register_catalogue_settings');
  */
 function optelya_has_contact_block(): bool
 {
-    return is_front_page()
-        || is_singular([OptelyaPostType::Solution->value, OptelyaPostType::Vendor->value, OptelyaPostType::Industry->value])
-        || is_post_type_archive([OptelyaPostType::Solution->value, OptelyaPostType::Industry->value]);
+    return is_front_page() || is_singular(optelya_built_types()) || is_post_type_archive(optelya_built_types(true));
 }
 
 /**
@@ -80,6 +80,22 @@ function optelya_is_built(OptelyaPostType $type, bool $archive = false): bool
 }
 
 /**
+ * Content types whose pages (or lists) are built: they show the contact block,
+ * are indexed and in the sitemap (inc/seo.php).
+ *
+ * @return list<string>
+ */
+function optelya_built_types(bool $archive = false): array
+{
+    static $built = [];
+
+    return $built[(int) $archive] ??= array_values(array_map(
+        static fn(OptelyaPostType $type): string => $type->value,
+        array_filter(OptelyaPostType::cases(), static fn(OptelyaPostType $type): bool => optelya_is_built($type, $archive)),
+    ));
+}
+
+/**
  * Address of a content's page, or '' while that page is not built.
  */
 function optelya_built_url(OptelyaPostType $type, string $url): string
@@ -102,7 +118,15 @@ function optelya_breadcrumb_home(): array
  */
 function optelya_breadcrumb_list(OptelyaPostType $type): array
 {
-    return ['label' => $type->plural(), 'url' => optelya_is_built($type, true) ? (string) get_post_type_archive_link($type->value) : ''];
+    return ['label' => $type->plural(), 'url' => optelya_list_url($type)];
+}
+
+/**
+ * Address of a content type's list, or '' while it is not built.
+ */
+function optelya_list_url(OptelyaPostType $type): string
+{
+    return optelya_is_built($type, true) ? (string) get_post_type_archive_link($type->value) : '';
 }
 
 /**
@@ -132,20 +156,31 @@ function optelya_solution_breadcrumb(int $solutionId): array
  */
 function optelya_catalog_breadcrumb(): array
 {
-    foreach ([OptelyaPostType::Solution, OptelyaPostType::Industry] as $type) {
-        if (is_post_type_archive($type->value)) {
-            return [optelya_breadcrumb_home(), ['label' => $type->plural(), 'url' => '']];
-        }
+    $list = optelya_current_list();
+
+    if ($list !== null) {
+        return [optelya_breadcrumb_home(), ['label' => $list->plural(), 'url' => '']];
     }
 
-    $id = (int) get_queried_object_id();
+    $postId = (int) get_queried_object_id();
+    $current = ['label' => get_the_title($postId), 'url' => ''];
 
     return match (true) {
-        is_singular(OptelyaPostType::Solution->value) => optelya_solution_breadcrumb($id),
-        is_singular(OptelyaPostType::Vendor->value) => [optelya_breadcrumb_home(), optelya_breadcrumb_list(OptelyaPostType::Solution), ['label' => get_the_title($id), 'url' => '']],
-        is_singular(OptelyaPostType::Industry->value) => [optelya_breadcrumb_home(), optelya_breadcrumb_list(OptelyaPostType::Industry), ['label' => get_the_title($id), 'url' => '']],
+        is_singular(OptelyaPostType::Solution->value) => optelya_solution_breadcrumb($postId),
+        is_singular(OptelyaPostType::Vendor->value) => [optelya_breadcrumb_home(), optelya_breadcrumb_list(OptelyaPostType::Solution), $current],
+        is_singular(OptelyaPostType::Industry->value) => [optelya_breadcrumb_home(), optelya_breadcrumb_list(OptelyaPostType::Industry), $current],
         default => [],
     };
+}
+
+/**
+ * The content type whose built list is the current page, if any.
+ */
+function optelya_current_list(): ?OptelyaPostType
+{
+    $type = is_post_type_archive(optelya_built_types(true)) ? OptelyaPostType::tryFrom((string) get_query_var('post_type')) : null;
+
+    return $type instanceof OptelyaPostType ? $type : null;
 }
 
 /**
@@ -175,8 +210,6 @@ add_filter('document_title_parts', 'optelya_solution_document_title');
  */
 function optelya_contact_texts(): array
 {
-    $texts = ['lead' => '', 'steps' => [], 'notice' => ''];
-
     foreach (optelya_rows(optelya_field('sections', (int) get_option('page_on_front'))) as $section) {
         if (($section['acf_fc_layout'] ?? '') !== 'contact') {
             continue;
@@ -189,7 +222,7 @@ function optelya_contact_texts(): array
         ];
     }
 
-    return $texts;
+    return ['lead' => '', 'steps' => [], 'notice' => ''];
 }
 
 /**
@@ -255,14 +288,16 @@ function optelya_build_catalog(): array
         'industries' => OptelyaPostType::Industry,
         'studies' => OptelyaPostType::Study,
     ]);
-    $all = array_merge(...array_values($ids));
     // Posts, fields and issues in a few queries, not one per card.
-    _prime_post_caches($all, false, true);
+    _prime_post_caches(array_merge(...array_values($ids)), false, true);
     update_object_term_cache($ids['solutions'], OptelyaPostType::Solution->value);
 
     $text = static fn(int $id, string $name): string => optelya_text(optelya_field($name, $id));
-    $entry = static fn(int $id): array => ['id' => $id, 'title' => get_the_title($id), 'url' => (string) get_permalink($id)];
-    $each = static fn(string $kind, callable $fields): array => array_combine($ids[$kind], array_map(static fn(int $id): array => $entry($id) + $fields($id), $ids[$kind]));
+    // Every entry: its ID, title and address, then the fields of its type; keyed by ID.
+    $entries = static fn(string $kind, callable $fields): array => array_combine($ids[$kind], array_map(
+        static fn(int $id): array => ['id' => $id, 'title' => get_the_title($id), 'url' => (string) get_permalink($id)] + $fields($id),
+        $ids[$kind],
+    ));
 
     $issues = [];
     $terms = get_terms(['taxonomy' => OptelyaTaxonomy::Issue->value, 'hide_empty' => false]);
@@ -273,8 +308,8 @@ function optelya_build_catalog(): array
 
     return [
         'issues' => OptelyaCatalog::sortIssues($issues),
-        'vendors' => $each('vendors', static fn(int $id): array => ['tagline' => $text($id, 'tagline'), 'since' => $text($id, 'since')]),
-        'solutions' => $each('solutions', static function (int $id) use ($text): array {
+        'vendors' => $entries('vendors', static fn(int $id): array => ['tagline' => $text($id, 'tagline'), 'since' => $text($id, 'since')]),
+        'solutions' => $entries('solutions', static function (int $id) use ($text): array {
             $terms = get_the_terms($id, OptelyaTaxonomy::Issue->value);
 
             return [
@@ -284,12 +319,12 @@ function optelya_build_catalog(): array
                 'proofs' => optelya_ids(optelya_field('proofs', $id)),
             ];
         }),
-        'industries' => $each('industries', static fn(int $id): array => [
+        'industries' => $entries('industries', static fn(int $id): array => [
             'card_text' => $text($id, 'card_text'),
             'card_examples' => $text($id, 'card_examples'),
             'card_proof' => (int) optelya_field('card_proof', $id),
         ]),
-        'studies' => $each('studies', static fn(int $id): array => [
+        'studies' => $entries('studies', static fn(int $id): array => [
             'summary' => $text($id, 'summary'),
             'figure' => $text($id, 'figure'),
             'result' => $text($id, 'result'),
@@ -366,6 +401,11 @@ function optelya_solutions_of(int $vendorId): array
     return array_values(array_filter(optelya_catalog()['solutions'], static fn(array $solution): bool => $vendorId > 0 && $solution['vendor'] === $vendorId));
 }
 
+/**
+ * « Optimus · id8 »: the published products among these IDs.
+ *
+ * @param list<int> $solutionIds
+ */
 function optelya_products(array $solutionIds): string
 {
     $solutions = optelya_catalog()['solutions'];
@@ -384,13 +424,70 @@ function optelya_card_link(string $label, OptelyaPostType $type, string $url): a
 }
 
 /**
+ * « Voir Optimus »: the link of a card to the page of the content it names.
+ *
+ * @param array{title: string, url: string} $entry A solution or an industry of the catalogue.
+ * @return array{label: string, url: string, target: string}
+ */
+function optelya_view_link(array $entry, OptelyaPostType $type): array
+{
+    /* translators: %s: product or sector name */
+    return optelya_card_link(sprintf(__('Voir %s', 'optelya'), $entry['title']), $type, $entry['url']);
+}
+
+/**
  * « See every study » link: to the studies library, once it is built.
  *
  * @return array{label: string, url: string, target: string}
  */
 function optelya_all_studies_link(string $label): array
 {
-    return ['label' => $label, 'url' => optelya_is_built(OptelyaPostType::Study, true) ? (string) get_post_type_archive_link(OptelyaPostType::Study->value) : '', 'target' => ''];
+    return ['label' => $label, 'url' => optelya_list_url(OptelyaPostType::Study), 'target' => ''];
+}
+
+/**
+ * A study's figure as the proof line of a card, or null without one.
+ *
+ * @return array{figure: string, label: string}|null
+ */
+function optelya_study_proof(?array $study): ?array
+{
+    return $study !== null && $study['figure'] !== '' ? ['figure' => $study['figure'], 'label' => $study['result']] : null;
+}
+
+/**
+ * The published study of that ID, or null.
+ *
+ * @return array<string, mixed>|null
+ */
+function optelya_study(int $studyId): ?array
+{
+    return optelya_catalog()['studies'][$studyId] ?? null;
+}
+
+/**
+ * Name of a study's sector, or ''.
+ */
+function optelya_study_sector(array $study): string
+{
+    return optelya_catalog()['industries'][$study['industry']]['title'] ?? '';
+}
+
+/**
+ * Figured studies first (one row of figures), then the others (one row of
+ * cards): what a sector's or vendor's page shows of its studies.
+ *
+ * @param list<array<string, mixed>> $studies
+ * @return array{figured: list<array<string, mixed>>, others: list<array<string, mixed>>}
+ */
+function optelya_split_studies(array $studies): array
+{
+    $isFigured = static fn(array $study): bool => $study['figure'] !== '';
+
+    return [
+        'figured' => array_slice(array_values(array_filter($studies, $isFigured)), 0, OPTELYA_ROW_OF_CARDS),
+        'others' => array_slice(array_values(array_filter($studies, static fn(array $study): bool => ! $isFigured($study))), 0, OPTELYA_ROW_OF_CARDS),
+    ];
 }
 
 /**
@@ -402,20 +499,19 @@ function optelya_all_studies_link(string $label): array
  */
 function optelya_study_card(int $studyId, bool $namesSector = true): ?array
 {
-    $study = optelya_catalog()['studies'][$studyId] ?? null;
+    $study = optelya_study($studyId);
 
     if ($study === null || $study['figure'] === '') {
         return null;
     }
 
     $products = optelya_products($study['solutions']);
-    $industry = optelya_catalog()['industries'][$study['industry']]['title'] ?? '';
 
     return [
         'vendors' => optelya_vendors_named_in($products),
         'figure' => $study['figure'],
         'figure_label' => $study['result'],
-        'products' => $namesSector ? $industry : $products,
+        'products' => $namesSector ? optelya_study_sector($study) : $products,
         'source' => implode(' · ', array_filter([$study['client'], $study['source']])),
         'link' => optelya_card_link(__('Lire l’étude', 'optelya'), OptelyaPostType::Study, $study['url']),
     ];
@@ -433,7 +529,7 @@ function optelya_study_summary_card(array $study, bool $namesSector = true): arr
 
     return [
         'vendors' => optelya_vendors_named_in($products),
-        'eyebrow' => $namesSector ? (optelya_catalog()['industries'][$study['industry']]['title'] ?? '') : '',
+        'eyebrow' => $namesSector ? optelya_study_sector($study) : '',
         'title' => $study['title'],
         'text' => $study['summary'],
         'products' => $products,
@@ -453,28 +549,23 @@ function optelya_study_cards(array $studies, bool $namesSector = true): array
 }
 
 /**
- * A solution as a card of the solutions list: its phrase, its proof, the
- * issues it is filtered by.
+ * A solution as a card of the solutions list: its phrase, its proof (its
+ * chosen studies first), the issue filters it shows under.
  *
  * @return array<string, mixed>
  */
-function optelya_solution_card(array $solution, string $allFilter): array
+function optelya_solution_card(array $solution): array
 {
-    $catalog = optelya_catalog();
     $studies = optelya_studies_of([$solution['id']]);
-    $figured = array_values(array_filter(
-        [...array_map(static fn(int $id): ?array => $catalog['studies'][$id] ?? null, $solution['proofs']), ...$studies],
-        static fn(?array $study): bool => $study !== null && $study['figure'] !== '',
-    ));
+    $figures = array_values(array_filter(array_map('optelya_study_proof', [...array_map('optelya_study', $solution['proofs']), ...$studies])));
 
     return [
-        'vendors' => [$catalog['vendors'][$solution['vendor']]['title'] ?? ''],
+        'vendors' => [optelya_catalog()['vendors'][$solution['vendor']]['title'] ?? ''],
         'title' => $solution['title'],
         'text' => $solution['card_text'],
-        'proof' => OptelyaCatalog::proofLine(array_map(static fn(array $study): array => ['figure' => $study['figure'], 'label' => $study['result']], $figured), count($studies)),
-        /* translators: %s: product name */
-        'link' => optelya_card_link(sprintf(__('Voir %s', 'optelya'), $solution['title']), OptelyaPostType::Solution, $solution['url']),
-        'filters' => array_values(array_filter([$allFilter, $solution['issue']])),
+        'proof' => OptelyaCatalog::proofLine($figures, count($studies)),
+        'link' => optelya_view_link($solution, OptelyaPostType::Solution),
+        'filters' => array_filter([OptelyaCatalog::ALL_ISSUES, $solution['issue']]),
     ];
 }
 
@@ -502,24 +593,15 @@ function optelya_vendor_card(array $vendor): array
  */
 function optelya_industry_card(array $industry): array
 {
-    $proof = optelya_catalog()['studies'][$industry['card_proof']] ?? null;
-
     return [
         'title' => $industry['title'],
         'text' => $industry['card_text'],
         'products' => $industry['card_examples'],
-        'proof' => $proof !== null && $proof['figure'] !== '' ? ['figure' => $proof['figure'], 'label' => $proof['result']] : null,
-        /* translators: %s: sector name */
-        'link' => optelya_card_link(sprintf(__('Voir %s', 'optelya'), $industry['title']), OptelyaPostType::Industry, $industry['url']),
+        'proof' => optelya_study_proof(optelya_study($industry['card_proof'])),
+        'link' => optelya_view_link($industry, OptelyaPostType::Industry),
     ];
 }
 
-/** At most one row of figures on a sector's or vendor's page, then one row of other studies. */
-const OPTELYA_FIGURES_SHOWN = 3;
-const OPTELYA_STUDIES_SHOWN = 3;
-
-/** At most one row of cards: beyond, a link to the vendor's page. */
-const OPTELYA_OTHER_SOLUTIONS_SHOWN = 3;
 
 /**
  * The other published solutions of the same vendor, as cards
@@ -535,14 +617,23 @@ function optelya_other_solutions(int $solutionId, int $vendorId): array
         'cards' => array_map(static fn(array $solution): array => [
             'title' => $solution['title'],
             'text' => $solution['card_text'],
-            /* translators: %s: product name */
-            'link' => ['label' => sprintf(__('Voir %s', 'optelya'), $solution['title']), 'url' => $solution['url'], 'target' => ''],
-        ], array_slice($others, 0, OPTELYA_OTHER_SOLUTIONS_SHOWN)),
+            'link' => optelya_view_link($solution, OptelyaPostType::Solution),
+        ], array_slice($others, 0, OPTELYA_ROW_OF_CARDS)),
         'count' => count($others),
     ];
 }
 
-/* Texts written once in the settings of a list (inc/catalog.php, acf-json/group_optelya_part_*.json). */
+/* Texts written once in the catalogue settings (OptelyaCatalogSetting). */
+
+function optelya_catalog_option(OptelyaCatalogSetting $setting): mixed
+{
+    return optelya_field($setting->value, 'option');
+}
+
+function optelya_catalog_text(OptelyaCatalogSetting $setting): string
+{
+    return optelya_text(optelya_catalog_option($setting));
+}
 
 /**
  * Title and intro of a section (part « titre de section »), « {nom} » replaced
@@ -550,9 +641,9 @@ function optelya_other_solutions(int $solutionId, int $vendorId): array
  *
  * @return array{title: string, intro: string}
  */
-function optelya_heading(string $selector, string $name = ''): array
+function optelya_heading(OptelyaCatalogSetting $setting, string $name = ''): array
 {
-    $heading = (array) optelya_field($selector, 'option');
+    $heading = (array) optelya_catalog_option($setting);
 
     return [
         'title' => OptelyaCatalog::withName(optelya_text($heading['title'] ?? ''), $name),
@@ -580,17 +671,16 @@ function optelya_local_link(mixed $value): array
  *
  * @return array<string, mixed>
  */
-function optelya_page_head(string $selector): array
+function optelya_page_head(OptelyaCatalogSetting $setting): array
 {
-    $head = (array) optelya_field($selector, 'option');
-    $local = 'optelya_local_link';
+    $head = (array) optelya_catalog_option($setting);
 
     return [
         'eyebrow' => optelya_text($head['eyebrow'] ?? ''),
         'title' => optelya_text($head['title'] ?? ''),
         'lead' => optelya_text($head['lead'] ?? ''),
-        'primary' => $local($head['primary_link'] ?? null),
-        'secondary' => $local($head['secondary_link'] ?? null),
+        'primary' => optelya_local_link($head['primary_link'] ?? null),
+        'secondary' => optelya_local_link($head['secondary_link'] ?? null),
     ];
 }
 
@@ -600,9 +690,9 @@ function optelya_page_head(string $selector): array
  *
  * @return array<string, mixed>
  */
-function optelya_band(string $selector): array
+function optelya_band(OptelyaCatalogSetting $setting): array
 {
-    $band = (array) optelya_field($selector, 'option');
+    $band = (array) optelya_catalog_option($setting);
 
     return [
         'help_text' => optelya_text($band['help_text'] ?? ''),
@@ -696,7 +786,7 @@ function optelya_solution_readers(int $vendorId): array
             'title' => optelya_text($item['title'] ?? ''),
             'text' => optelya_text($item['text'] ?? ''),
         ], optelya_rows($panel['items'] ?? null)),
-    ], optelya_rows(optelya_field('readers', 'option')));
+    ], optelya_rows(optelya_catalog_option(OptelyaCatalogSetting::Readers)));
 
     return OptelyaCatalog::readersWithVendor($panels, optelya_text(optelya_field('since', $vendorId)));
 }

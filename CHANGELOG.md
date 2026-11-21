@@ -10,6 +10,19 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 2.1.1
+
+Aucun changement visible : le HTML des 9 pages du catalogue est identique à
+celui de la 2.1.0 (comparé page par page).
+
+### Modifié
+
+- Code relu : les réglages du catalogue, les ancres des sections et les règles
+  répétées (lien « Voir … », preuve d'une carte, une rangée de cartes) n'existent
+  plus qu'une fois. Les pages indexées et la présence du bloc contact se
+  déduisent des gabarits livrés : livrer une nouvelle page suffit, rien à
+  déclarer.
+
 ## 2.1.0
 
 ### Ajouté

@@ -27,56 +27,56 @@ function optelya_seed_catalog(): string
     }
 
     $data = optelya_seed_catalog_data();
-    $ids = [];
+    $postIds = [];
 
     foreach ($data['issues'] as $issue) {
         $term = term_exists($issue['slug'], OptelyaTaxonomy::Issue->value) ?: wp_insert_term($issue['name'], OptelyaTaxonomy::Issue->value, ['slug' => $issue['slug']]);
-        $ids['issue'][$issue['slug']] = is_array($term) ? (int) $term['term_id'] : 0;
+        $postIds['issue'][$issue['slug']] = is_array($term) ? (int) $term['term_id'] : 0;
     }
 
     foreach ($data['vendors'] as $vendor) {
-        $ids['vendor'][$vendor['slug']] = $id = optelya_seed_post(OptelyaPostType::Vendor, $vendor['slug'], $vendor['title']);
-        update_field('tagline', $vendor['tagline'], $id);
-        update_field('since', $vendor['since'], $id);
+        $postIds['vendor'][$vendor['slug']] = $postId = optelya_seed_post(OptelyaPostType::Vendor, $vendor['slug'], $vendor['title']);
+        update_field('tagline', $vendor['tagline'], $postId);
+        update_field('since', $vendor['since'], $postId);
     }
 
     foreach ($data['industries'] as $industry) {
-        $ids['industry'][$industry['slug']] = $id = optelya_seed_post(OptelyaPostType::Industry, $industry['slug'], $industry['title']);
-        update_field('summary', $industry['summary'], $id);
+        $postIds['industry'][$industry['slug']] = $postId = optelya_seed_post(OptelyaPostType::Industry, $industry['slug'], $industry['title']);
+        update_field('summary', $industry['summary'], $postId);
     }
 
     // Solutions first, empty: the studies point to them.
     foreach ($data['solutions'] as $solution) {
-        $ids['solution'][$solution['slug']] = optelya_seed_post(OptelyaPostType::Solution, $solution['slug'], $solution['title']);
+        $postIds['solution'][$solution['slug']] = optelya_seed_post(OptelyaPostType::Solution, $solution['slug'], $solution['title']);
     }
 
     foreach ($data['studies'] as $study) {
-        $ids['study'][$study['slug']] = $id = optelya_seed_post(OptelyaPostType::Study, $study['slug'], $study['title']);
-        update_field('summary', $study['summary'], $id);
-        update_field('figure', $study['figure'], $id);
-        update_field('result', $study['result'], $id);
-        update_field('client', $study['client'], $id);
-        update_field('source', 'étude Noesis Solutions', $id);
-        update_field('solutions', array_map(static fn(string $slug): int => $ids['solution'][$slug], $study['solutions']), $id);
-        update_field('industry', $study['industry'] !== '' ? $ids['industry'][$study['industry']] : '', $id);
+        $postIds['study'][$study['slug']] = $postId = optelya_seed_post(OptelyaPostType::Study, $study['slug'], $study['title']);
+        update_field('summary', $study['summary'], $postId);
+        update_field('figure', $study['figure'], $postId);
+        update_field('result', $study['result'], $postId);
+        update_field('client', $study['client'], $postId);
+        update_field('source', 'étude Noesis Solutions', $postId);
+        update_field('solutions', array_map(static fn(string $slug): int => $postIds['solution'][$slug], $study['solutions']), $postId);
+        update_field('industry', $study['industry'] !== '' ? $postIds['industry'][$study['industry']] : '', $postId);
     }
 
     foreach ($data['solutions'] as $solution) {
-        $id = $ids['solution'][$solution['slug']];
-        wp_set_object_terms($id, [$ids['issue'][$solution['issue']]], OptelyaTaxonomy::Issue->value);
-        update_field('vendor', $ids['vendor'][$solution['vendor']], $id);
-        update_field('promise', $solution['promise'], $id);
-        update_field('card_text', $solution['card_text'], $id);
-        update_field('benefits', $solution['benefits'], $id);
-        update_field('proofs', array_map(static fn(string $slug): int => $ids['study'][$slug], $solution['proofs']), $id);
-        update_field('applications', $solution['applications'], $id);
-        update_field('applications_source', $solution['applications_source'], $id);
-        update_field('industries', array_map(static fn(string $slug): int => $ids['industry'][$slug], $solution['industries']), $id);
-        update_field('details', $solution['details'], $id);
+        $postId = $postIds['solution'][$solution['slug']];
+        wp_set_object_terms($postId, [$postIds['issue'][$solution['issue']]], OptelyaTaxonomy::Issue->value);
+        update_field('vendor', $postIds['vendor'][$solution['vendor']], $postId);
+        update_field('promise', $solution['promise'], $postId);
+        update_field('card_text', $solution['card_text'], $postId);
+        update_field('benefits', $solution['benefits'], $postId);
+        update_field('proofs', array_map(static fn(string $slug): int => $postIds['study'][$slug], $solution['proofs']), $postId);
+        update_field('applications', $solution['applications'], $postId);
+        update_field('applications_source', $solution['applications_source'], $postId);
+        update_field('industries', array_map(static fn(string $slug): int => $postIds['industry'][$slug], $solution['industries']), $postId);
+        update_field('details', $solution['details'], $postId);
     }
 
-    update_field('readers_title', $data['readers']['title'], 'option');
-    update_field('readers', array_map(static fn(array $panel): array => [
+    update_field(OptelyaCatalogSetting::ReadersTitle->value, $data['readers']['title'], 'option');
+    update_field(OptelyaCatalogSetting::Readers->value, array_map(static fn(array $panel): array => [
         'reader' => $panel['reader'],
         'is_dark' => $panel['is_dark'],
         'items' => $panel['items'],
@@ -148,8 +148,8 @@ function optelya_seed_catalog_pages(): string
             $filled++;
         }
     };
-    $id = static fn(OptelyaPostType $type, string $slug): int => (($post = get_page_by_path($slug, OBJECT, $type->value)) instanceof WP_Post) ? $post->ID : 0;
-    $ids = static fn(OptelyaPostType $type, array $slugs): array => array_values(array_filter(array_map(static fn(string $slug): int => $id($type, $slug), $slugs)));
+    $postIdOf = static fn(OptelyaPostType $type, string $slug): int => (($post = get_page_by_path($slug, OBJECT, $type->value)) instanceof WP_Post) ? $post->ID : 0;
+    $postIdsOf = static fn(OptelyaPostType $type, array $slugs): array => array_values(array_filter(array_map(static fn(string $slug): int => $postIdOf($type, $slug), $slugs)));
 
     // Read on every page of their list: autoloaded, as the settings screen saves them (inc/catalog.php).
     acf_update_setting('autoload', true);
@@ -179,7 +179,7 @@ function optelya_seed_catalog_pages(): string
     }
 
     foreach ($data['vendors'] as $slug => $fields) {
-        $vendorId = $id(OptelyaPostType::Vendor, $slug);
+        $vendorId = $postIdOf(OptelyaPostType::Vendor, $slug);
 
         foreach ($vendorId > 0 ? $fields : [] as $selector => $value) {
             $fill($selector, $value, $vendorId);
@@ -187,17 +187,17 @@ function optelya_seed_catalog_pages(): string
     }
 
     foreach ($data['industries'] as $slug => $fields) {
-        $industryId = $id(OptelyaPostType::Industry, $slug);
+        $industryId = $postIdOf(OptelyaPostType::Industry, $slug);
 
         if ($industryId <= 0) {
             continue;
         }
 
-        $fields['card_proof'] = $id(OptelyaPostType::Study, (string) ($fields['card_proof'] ?? ''));
-        $fields['near_studies'] = $ids(OptelyaPostType::Study, $fields['near_studies'] ?? []);
+        $fields['card_proof'] = $postIdOf(OptelyaPostType::Study, (string) ($fields['card_proof'] ?? ''));
+        $fields['near_studies'] = $postIdsOf(OptelyaPostType::Study, $fields['near_studies'] ?? []);
         $fields['answers'] = array_map(static fn(array $answer): array => [
-            'solutions' => $ids(OptelyaPostType::Solution, $answer['solutions']),
-            'proof' => $id(OptelyaPostType::Study, $answer['proof']),
+            'solutions' => $postIdsOf(OptelyaPostType::Solution, $answer['solutions']),
+            'proof' => $postIdOf(OptelyaPostType::Study, $answer['proof']),
         ] + $answer, $fields['answers'] ?? []);
 
         foreach ($fields as $selector => $value) {

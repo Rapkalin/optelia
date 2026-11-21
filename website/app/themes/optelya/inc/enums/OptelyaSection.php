@@ -26,6 +26,16 @@ enum OptelyaSection: string
     case Vendors = 'editeurs';
     case Tools = 'outils';
     case Studies = 'etudes';
+    case Applications = 'applications';
+    case OtherSolutions = 'autres-solutions';
+
+    /**
+     * Link to the section from the page itself.
+     */
+    public function anchor(): string
+    {
+        return '#' . $this->value;
+    }
 
     /**
      * Link to the section from any page of the site, not only the homepage.
