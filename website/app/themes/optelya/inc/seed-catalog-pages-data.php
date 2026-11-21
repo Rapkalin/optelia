@@ -14,6 +14,27 @@ if (! defined('ABSPATH')) {
 }
 
 /**
+ * Section titles of the solution page, written in the template until 2.2.0
+ * (same words), and the two shared with the vendor page.
+ *
+ * @return array<string, mixed>
+ */
+function optelya_seed_page_headings_data(): array
+{
+    return [
+        OptelyaCatalogSetting::ProofsHeading->value => ['title' => '{nom} en situation', 'intro' => 'Des gains mesurés, tirés d’études publiées.'],
+        OptelyaCatalogSetting::DemoHeading->value => ['title' => '{nom} en démonstration', 'intro' => 'Moins de 3 minutes, sous-titrée.'],
+        OptelyaCatalogSetting::SolutionProofsLink->value => 'Voir {nom} en situation',
+        OptelyaCatalogSetting::SolutionBenefits->value => ['title' => 'Ce que {nom} résout', 'intro' => ''],
+        OptelyaCatalogSetting::SolutionSectorsLabel->value => 'Industries concernées :',
+        OptelyaCatalogSetting::SolutionOthers->value => ['title' => 'Découvrir les autres solutions {éditeur}', 'intro' => ''],
+        OptelyaCatalogSetting::SolutionDetails->value => ['title' => 'Détails techniques', 'intro' => 'Pour l’ingénieur qui veut vérifier avant d’échanger.'],
+        OptelyaCatalogSetting::SolutionDatasheetLink->value => 'Fiche produit {nom}',
+        OptelyaCatalogSetting::SolutionContactTitle->value => 'Parlons de votre cas {nom}',
+    ];
+}
+
+/**
  * @return array<string, mixed>
  */
 function optelya_seed_catalog_pages_data(): array
@@ -40,8 +61,6 @@ function optelya_seed_catalog_pages_data(): array
             OptelyaCatalogSetting::SolutionsContactTitle->value => 'Pas sûr du bon logiciel ? Parlons-en.',
             OptelyaCatalogSetting::VendorToolsLink->value => 'Quel outil pour quel besoin ?',
             OptelyaCatalogSetting::VendorTools->value => ['title' => 'Quel outil {nom} pour quel besoin ?', 'intro' => ''],
-            OptelyaCatalogSetting::VendorProofs->value => ['title' => '{nom} en situation', 'intro' => 'Des gains mesurés, tirés d’études publiées.'],
-            OptelyaCatalogSetting::VendorDemo->value => ['title' => '{nom} en démonstration', 'intro' => 'Moins de 3 minutes, sous-titrée.'],
             OptelyaCatalogSetting::VendorContactTitle->value => 'Un projet autour de {nom} ? Parlons-en.',
             OptelyaCatalogSetting::IndustriesHead->value => [
                 'eyebrow' => 'Industries',

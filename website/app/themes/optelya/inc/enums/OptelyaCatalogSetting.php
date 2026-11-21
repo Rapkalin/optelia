@@ -19,6 +19,17 @@ enum OptelyaCatalogSetting: string
     // Solution and vendor pages.
     case ReadersTitle = 'readers_title';
     case Readers = 'readers';
+    case ProofsHeading = 'proofs_heading';
+    case DemoHeading = 'demo_heading';
+
+    // Solution page.
+    case SolutionProofsLink = 'solution_proofs_link';
+    case SolutionBenefits = 'solution_benefits';
+    case SolutionSectorsLabel = 'solution_sectors_label';
+    case SolutionOthers = 'solution_others';
+    case SolutionDetails = 'solution_details';
+    case SolutionDatasheetLink = 'solution_datasheet_link';
+    case SolutionContactTitle = 'solution_contact_title';
 
     // Solutions list.
     case SolutionsHead = 'solutions_head';
@@ -31,8 +42,6 @@ enum OptelyaCatalogSetting: string
     // Vendor page.
     case VendorToolsLink = 'vendor_tools_link';
     case VendorTools = 'vendor_tools';
-    case VendorProofs = 'vendor_proofs';
-    case VendorDemo = 'vendor_demo';
     case VendorContactTitle = 'vendor_contact_title';
 
     // Industries list.

@@ -226,6 +226,20 @@ function optelya_contact_texts(): array
 }
 
 /**
+ * Rows of a repeater of titles and texts (benefits, applications, details,
+ * reader items), trimmed: cards or disclosures as their components take them.
+ *
+ * @return list<array{title: string, text: string}>
+ */
+function optelya_title_text_rows(mixed $value): array
+{
+    return array_map(static fn(array $row): array => [
+        'title' => optelya_text($row['title'] ?? ''),
+        'text' => optelya_text($row['text'] ?? ''),
+    ], optelya_rows($value));
+}
+
+/**
  * Published IDs of a content type, in the order of the admin (page order,
  * then creation).
  *
@@ -636,18 +650,27 @@ function optelya_catalog_text(OptelyaCatalogSetting $setting): string
 }
 
 /**
- * Title and intro of a section (part « titre de section »), « {nom} » replaced
- * by the name of the page.
+ * A text of the settings, « {nom} » and « {éditeur} » replaced by the names
+ * of the page and of its vendor.
+ */
+function optelya_catalog_text_for(OptelyaCatalogSetting $setting, string $name, string $vendor = ''): string
+{
+    return OptelyaCatalog::withName(optelya_catalog_text($setting), $name, $vendor);
+}
+
+/**
+ * Title and intro of a section (part « titre de section »), « {nom} » and
+ * « {éditeur} » replaced by the names of the page and of its vendor.
  *
  * @return array{title: string, intro: string}
  */
-function optelya_heading(OptelyaCatalogSetting $setting, string $name = ''): array
+function optelya_heading(OptelyaCatalogSetting $setting, string $name = '', string $vendor = ''): array
 {
     $heading = (array) optelya_catalog_option($setting);
 
     return [
-        'title' => OptelyaCatalog::withName(optelya_text($heading['title'] ?? ''), $name),
-        'intro' => OptelyaCatalog::withName(optelya_text($heading['intro'] ?? ''), $name),
+        'title' => OptelyaCatalog::withName(optelya_text($heading['title'] ?? ''), $name, $vendor),
+        'intro' => OptelyaCatalog::withName(optelya_text($heading['intro'] ?? ''), $name, $vendor),
     ];
 }
 
@@ -775,18 +798,29 @@ function optelya_contact_args(string $title, string $fallback, string $name = ''
 }
 
 /**
+ * Panels by reader (components/reader-panels.php) from their repeater: the
+ * homepage's section, and the settings shared by solution and vendor pages.
+ *
+ * @return list<array{reader: string, is_dark: bool, items: list<array{title: string, text: string}>}>
+ */
+function optelya_reader_panels(mixed $value): array
+{
+    return array_map(static fn(array $panel): array => [
+        'reader' => optelya_text($panel['reader'] ?? ''),
+        'is_dark' => ! empty($panel['is_dark']),
+        'items' => optelya_title_text_rows($panel['items'] ?? null),
+    ], optelya_rows($value));
+}
+
+/**
+ * The shared panels, the vendor's seniority added to the dark one.
+ *
  * @return list<array{reader: string, is_dark: bool, items: list<array{title: string, text: string}>}>
  */
 function optelya_solution_readers(int $vendorId): array
 {
-    $panels = array_map(static fn(array $panel): array => [
-        'reader' => optelya_text($panel['reader'] ?? ''),
-        'is_dark' => ! empty($panel['is_dark']),
-        'items' => array_map(static fn(array $item): array => [
-            'title' => optelya_text($item['title'] ?? ''),
-            'text' => optelya_text($item['text'] ?? ''),
-        ], optelya_rows($panel['items'] ?? null)),
-    ], optelya_rows(optelya_catalog_option(OptelyaCatalogSetting::Readers)));
-
-    return OptelyaCatalog::readersWithVendor($panels, optelya_text(optelya_field('since', $vendorId)));
+    return OptelyaCatalog::readersWithVendor(
+        optelya_reader_panels(optelya_catalog_option(OptelyaCatalogSetting::Readers)),
+        optelya_text(optelya_field('since', $vendorId)),
+    );
 }

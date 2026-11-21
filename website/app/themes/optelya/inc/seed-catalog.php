@@ -15,6 +15,13 @@ if (! defined('ABSPATH')) {
 const OPTELYA_CATALOG_SEEDED_OPTION = 'optelya_catalog_seeded';
 const OPTELYA_CARD_TEXTS_SEEDED_OPTION = 'optelya_card_texts_seeded';
 const OPTELYA_CATALOG_PAGES_SEEDED_OPTION = 'optelya_catalog_pages_seeded';
+const OPTELYA_PAGE_HEADINGS_SEEDED_OPTION = 'optelya_page_headings_seeded';
+
+/** Settings of the vendor page until 2.2.0, now shared with the solution page. */
+const OPTELYA_MOVED_SETTINGS = [
+    'vendor_proofs' => OptelyaCatalogSetting::ProofsHeading,
+    'vendor_demo' => OptelyaCatalogSetting::DemoHeading,
+];
 
 function optelya_seed_catalog(): string
 {
@@ -141,24 +148,12 @@ function optelya_seed_catalog_pages(): string
     }
 
     $data = optelya_seed_resolve_home(optelya_seed_catalog_pages_data(), home_url('/'));
-    $filled = 0;
+    $filled = optelya_seed_fill_options($data['options']);
     $fill = static function (string $selector, mixed $value, int|string $target) use (&$filled): void {
-        if (optelya_seed_is_empty(optelya_field($selector, $target)) && ! optelya_seed_is_empty($value)) {
-            update_field($selector, $value, $target);
-            $filled++;
-        }
+        $filled += (int) optelya_seed_fill($selector, $value, $target);
     };
     $postIdOf = static fn(OptelyaPostType $type, string $slug): int => (($post = get_page_by_path($slug, OBJECT, $type->value)) instanceof WP_Post) ? $post->ID : 0;
     $postIdsOf = static fn(OptelyaPostType $type, array $slugs): array => array_values(array_filter(array_map(static fn(string $slug): int => $postIdOf($type, $slug), $slugs)));
-
-    // Read on every page of their list: autoloaded, as the settings screen saves them (inc/catalog.php).
-    acf_update_setting('autoload', true);
-
-    foreach ($data['options'] as $selector => $value) {
-        $fill($selector, $value, 'option');
-    }
-
-    acf_update_setting('autoload', false);
 
     $order = 0;
 
@@ -208,6 +203,68 @@ function optelya_seed_catalog_pages(): string
     update_option(OPTELYA_CATALOG_PAGES_SEEDED_OPTION, optelya_site_version(), false);
 
     return sprintf('Textes des listes et des fiches posés : %d champ(s).', $filled);
+}
+
+/**
+ * The section titles of the solution page arrived in the settings in 2.2.0:
+ * the two the vendor page already had move to the shared settings (what was
+ * written there is kept), then the empty ones get the words the page showed.
+ */
+function optelya_seed_page_headings(): string
+{
+    if (get_option(OPTELYA_PAGE_HEADINGS_SEEDED_OPTION)) {
+        return 'Titres des fiches déjà posés sur cet environnement.';
+    }
+
+    if (! function_exists('update_field')) {
+        return 'ACF absent : titres des fiches non posés, ils seront rejoués.';
+    }
+
+    $filled = 0;
+
+    foreach (OPTELYA_MOVED_SETTINGS as $oldName => $setting) {
+        $written = ['title' => (string) get_option("options_{$oldName}_title"), 'intro' => (string) get_option("options_{$oldName}_intro")];
+        $filled += optelya_seed_fill_options([$setting->value => $written]);
+
+        foreach (['', '_title', '_intro'] as $part) {
+            delete_option("options_{$oldName}{$part}");
+            delete_option("_options_{$oldName}{$part}");
+        }
+    }
+
+    $filled += optelya_seed_fill_options(optelya_seed_page_headings_data());
+    update_option(OPTELYA_PAGE_HEADINGS_SEEDED_OPTION, optelya_site_version(), false);
+
+    return sprintf('Titres des fiches posés : %d réglage(s).', $filled);
+}
+
+/**
+ * Writes a value only into an empty field, and only a value with something in it.
+ */
+function optelya_seed_fill(string $selector, mixed $value, int|string $target): bool
+{
+    if (! optelya_seed_is_empty(optelya_field($selector, $target)) || optelya_seed_is_empty($value)) {
+        return false;
+    }
+
+    update_field($selector, $value, $target);
+
+    return true;
+}
+
+/**
+ * Settings of the catalogue, into empty fields only. Read on every page of
+ * their list: autoloaded, as the settings screen saves them (inc/catalog.php).
+ *
+ * @param array<string, mixed> $options
+ */
+function optelya_seed_fill_options(array $options): int
+{
+    acf_update_setting('autoload', true);
+    $filled = count(array_filter(array_map(static fn(string $selector, mixed $value): bool => optelya_seed_fill($selector, $value, 'option'), array_keys($options), $options)));
+    acf_update_setting('autoload', false);
+
+    return $filled;
 }
 
 /**

@@ -56,6 +56,7 @@ it('links to all the solutions of a vendor only beyond the cards shown', functio
 
 it('puts the name of the page in a heading written for every page', function (): void {
     expect(OptelyaCatalog::withName('{nom} en situation', 'Sigmetrix'))->toBe('Sigmetrix en situation')
+        ->and(OptelyaCatalog::withName('Après {nom}, les solutions {éditeur}', 'Optimus', 'Noesis Solutions'))->toBe('Après Optimus, les solutions Noesis Solutions')
         ->and(OptelyaCatalog::withName('Vos enjeux, nos réponses', 'Sigmetrix'))->toBe('Vos enjeux, nos réponses');
 });
 

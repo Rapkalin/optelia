@@ -10,7 +10,23 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
-## 2.1.1
+## 2.2.0
+
+### Ajouté
+
+- **Les titres de la fiche solution se saisissent dans l'admin**
+  (*Solutions → Réglages*, onglet « Fiche solution ») : lien vers les preuves,
+  « Ce que {nom} résout », « Découvrir les autres solutions {éditeur} »,
+  « Détails techniques », libellé des industries, lien vers la fiche produit,
+  titre du bloc contact par défaut. Les textes affichés jusqu'ici sont posés au
+  déploiement : la page ne change pas.
+
+### Modifié
+
+- « {nom} en situation » et « {nom} en démonstration » sont **communs** aux
+  fiches solution et éditeur : ils passent de l'onglet « Fiche éditeur » à
+  l'onglet « Fiches solution et éditeur », avec ce qui y était saisi.
+
 
 Aucun changement visible : le HTML des 9 pages du catalogue est identique à
 celui de la 2.1.0 (comparé page par page).

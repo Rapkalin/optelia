@@ -20,12 +20,13 @@ final class OptelyaCatalog
     public const ALL_ISSUES = 'tous';
     public const ISSUE_PARAMETER = 'enjeu';
 
-    /** Stands for the name of the page in a heading written once for every page. */
+    /** Stand for the name of the page, and of its vendor, in a text written once for every page. */
     public const NAME_TOKEN = '{nom}';
+    public const VENDOR_TOKEN = '{éditeur}';
 
-    public static function withName(string $text, string $name): string
+    public static function withName(string $text, string $name, string $vendor = ''): string
     {
-        return str_replace(self::NAME_TOKEN, $name, $text);
+        return str_replace([self::NAME_TOKEN, self::VENDOR_TOKEN], [$name, $vendor], $text);
     }
 
     /**

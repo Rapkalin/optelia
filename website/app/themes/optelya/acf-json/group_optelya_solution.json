@@ -93,7 +93,7 @@
             "name": "secondary_label",
             "aria-label": "",
             "type": "text",
-            "instructions": "Lien sous la promesse, vers les études ou les applications. Vide : « Voir {logiciel} en situation ».",
+            "instructions": "Lien secondaire de l'en-tête, vers les études ou les applications. Vide : celui des réglages (Solutions → Réglages, « Fiche solution »).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -642,7 +642,7 @@
             "name": "contact_title",
             "aria-label": "",
             "type": "text",
-            "instructions": "Vide : « Parlons de votre cas {logiciel} ». Introduction, étapes et mention viennent de la section contact de l'accueil.",
+            "instructions": "Vide : celui des réglages (Solutions → Réglages, « Fiche solution »). Introduction, étapes et mention viennent de la section contact de l'accueil.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {

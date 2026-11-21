@@ -168,6 +168,213 @@
             ]
         },
         {
+            "key": "field_optelya_solution_settings_proofs_heading",
+            "label": "Section des études",
+            "name": "proofs_heading",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "Fiches solution et éditeur. Sans étude, une solution garde ce titre et prend pour introduction la source de ses applications.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_demo_heading",
+            "label": "Section de la démonstration",
+            "name": "demo_heading",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "Fiches solution et éditeur.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_tab_solution",
+            "label": "Fiche solution",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_proofs_link",
+            "label": "Lien vers les preuves (en-tête)",
+            "name": "solution_proofs_link",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "« {nom} » est remplacé par le nom de la fiche. Quand la fiche n’a pas le sien.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_benefits",
+            "label": "Section des bénéfices",
+            "name": "solution_benefits",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_sectors_label",
+            "label": "Libellé des industries",
+            "name": "solution_sectors_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Devant les pastilles des industries, sur une solution sans étude.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_others",
+            "label": "Section des autres solutions",
+            "name": "solution_others",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "« {éditeur} » est remplacé par le nom de l’éditeur de la solution.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_details",
+            "label": "Section des détails techniques",
+            "name": "solution_details",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_datasheet",
+            "label": "Lien vers la fiche produit",
+            "name": "solution_datasheet_link",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "« {nom} » est remplacé par le nom de la fiche. Le format et le poids du fichier s’ajoutent seuls : « (PDF, 1 Mo) ».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_solution_settings_solution_contact",
+            "label": "Titre du bloc contact",
+            "name": "solution_contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "« {nom} » est remplacé par le nom de la fiche. Quand la fiche n’a pas le sien. Introduction, étapes et mention viennent de la section contact de l’accueil.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_optelya_solution_settings_tab_archive",
             "label": "Liste des solutions",
             "name": "",
@@ -356,50 +563,6 @@
             "aria-label": "",
             "type": "clone",
             "instructions": "L’introduction de la fiche éditeur, si elle est remplie, remplace celle-ci.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "clone": [
-                "group_optelya_part_heading"
-            ],
-            "display": "group",
-            "layout": "block",
-            "prefix_label": 0,
-            "prefix_name": 1
-        },
-        {
-            "key": "field_optelya_solution_settings_proofs",
-            "label": "Section des études",
-            "name": "vendor_proofs",
-            "aria-label": "",
-            "type": "clone",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "clone": [
-                "group_optelya_part_heading"
-            ],
-            "display": "group",
-            "layout": "block",
-            "prefix_label": 0,
-            "prefix_name": 1
-        },
-        {
-            "key": "field_optelya_solution_settings_demo",
-            "label": "Section de la démonstration",
-            "name": "vendor_demo",
-            "aria-label": "",
-            "type": "clone",
-            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {

@@ -123,11 +123,14 @@ saisit **une fois**, dans le menu du type :
 
 | Écran | Onglets |
 | --- | --- |
-| **Solutions → Réglages** | *Fiches solution et éditeur* (« Ce qu'Optelya ajoute ») · *Liste des solutions* (en-tête, bandeau d'aide, libellé du filtre, section de toutes les solutions, section des éditeurs, titre du bloc contact) · *Fiche éditeur* (lien vers les outils, titres des sections, titre du bloc contact par défaut) |
+| **Solutions → Réglages** | *Fiches solution et éditeur* (« Ce qu'Optelya ajoute », sections des études et de la démonstration) · *Fiche solution* (lien vers les preuves, titres des sections bénéfices, autres solutions et détails techniques, libellé des industries, lien vers la fiche produit, titre du bloc contact par défaut) · *Liste des solutions* (en-tête, bandeau d'aide, libellé du filtre, section de toutes les solutions, section des éditeurs, titre du bloc contact) · *Fiche éditeur* (lien vers les outils, section des outils, titre du bloc contact par défaut) |
 | **Industries → Réglages** | *Liste des industries* (en-tête, section des secteurs, bandeau, titre du bloc contact) · *Fiche industrie* (liens de l'en-tête, titres des sections, titre du bloc contact par défaut) |
 
-Dans un titre de section commun, **« {nom} »** est remplacé par le nom de la
-fiche : « {nom} en situation » devient « Sigmetrix en situation ».
+Dans un texte commun, **« {nom} »** est remplacé par le nom de la fiche :
+« {nom} en situation » devient « Sigmetrix en situation » ; **« {éditeur} »**,
+par l'éditeur de la solution (« Découvrir les autres solutions {éditeur} »).
+Un champ de la fiche (titre du bloc contact, lien vers les preuves) l'emporte
+sur le réglage commun.
 
 **Un même élément se saisit partout de la même manière** : l'en-tête d'une liste
 (surtitre, titre, introduction, bouton, lien), un titre de section (titre,

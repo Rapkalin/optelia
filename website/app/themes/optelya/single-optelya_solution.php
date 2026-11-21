@@ -19,20 +19,15 @@ $product = get_the_title($solutionId);
 $vendorId = (int) optelya_field('vendor', $solutionId);
 $vendor = $vendorId > 0 ? get_the_title($vendorId) : '';
 
-$proofs = array_values(array_filter(array_map(
-    static fn(mixed $studyId): ?array => optelya_study_card((int) $studyId),
-    (array) optelya_field('proofs', $solutionId),
-)));
-$applications = $proofs === [] ? optelya_rows(optelya_field('applications', $solutionId)) : [];
+$proofs = array_values(array_filter(array_map('optelya_study_card', optelya_ids(optelya_field('proofs', $solutionId)))));
+$applications = $proofs === [] ? optelya_title_text_rows(optelya_field('applications', $solutionId)) : [];
 $proofSection = $proofs !== [] ? OptelyaSection::Studies : OptelyaSection::Applications;
 $secondaryLabel = optelya_text(optelya_field('secondary_label', $solutionId));
 
 $video = optelya_video($solutionId, $product);
 $others = optelya_other_solutions($solutionId, $vendorId);
-$details = optelya_rows(optelya_field('details', $solutionId));
+$details = optelya_title_text_rows(optelya_field('details', $solutionId));
 $datasheetId = optelya_attachment_id(optelya_field('datasheet', $solutionId));
-$contactTitle = optelya_text(optelya_field('contact_title', $solutionId));
-$contact = optelya_contact_texts();
 $sectionClass = optelya_section_classes();
 ?>
 
@@ -44,8 +39,7 @@ $sectionClass = optelya_section_classes();
         'lead' => optelya_text(optelya_field('promise', $solutionId)),
         'primary' => optelya_contact_link(),
         'secondary' => [
-            /* translators: %s: product name */
-            'label' => $secondaryLabel !== '' ? $secondaryLabel : sprintf(__('Voir %s en situation', 'optelya'), $product),
+            'label' => $secondaryLabel !== '' ? $secondaryLabel : optelya_catalog_text_for(OptelyaCatalogSetting::SolutionProofsLink, $product),
             'url' => $proofs !== [] || $applications !== [] ? $proofSection->anchor() : '',
             'target' => '',
         ],
@@ -55,23 +49,15 @@ $sectionClass = optelya_section_classes();
 
     <section class="<?php echo esc_attr($sectionClass()); ?>">
         <div class="section__inner">
-            <?php /* translators: %s: product name */ ?>
-            <?php get_template_part('components/section-heading', null, ['title' => sprintf(__('Ce que %s résout', 'optelya'), $product)]); ?>
-            <?php get_template_part('components/card-grid', null, ['cards' => array_map(static fn(array $row): array => [
-                'title' => optelya_text($row['title'] ?? ''),
-                'text' => optelya_text($row['text'] ?? ''),
-            ], optelya_rows(optelya_field('benefits', $solutionId)))]); ?>
+            <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::SolutionBenefits, $product)); ?>
+            <?php get_template_part('components/card-grid', null, ['cards' => optelya_title_text_rows(optelya_field('benefits', $solutionId))]); ?>
         </div>
     </section>
 
     <?php if ($video !== null) : ?>
         <section class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
-                <?php get_template_part('components/section-heading', null, [
-                    /* translators: %s: product name */
-                    'title' => sprintf(__('%s en démonstration', 'optelya'), $product),
-                    'intro' => __('Moins de 3 minutes, sous-titrée.', 'optelya'),
-                ]); ?>
+                <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::DemoHeading, $product)); ?>
                 <?php get_template_part('components/video-card', null, $video); ?>
             </div>
         </section>
@@ -82,11 +68,7 @@ $sectionClass = optelya_section_classes();
         <section id="<?php echo esc_attr($proofSection->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">
-                    <?php get_template_part('components/section-heading', null, [
-                        /* translators: %s: product name */
-                        'title' => sprintf(__('%s en situation', 'optelya'), $product),
-                        'intro' => __('Des gains mesurés, tirés d’études publiées.', 'optelya'),
-                    ]); ?>
+                    <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::ProofsHeading, $product)); ?>
                     <?php get_template_part('components/link', null, ['link' => optelya_all_studies_link($studiesLabel), 'class' => 'text-link']); ?>
                 </div>
                 <?php get_template_part('components/card-grid', null, ['cards' => $proofs]); ?>
@@ -96,16 +78,12 @@ $sectionClass = optelya_section_classes();
         <section id="<?php echo esc_attr($proofSection->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <?php get_template_part('components/section-heading', null, [
-                    /* translators: %s: product name */
-                    'title' => sprintf(__('%s en situation', 'optelya'), $product),
+                    'title' => optelya_heading(OptelyaCatalogSetting::ProofsHeading, $product)['title'],
                     'intro' => optelya_text(optelya_field('applications_source', $solutionId)),
                 ]); ?>
-                <?php get_template_part('components/card-grid', null, ['cards' => array_map(static fn(array $row): array => [
-                    'title' => optelya_text($row['title'] ?? ''),
-                    'text' => optelya_text($row['text'] ?? ''),
-                ], $applications)]); ?>
+                <?php get_template_part('components/card-grid', null, ['cards' => $applications]); ?>
                 <?php get_template_part('components/sectors-band', null, [
-                    'label' => __('Industries concernées :', 'optelya'),
+                    'label' => optelya_catalog_text(OptelyaCatalogSetting::SolutionSectorsLabel),
                     'links' => array_map(static fn(int $industryId): array => optelya_card_link(get_the_title($industryId), OptelyaPostType::Industry, (string) get_permalink($industryId)), optelya_ids(optelya_field('industries', $solutionId))),
                 ]); ?>
             </div>
@@ -117,10 +95,7 @@ $sectionClass = optelya_section_classes();
         <section id="<?php echo esc_attr(OptelyaSection::OtherSolutions->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">
-                    <?php get_template_part('components/section-heading', null, [
-                        /* translators: %s: vendor name */
-                        'title' => sprintf(__('Découvrir les autres solutions %s', 'optelya'), $vendor),
-                    ]); ?>
+                    <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::SolutionOthers, $product, $vendor)); ?>
                     <?php get_template_part('components/link', null, ['link' => ['label' => $othersLabel, 'url' => optelya_built_url(OptelyaPostType::Vendor, (string) get_permalink($vendorId)), 'target' => ''], 'class' => 'text-link']); ?>
                 </div>
                 <?php get_template_part('components/card-grid', null, ['cards' => $others['cards'], 'keep_width' => true]); ?>
@@ -139,35 +114,27 @@ $sectionClass = optelya_section_classes();
         <section class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">
-                    <?php get_template_part('components/section-heading', null, [
-                        'title' => __('Détails techniques', 'optelya'),
-                        'intro' => __('Pour l’ingénieur qui veut vérifier avant d’échanger.', 'optelya'),
-                    ]); ?>
+                    <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::SolutionDetails, $product)); ?>
                     <?php if ($datasheetId > 0) : ?>
                         <?php $datasheetPath = (string) get_attached_file($datasheetId); ?>
                         <?php get_template_part('components/link', null, ['link' => [
-                            /* translators: 1: product name, 2: file size */
-                            'label' => sprintf(__('Fiche produit %1$s (PDF, %2$s)', 'optelya'), $product, is_file($datasheetPath) ? size_format((int) filesize($datasheetPath)) : ''),
+                            /* translators: 1: link text, 2: file size */
+                            'label' => sprintf(__('%1$s (PDF, %2$s)', 'optelya'), optelya_catalog_text_for(OptelyaCatalogSetting::SolutionDatasheetLink, $product), is_file($datasheetPath) ? size_format((int) filesize($datasheetPath)) : ''),
                             'url' => (string) wp_get_attachment_url($datasheetId),
                             'target' => '',
                         ], 'class' => 'text-link']); ?>
                     <?php endif; ?>
                 </div>
-                <?php get_template_part('components/disclosure-list', null, ['items' => array_map(static fn(array $row): array => [
-                    'title' => optelya_text($row['title'] ?? ''),
-                    'text' => optelya_text($row['text'] ?? ''),
-                ], $details)]); ?>
+                <?php get_template_part('components/disclosure-list', null, ['items' => $details]); ?>
             </div>
         </section>
     <?php endif; ?>
 
-    <?php get_template_part('components/contact-block', null, [
-        /* translators: %s: product name */
-        'title' => $contactTitle !== '' ? $contactTitle : sprintf(__('Parlons de votre cas %s', 'optelya'), $product),
-        'lead' => $contact['lead'],
-        'steps' => $contact['steps'],
-        'notice' => $contact['notice'],
-    ]); ?>
+    <?php get_template_part('components/contact-block', null, optelya_contact_args(
+        optelya_text(optelya_field('contact_title', $solutionId)),
+        optelya_catalog_text(OptelyaCatalogSetting::SolutionContactTitle),
+        $product,
+    )); ?>
 </main>
 
 <?php

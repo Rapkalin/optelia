@@ -65,7 +65,7 @@ $sectionClass = optelya_section_classes();
         <section id="<?php echo esc_attr(OptelyaSection::Studies->value); ?>" class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <div class="section__header">
-                    <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::VendorProofs, $vendor)); ?>
+                    <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::ProofsHeading, $vendor)); ?>
                     <?php get_template_part('components/link', null, ['link' => optelya_all_studies_link(OptelyaCatalog::studiesLabel(count($studies), $vendor, count($figured))), 'class' => 'text-link']); ?>
                 </div>
                 <?php get_template_part('components/card-grid', null, ['cards' => optelya_study_cards($figured, false), 'keep_width' => true]); ?>
@@ -76,7 +76,7 @@ $sectionClass = optelya_section_classes();
     <?php if ($video !== null) : ?>
         <section class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
-                <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::VendorDemo, $vendor)); ?>
+                <?php get_template_part('components/section-heading', null, optelya_heading(OptelyaCatalogSetting::DemoHeading, $vendor)); ?>
                 <?php get_template_part('components/video-card', null, $video); ?>
             </div>
         </section>
