@@ -3,9 +3,350 @@
     "title": "Industrie",
     "fields": [
         {
-            "key": "field_optelya_industry_summary",
-            "label": "Résumé",
-            "name": "summary",
+            "key": "field_optelya_industry_tab_head",
+            "label": "En-tête",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_claim",
+            "label": "Accroche",
+            "name": "claim",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Sous le nom du secteur (le titre de la page).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 90,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_industry_lead",
+            "label": "Texte d’introduction",
+            "name": "lead",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Sert aussi de description pour les moteurs de recherche.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 160,
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_optelya_industry_visual",
+            "label": "Visuel",
+            "name": "visual_part",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_visual"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_optelya_industry_tab_card",
+            "label": "Carte",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_card_text",
+            "label": "Phrase de carte",
+            "name": "card_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte de la carte du secteur dans la liste des industries.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": 90,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_industry_card_examples",
+            "label": "Exemples d’applications",
+            "name": "card_examples",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Séparés par « · », ex. « Suspensions · Transmissions · NVH ».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_industry_card_proof",
+            "label": "Étude citée sur la carte",
+            "name": "card_proof",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Son chiffre clé s’affiche sur la carte. Vide : pas de preuve.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "optelya_study"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": "",
+            "return_format": "id",
+            "multiple": 0,
+            "allow_null": 1,
+            "bidirectional": 0,
+            "ui": 1,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_optelya_industry_tab_answers",
+            "label": "Enjeux",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_answers",
+            "label": "Vos enjeux, nos réponses",
+            "name": "answers",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Une carte par enjeu du secteur.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Ajouter un enjeu",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_optelya_industry_answers_title",
+                    "label": "Titre",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 60,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_optelya_industry_answers_text",
+                    "label": "Texte",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 140,
+                    "rows": 2,
+                    "placeholder": "",
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_optelya_industry_answers_solutions",
+                    "label": "Logiciels",
+                    "name": "solutions",
+                    "aria-label": "",
+                    "type": "relationship",
+                    "instructions": "Le premier reçoit le lien de la carte.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "optelya_solution"
+                    ],
+                    "post_status": [
+                        "publish"
+                    ],
+                    "taxonomy": "",
+                    "filters": [
+                        "search"
+                    ],
+                    "return_format": "id",
+                    "min": "",
+                    "max": 3,
+                    "elements": "",
+                    "bidirectional": 0,
+                    "bidirectional_target": []
+                },
+                {
+                    "key": "field_optelya_industry_answers_proof",
+                    "label": "Étude preuve",
+                    "name": "proof",
+                    "aria-label": "",
+                    "type": "post_object",
+                    "instructions": "Son chiffre clé s’affiche sur la carte. Sans étude, la réponse doit être validée par un expert Optelya avant publication.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "optelya_study"
+                    ],
+                    "post_status": [
+                        "publish"
+                    ],
+                    "taxonomy": "",
+                    "return_format": "id",
+                    "multiple": 0,
+                    "allow_null": 1,
+                    "bidirectional": 0,
+                    "ui": 1,
+                    "bidirectional_target": []
+                }
+            ]
+        },
+        {
+            "key": "field_optelya_industry_tab_studies",
+            "label": "Études",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_no_study_title",
+            "label": "Titre sans étude",
+            "name": "no_study_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Affiché tant qu’aucune étude publiée n’est rattachée au secteur.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_industry_no_study_text",
+            "label": "Texte sans étude",
+            "name": "no_study_text",
             "aria-label": "",
             "type": "textarea",
             "instructions": "",
@@ -19,6 +360,150 @@
             "default_value": "",
             "maxlength": "",
             "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_optelya_industry_near_studies",
+            "label": "Cas proches",
+            "name": "near_studies",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Montrés tant que le secteur n’a pas d’étude.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "optelya_study"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "min": "",
+            "max": 3,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_optelya_industry_tab_video",
+            "label": "Démonstration",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_video",
+            "label": "Vidéo",
+            "name": "video_part",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_video"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_optelya_industry_tab_contact",
+            "label": "Contact",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_contact_title",
+            "label": "Titre du bloc contact",
+            "name": "contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Vide : celui des réglages des industries. Introduction, étapes et mention viennent de la section contact de l’accueil.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_industry_tab_legacy",
+            "label": "Résumé",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_industry_summary",
+            "label": "Résumé",
+            "name": "summary",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Texte de référence du secteur, non affiché.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 4,
             "placeholder": "",
             "new_lines": ""
         }
@@ -51,6 +536,6 @@
         "send-trackbacks"
     ],
     "active": true,
-    "description": "Page sectorielle (gabarit G5, à venir).",
+    "description": "Secteur (fiche G5, carte de la liste G2).",
     "show_in_rest": 0
 }

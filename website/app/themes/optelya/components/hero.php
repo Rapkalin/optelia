@@ -11,6 +11,7 @@
  * @param string                 $args['id']      Anchor of the section ('' for none).
  * @param string                 $args['eyebrow']
  * @param string                 $args['title']
+ * @param string                 $args['claim']   Subtitle under the title (an industry's claim: its name is the title).
  * @param string                 $args['lead']
  * @param array                  $args['primary']   Link (see components/link.php).
  * @param array                  $args['secondary'] Link.
@@ -35,6 +36,7 @@ $posterUrl = $posterId > 0 ? (string) wp_get_attachment_image_url($posterId, $im
 $caption = (string) ($media['caption'] ?? '');
 $eyebrow = (string) ($args['eyebrow'] ?? '');
 $lead = (string) ($args['lead'] ?? '');
+$claim = (string) ($args['claim'] ?? '');
 $pauseLabel = __('Mettre la vidéo en pause', 'optelya');
 $breadcrumb = (array) ($args['breadcrumb'] ?? []);
 $classes = 'hero' . ($media === null ? ' hero--text-only' : '') . ($breadcrumb !== [] ? ' hero--with-breadcrumb' : '');
@@ -49,6 +51,9 @@ $classes = 'hero' . ($media === null ? ' hero--text-only' : '') . ($breadcrumb !
                 <p class="eyebrow"><?php echo esc_html($eyebrow); ?></p>
             <?php endif; ?>
             <h1 class="hero__title"><?php echo esc_html((string) ($args['title'] ?? '')); ?></h1>
+            <?php if ($claim !== '') : ?>
+                <p class="hero__claim"><?php echo esc_html($claim); ?></p>
+            <?php endif; ?>
             <?php if ($lead !== '') : ?>
                 <p class="hero__lead"><?php echo esc_html($lead); ?></p>
             <?php endif; ?>
@@ -66,7 +71,7 @@ $classes = 'hero' . ($media === null ? ' hero--text-only' : '') . ($breadcrumb !
                         <source src="<?php echo esc_url((string) wp_get_attachment_url($videoId)); ?>"<?php echo $mime !== '' ? ' type="' . esc_attr($mime) . '"' : ''; ?>>
                     </video>
                 <?php elseif ($posterId > 0) : ?>
-                    <?php echo wp_get_attachment_image($posterId, $imageSize, false, ['class' => 'hero__visual']); ?>
+                    <?php echo wp_get_attachment_image($posterId, $imageSize, false, ['class' => 'hero__visual', 'loading' => 'eager', 'fetchpriority' => 'high']); ?>
                 <?php else : ?>
                     <div class="hero__placeholder">
                         <span class="hero__placeholder-label"><?php echo esc_html((string) ($media['placeholder_label'] ?? __('Visuel éditeur', 'optelya'))); ?></span>

@@ -13,6 +13,75 @@ if (! defined('ABSPATH')) {
 
 final class OptelyaCatalog
 {
+    /** A product without a figured study still shows its weight from this many studies on. */
+    public const STUDIES_SHOWN_FROM = 3;
+
+    /** Value of the « all » filter of the solutions list, and its address parameter (?enjeu=…). */
+    public const ALL_ISSUES = 'tous';
+    public const ISSUE_PARAMETER = 'enjeu';
+
+    /** Stands for the name of the page in a heading written once for every page. */
+    public const NAME_TOKEN = '{nom}';
+
+    public static function withName(string $text, string $name): string
+    {
+        return str_replace(self::NAME_TOKEN, $name, $text);
+    }
+
+    /**
+     * The proof line of a product card: the figure of its first figured study,
+     * otherwise its number of studies when it says something (3 or more).
+     *
+     * @param list<array{figure: string, label: string}> $figures Figured studies, in order.
+     * @return array{figure: string, label: string}|null
+     */
+    public static function proofLine(array $figures, int $count): ?array
+    {
+        if ($figures !== []) {
+            return $figures[0];
+        }
+
+        /* translators: %d: number of studies */
+        return $count >= self::STUDIES_SHOWN_FROM ? ['figure' => sprintf(__('%d études', 'optelya'), $count), 'label' => __('de cas publiées', 'optelya')] : null;
+    }
+
+    /**
+     * Link from an issue's block to the vendor page that compares its tools:
+     * only when every product of the issue comes from that one vendor, and
+     * there are several to compare.
+     *
+     * @param list<string> $vendors Vendor of each product of the issue.
+     */
+    public static function compareLabel(array $vendors): string
+    {
+        $distinct = array_values(array_unique($vendors));
+
+        /* translators: 1: number of tools, 2: vendor name */
+        return count($vendors) > 1 && count($distinct) === 1 && $distinct[0] !== '' ? sprintf(__('Comparer les %1$d outils %2$s', 'optelya'), count($vendors), $distinct[0]) : '';
+    }
+
+    /**
+     * « 1 solution », « 8 solutions »: French plural, from 2 on.
+     */
+    public static function solutionsCount(int $count): string
+    {
+        /* translators: %d: number of solutions */
+        return sprintf($count > 1 ? __('%d solutions', 'optelya') : __('%d solution', 'optelya'), $count);
+    }
+
+    /**
+     * Issues in the order chosen in the admin, then by name.
+     *
+     * @param list<array{slug: string, name: string, order: int}> $issues
+     * @return list<array{slug: string, name: string, order: int}>
+     */
+    public static function sortIssues(array $issues): array
+    {
+        usort($issues, static fn(array $a, array $b): int => [$a['order'], $a['name']] <=> [$b['order'], $b['name']]);
+
+        return $issues;
+    }
+
     /**
      * Label of the link to every study of a product; '' when the cards shown
      * already are all of them: never « 0 étude » (zoning v2, decision 11), and

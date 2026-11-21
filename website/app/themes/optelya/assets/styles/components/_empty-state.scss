@@ -1,0 +1,16 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+// Nothing of a kind yet (components/empty-state.php), in the frame of a card.
+.empty-state {
+  &__title {
+    @include display-heading;
+    font-size: $font-size-3xl;
+  }
+
+  &__text {
+    max-width: 46em;
+    line-height: $line-height-text;
+    color: $color-text-muted;
+  }
+}

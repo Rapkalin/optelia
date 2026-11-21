@@ -26,29 +26,21 @@ $proofs = array_values(array_filter(array_map(
     (array) optelya_field('proofs', $solutionId),
 )));
 $applications = $proofs === [] ? optelya_rows(optelya_field('applications', $solutionId)) : [];
-$proofAnchor = $proofs !== [] ? 'etudes' : 'applications';
+$proofAnchor = $proofs !== [] ? OptelyaSection::Studies->value : 'applications';
 $secondaryLabel = optelya_text(optelya_field('secondary_label', $solutionId));
 
-$videoId = optelya_attachment_id(optelya_field('video_file', $solutionId));
+$video = optelya_video($solutionId, $product);
 $others = optelya_other_solutions($solutionId, $vendorId);
 $details = optelya_rows(optelya_field('details', $solutionId));
 $datasheetId = optelya_attachment_id(optelya_field('datasheet', $solutionId));
 $contactTitle = optelya_text(optelya_field('contact_title', $solutionId));
 $contact = optelya_contact_texts();
-
-/** Every other zone shown sits on the band. */
-$isBand = false;
-$sectionClass = static function () use (&$isBand): string {
-    $class = 'section' . ($isBand ? ' section--band' : '');
-    $isBand = ! $isBand;
-
-    return $class;
-};
+$sectionClass = optelya_section_classes();
 ?>
 
 <main id="<?php echo esc_attr(OPTELYA_MAIN_CONTENT_ID); ?>">
     <?php get_template_part('components/hero', null, [
-        'breadcrumb' => optelya_solution_breadcrumb($solutionId),
+        'breadcrumb' => optelya_catalog_breadcrumb(),
         'eyebrow' => $vendor,
         'title' => $product,
         'lead' => optelya_text(optelya_field('promise', $solutionId)),
@@ -59,13 +51,8 @@ $sectionClass = static function () use (&$isBand): string {
             'url' => $proofs !== [] || $applications !== [] ? '#' . $proofAnchor : '',
             'target' => '',
         ],
-        'media' => [
-            'poster_id' => optelya_attachment_id(optelya_field('visual', $solutionId)),
-            'caption' => optelya_text(optelya_field('visual_caption', $solutionId)),
-            'placeholder_label' => __('Capture d’interface', 'optelya'),
-            /* translators: 1: product name, 2: vendor name */
-            'placeholder_text' => sprintf(__('%1$s — visuel à fournir par %2$s', 'optelya'), $product, $vendor),
-        ],
+        /* translators: 1: product name, 2: vendor name */
+        'media' => optelya_head_media($solutionId, __('Capture d’interface', 'optelya'), sprintf(__('%1$s — visuel à fournir par %2$s', 'optelya'), $product, $vendor)),
     ]); ?>
 
     <section class="<?php echo esc_attr($sectionClass()); ?>">
@@ -79,7 +66,7 @@ $sectionClass = static function () use (&$isBand): string {
         </div>
     </section>
 
-    <?php if ($videoId > 0) : ?>
+    <?php if ($video !== null) : ?>
         <section class="<?php echo esc_attr($sectionClass()); ?>">
             <div class="section__inner">
                 <?php get_template_part('components/section-heading', null, [
@@ -87,17 +74,7 @@ $sectionClass = static function () use (&$isBand): string {
                     'title' => sprintf(__('%s en démonstration', 'optelya'), $product),
                     'intro' => __('Moins de 3 minutes, sous-titrée.', 'optelya'),
                 ]); ?>
-                <?php get_template_part('components/video-card', null, [
-                    'video_url' => (string) wp_get_attachment_url($videoId),
-                    'poster_url' => (string) wp_get_attachment_image_url(optelya_attachment_id(optelya_field('video_poster', $solutionId)), 'large'),
-                    'captions_url' => (string) wp_get_attachment_url(optelya_attachment_id(optelya_field('video_captions', $solutionId))),
-                    /* translators: %s: product name */
-                    'title' => sprintf(__('Lire la vidéo de démonstration %s', 'optelya'), $product),
-                    /* translators: %s: product name */
-                    'player_label' => sprintf(__('Vidéo de démonstration %s', 'optelya'), $product),
-                    'meta' => implode(' · ', array_filter([optelya_text(optelya_field('video_duration', $solutionId)), __('sous-titres français', 'optelya')])),
-                    'transcript' => optelya_text(optelya_field('video_transcript', $solutionId)),
-                ]); ?>
+                <?php get_template_part('components/video-card', null, $video); ?>
             </div>
         </section>
     <?php endif; ?>
@@ -112,7 +89,7 @@ $sectionClass = static function () use (&$isBand): string {
                         'title' => sprintf(__('%s en situation', 'optelya'), $product),
                         'intro' => __('Des gains mesurés, tirés d’études publiées.', 'optelya'),
                     ]); ?>
-                    <?php get_template_part('components/link', null, ['link' => ['label' => $studiesLabel, 'url' => optelya_is_built(OptelyaPostType::Study, true) ? (string) get_post_type_archive_link(OptelyaPostType::Study->value) : '', 'target' => ''], 'class' => 'text-link']); ?>
+                    <?php get_template_part('components/link', null, ['link' => optelya_all_studies_link($studiesLabel), 'class' => 'text-link']); ?>
                 </div>
                 <?php get_template_part('components/card-grid', null, ['cards' => $proofs]); ?>
             </div>
@@ -131,11 +108,7 @@ $sectionClass = static function () use (&$isBand): string {
                 ], $applications)]); ?>
                 <?php get_template_part('components/sectors-band', null, [
                     'label' => __('Industries concernées :', 'optelya'),
-                    'links' => array_map(static fn(mixed $industryId): array => [
-                        'label' => get_the_title((int) $industryId),
-                        'url' => (string) get_permalink((int) $industryId),
-                        'target' => '',
-                    ], (array) optelya_field('industries', $solutionId)),
+                    'links' => array_map(static fn(int $industryId): array => optelya_card_link(get_the_title($industryId), OptelyaPostType::Industry, (string) get_permalink($industryId)), optelya_ids(optelya_field('industries', $solutionId))),
                 ]); ?>
             </div>
         </section>
@@ -150,7 +123,7 @@ $sectionClass = static function () use (&$isBand): string {
                         /* translators: %s: vendor name */
                         'title' => sprintf(__('Découvrir les autres solutions %s', 'optelya'), $vendor),
                     ]); ?>
-                    <?php get_template_part('components/link', null, ['link' => ['label' => $othersLabel, 'url' => optelya_is_built(OptelyaPostType::Vendor) ? (string) get_permalink($vendorId) : '', 'target' => ''], 'class' => 'text-link']); ?>
+                    <?php get_template_part('components/link', null, ['link' => ['label' => $othersLabel, 'url' => optelya_built_url(OptelyaPostType::Vendor, (string) get_permalink($vendorId)), 'target' => ''], 'class' => 'text-link']); ?>
                 </div>
                 <?php get_template_part('components/card-grid', null, ['cards' => $others['cards'], 'keep_width' => true]); ?>
             </div>

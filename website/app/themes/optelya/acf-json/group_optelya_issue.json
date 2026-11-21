@@ -1,0 +1,58 @@
+{
+    "key": "group_optelya_issue",
+    "title": "Enjeu",
+    "fields": [
+        {
+            "key": "field_optelya_issue_order",
+            "label": "Ordre d’affichage",
+            "name": "order",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Les enjeux s’affichent du plus petit au plus grand (filtres de la liste des solutions). La description de l’enjeu sert d’introduction à son bloc.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "step": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "optelya_issue"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "author",
+        "format",
+        "page_attributes",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": true,
+    "description": "Ordre d’un enjeu ; sa description (champ natif) introduit son bloc.",
+    "show_in_rest": 0
+}

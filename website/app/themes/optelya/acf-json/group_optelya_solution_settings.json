@@ -3,6 +3,23 @@
     "title": "Réglages des solutions",
     "fields": [
         {
+            "key": "field_optelya_solution_settings_tab_single",
+            "label": "Fiches solution et éditeur",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
             "key": "field_optelya_solution_settings_readers_title",
             "label": "Titre de « Ce qu'Optelya ajoute »",
             "name": "readers_title",
@@ -149,6 +166,274 @@
                     ]
                 }
             ]
+        },
+        {
+            "key": "field_optelya_solution_settings_tab_archive",
+            "label": "Liste des solutions",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_solution_settings_head",
+            "label": "En-tête",
+            "name": "solutions_head",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_page_head"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_band",
+            "label": "Bandeau d’aide",
+            "name": "solutions_band",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_band"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_filter_label",
+            "label": "Libellé du filtre",
+            "name": "solutions_filter_label",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Devant les boutons des enjeux.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_solution_settings_all",
+            "label": "Section de toutes les solutions",
+            "name": "solutions_all",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "Montrée avec le filtre « Tous ». Les autres blocs prennent le nom et la description de leur enjeu (Solutions → Enjeux).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_vendors",
+            "label": "Section des éditeurs",
+            "name": "solutions_vendors",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_contact",
+            "label": "Titre du bloc contact",
+            "name": "solutions_contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Introduction, étapes et mention viennent de la section contact de l’accueil.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_solution_settings_tab_vendor",
+            "label": "Fiche éditeur",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_solution_settings_tools_link",
+            "label": "Lien vers les outils (en-tête)",
+            "name": "vendor_tools_link",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Lien secondaire de l’en-tête, vers le tableau des outils.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_solution_settings_tools",
+            "label": "Section des outils",
+            "name": "vendor_tools",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "L’introduction de la fiche éditeur, si elle est remplie, remplace celle-ci.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_proofs",
+            "label": "Section des études",
+            "name": "vendor_proofs",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_demo",
+            "label": "Section de la démonstration",
+            "name": "vendor_demo",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_heading"
+            ],
+            "display": "group",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 1
+        },
+        {
+            "key": "field_optelya_solution_settings_vendor_contact",
+            "label": "Titre du bloc contact",
+            "name": "vendor_contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Quand la fiche n’a pas le sien. « {nom} » est remplacé par le nom de l’éditeur. Introduction, étapes et mention viennent de la section contact de l’accueil.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         }
     ],
     "location": [
@@ -179,6 +464,6 @@
         "send-trackbacks"
     ],
     "active": true,
-    "description": "Contenus communs à toutes les pages Solution.",
+    "description": "Contenus communs à la liste des solutions, aux fiches solution et aux fiches éditeur.",
     "show_in_rest": 0
 }

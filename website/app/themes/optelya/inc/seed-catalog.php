@@ -14,6 +14,7 @@ if (! defined('ABSPATH')) {
 
 const OPTELYA_CATALOG_SEEDED_OPTION = 'optelya_catalog_seeded';
 const OPTELYA_CARD_TEXTS_SEEDED_OPTION = 'optelya_card_texts_seeded';
+const OPTELYA_CATALOG_PAGES_SEEDED_OPTION = 'optelya_catalog_pages_seeded';
 
 function optelya_seed_catalog(): string
 {
@@ -122,6 +123,115 @@ function optelya_seed_card_texts(): string
     update_option(OPTELYA_CARD_TEXTS_SEEDED_OPTION, optelya_site_version(), false);
 
     return sprintf('Phrases de carte posées : %d solution(s).', $filled);
+}
+
+/**
+ * The lists and the industry and vendor pages arrived after the catalogue
+ * (2.1.0): their texts are seeded once, only into empty fields — nothing
+ * written in the admin is overruled. Content in inc/seed-catalog-pages-data.php.
+ */
+function optelya_seed_catalog_pages(): string
+{
+    if (get_option(OPTELYA_CATALOG_PAGES_SEEDED_OPTION)) {
+        return 'Textes des listes et des fiches déjà posés sur cet environnement.';
+    }
+
+    if (! function_exists('update_field')) {
+        return 'ACF absent : textes des listes et des fiches non posés, ils seront rejoués.';
+    }
+
+    $data = optelya_seed_resolve_home(optelya_seed_catalog_pages_data(), home_url('/'));
+    $filled = 0;
+    $fill = static function (string $selector, mixed $value, int|string $target) use (&$filled): void {
+        if (optelya_seed_is_empty(optelya_field($selector, $target)) && ! optelya_seed_is_empty($value)) {
+            update_field($selector, $value, $target);
+            $filled++;
+        }
+    };
+    $id = static fn(OptelyaPostType $type, string $slug): int => (($post = get_page_by_path($slug, OBJECT, $type->value)) instanceof WP_Post) ? $post->ID : 0;
+    $ids = static fn(OptelyaPostType $type, array $slugs): array => array_values(array_filter(array_map(static fn(string $slug): int => $id($type, $slug), $slugs)));
+
+    // Read on every page of their list: autoloaded, as the settings screen saves them (inc/catalog.php).
+    acf_update_setting('autoload', true);
+
+    foreach ($data['options'] as $selector => $value) {
+        $fill($selector, $value, 'option');
+    }
+
+    acf_update_setting('autoload', false);
+
+    $order = 0;
+
+    foreach ($data['issues'] as $slug => $description) {
+        $term = get_term_by('slug', $slug, OptelyaTaxonomy::Issue->value);
+        $order++;
+
+        if (! $term instanceof WP_Term) {
+            continue;
+        }
+
+        if (trim($term->description) === '') {
+            wp_update_term($term->term_id, OptelyaTaxonomy::Issue->value, ['description' => $description]);
+            $filled++;
+        }
+
+        $fill('order', $order, 'term_' . $term->term_id);
+    }
+
+    foreach ($data['vendors'] as $slug => $fields) {
+        $vendorId = $id(OptelyaPostType::Vendor, $slug);
+
+        foreach ($vendorId > 0 ? $fields : [] as $selector => $value) {
+            $fill($selector, $value, $vendorId);
+        }
+    }
+
+    foreach ($data['industries'] as $slug => $fields) {
+        $industryId = $id(OptelyaPostType::Industry, $slug);
+
+        if ($industryId <= 0) {
+            continue;
+        }
+
+        $fields['card_proof'] = $id(OptelyaPostType::Study, (string) ($fields['card_proof'] ?? ''));
+        $fields['near_studies'] = $ids(OptelyaPostType::Study, $fields['near_studies'] ?? []);
+        $fields['answers'] = array_map(static fn(array $answer): array => [
+            'solutions' => $ids(OptelyaPostType::Solution, $answer['solutions']),
+            'proof' => $id(OptelyaPostType::Study, $answer['proof']),
+        ] + $answer, $fields['answers'] ?? []);
+
+        foreach ($fields as $selector => $value) {
+            $fill($selector, $value, $industryId);
+        }
+    }
+
+    update_option(OPTELYA_CATALOG_PAGES_SEEDED_OPTION, optelya_site_version(), false);
+
+    return sprintf('Textes des listes et des fiches posés : %d champ(s).', $filled);
+}
+
+/**
+ * Nothing written: '', 0, null, false, or only empty values.
+ */
+function optelya_seed_is_empty(mixed $value): bool
+{
+    if (is_array($value)) {
+        return array_filter($value, static fn(mixed $item): bool => ! optelya_seed_is_empty($item)) === [];
+    }
+
+    return $value === null || $value === false || $value === '' || $value === 0 || $value === '0';
+}
+
+/**
+ * The seeded links to the site, written `{home}…`, made absolute.
+ */
+function optelya_seed_resolve_home(mixed $value, string $home): mixed
+{
+    if (is_array($value)) {
+        return array_map(static fn(mixed $item): mixed => optelya_seed_resolve_home($item, $home), $value);
+    }
+
+    return is_string($value) ? str_replace('{home}', $home, $value) : $value;
 }
 
 /**

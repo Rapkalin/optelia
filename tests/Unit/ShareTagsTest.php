@@ -109,3 +109,11 @@ it('leaves out of the markup a step that has no page yet, and numbers the rest',
         ->and(array_column($list['itemListElement'], 'position'))->toBe([1, 2])
         ->and($list['itemListElement'][1]['item'])->toBe('https://example.test/solutions/optimus/');
 });
+
+it('marks a list as a collection page, about nothing in particular', function () {
+    $page = OptelyaShareTags::webPage('https://example.test/solutions/', 'Solutions', 'https://example.test/', '', 'CollectionPage');
+
+    expect($page['@type'])->toBe('CollectionPage')
+        ->and($page)->not->toHaveKey('about')
+        ->and(OptelyaShareTags::webPage('https://example.test/a/', 'A', 'https://example.test/', '')['@type'])->toBe('WebPage');
+});

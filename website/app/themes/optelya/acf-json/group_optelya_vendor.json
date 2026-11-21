@@ -3,12 +3,29 @@
     "title": "Éditeur",
     "fields": [
         {
+            "key": "field_optelya_vendor_tab_head",
+            "label": "En-tête",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
             "key": "field_optelya_vendor_tagline",
             "label": "Positionnement",
             "name": "tagline",
             "aria-label": "",
             "type": "textarea",
-            "instructions": "",
+            "instructions": "Sous le nom de l’éditeur, et texte de sa carte dans la liste des solutions. Sert aussi de description pour les moteurs de recherche (160 caractères au plus pour y paraître en entier).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -28,7 +45,142 @@
             "name": "since",
             "aria-label": "",
             "type": "text",
-            "instructions": "Phrase affichée dans « Ce qu'Optelya ajoute » de ses logiciels, ex. « Noesis Solutions développe ses logiciels depuis 1996. ».",
+            "instructions": "Phrase affichée dans « Ce qu’Optelya ajoute » de ses logiciels, ex. « Noesis Solutions développe ses logiciels depuis 1996. ».",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_vendor_visual",
+            "label": "Visuel",
+            "name": "visual_part",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_visual"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_optelya_vendor_tab_tools",
+            "label": "Outils",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_vendor_tools_intro",
+            "label": "Introduction du tableau des outils",
+            "name": "tools_intro",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Sous « Quel outil … pour quel besoin ? ». La liste des outils se remplit seule (logiciels publiés de l’éditeur).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 2,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_optelya_vendor_tab_video",
+            "label": "Démonstration",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_vendor_video",
+            "label": "Vidéo",
+            "name": "video_part",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_optelya_part_video"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_optelya_vendor_tab_contact",
+            "label": "Contact",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_optelya_vendor_contact_title",
+            "label": "Titre du bloc contact",
+            "name": "contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Vide : celui des réglages (fiche éditeur). Introduction, étapes et mention viennent de la section contact de l’accueil.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -71,6 +223,6 @@
         "send-trackbacks"
     ],
     "active": true,
-    "description": "Éditeur d'un logiciel (page pôle, gabarit G4, à venir).",
+    "description": "Éditeur d’un logiciel (fiche pôle G4, carte de la liste des solutions).",
     "show_in_rest": 0
 }

@@ -9,6 +9,7 @@ import '../styles/app.scss';
 
 import { initComingSoon } from './coming-soon';
 import { initHeroVideo } from './hero-video';
+import { initIssueFilter } from './issue-filter';
 import { initNavToggle } from './nav-toggle';
 import { initVideoCards } from './video-card';
 
@@ -16,3 +17,4 @@ initNavToggle();
 initComingSoon();
 initVideoCards();
 initHeroVideo();
+initIssueFilter();

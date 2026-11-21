@@ -1,0 +1,141 @@
+{
+    "key": "group_optelya_part_video",
+    "title": "Composant : vidéo de démonstration",
+    "fields": [
+        {
+            "key": "field_optelya_part_video_file",
+            "label": "Vidéo de démonstration",
+            "name": "video_file",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "Moins de 3 minutes. Chargée seulement si le visiteur clique. Vide : la zone n’apparaît pas.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "mp4,webm"
+        },
+        {
+            "key": "field_optelya_part_video_poster",
+            "label": "Image d’attente",
+            "name": "video_poster",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "jpg,jpeg,png,webp"
+        },
+        {
+            "key": "field_optelya_part_video_duration",
+            "label": "Durée",
+            "name": "video_duration",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Ex. 2 min 30.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_optelya_part_video_captions",
+            "label": "Sous-titres (VTT)",
+            "name": "video_captions",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "Fichier de sous-titres en français, exigé pour l’accessibilité.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "vtt"
+        },
+        {
+            "key": "field_optelya_part_video_transcript",
+            "label": "Transcription",
+            "name": "video_transcript",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 4,
+            "placeholder": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "author",
+        "format",
+        "page_attributes",
+        "featured_image",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": false,
+    "description": "Vidéo de démonstration d’une fiche. Cloné ; jamais affiché seul.",
+    "show_in_rest": 0
+}

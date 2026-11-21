@@ -10,6 +10,41 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
+## 2.1.0
+
+### Ajouté
+
+- **Liste des solutions** (`/solutions/`) : toutes les solutions en cartes
+  (éditeur, phrase, preuve chiffrée), filtrées par enjeu — un bloc à la fois,
+  choix gardé dans l'adresse (`?enjeu=tolerances`) — puis les trois éditeurs.
+- **Liste des industries** (`/industries/`) : une carte par secteur.
+- **Fiche industrie** : le nom du secteur en titre et son accroche dessous, ses
+  enjeux et les logiciels qui y répondent, ses chiffres, ses autres études ;
+  sans étude publiée, des cas proches.
+- **Fiche éditeur** : le tableau de ses outils, ses chiffres, sa démonstration,
+  ce qu'Optelya ajoute.
+- **Tout se saisit dans l'admin** : nouveaux réglages *Solutions → Réglages*
+  (liste des solutions, fiche éditeur) et *Industries → Réglages* ; nouveaux
+  champs sur les industries, les éditeurs et les enjeux (ordre, description).
+  Un même élément (en-tête, titre de section, bandeau, visuel, vidéo) se saisit
+  partout de la même manière. Les textes des maquettes sont posés au
+  déploiement, seulement dans les champs vides.
+- Les nouvelles pages sont indexées, dans le plan du site, avec leur
+  description, leur fil d'Ariane et leurs données structurées.
+  Titre d'une liste : son titre principal ; d'un éditeur : son nom et ses
+  logiciels (« Sigmetrix : CETOL 6σ, EZtol… »).
+
+### Modifié
+
+- Le fil d'Ariane et les pastilles d'industries d'une fiche solution mènent
+  désormais aux pages construites (liste, éditeur, industrie).
+- Une carte d'étude ne mène plus à la page de l'étude tant qu'elle n'est pas
+  construite (elle affichait une page vide).
+- Le catalogue est lu une fois puis gardé en cache : les pages qui affichent
+  des cartes font moins de requêtes.
+- « Parlons-en » ne se coupe plus en fin de ligne dans les titres du bloc
+  contact.
+
 ## 2.0.1
 
 ### Sécurité

@@ -25,7 +25,7 @@ function seedRepeaterSubFields(): array
         }
     };
 
-    foreach (glob(OPTELYA_THEME_DIR . 'acf-json/group_optelya_{solution,solution_settings,vendor,industry,study}.json', GLOB_BRACE) as $file) {
+    foreach (glob(OPTELYA_THEME_DIR . 'acf-json/group_optelya_{solution,solution_settings,vendor,industry,industry_settings,study,part_*}.json', GLOB_BRACE) as $file) {
         $collect(json_decode((string) file_get_contents($file), true)['fields']);
     }
 

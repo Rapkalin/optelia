@@ -17,6 +17,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+// A hyphenated word stays whole (« Parlons-en » never ends a line on « Parlons- »): word joiner after the hyphen.
+$title = (string) preg_replace('/(?<=\p{L})-(?=\p{L})/u', "-\u{2060}", (string) ($args['title'] ?? ''));
 $lead = (string) ($args['lead'] ?? '');
 $steps = (array) ($args['steps'] ?? []);
 $notice = (string) ($args['notice'] ?? '');
@@ -26,7 +28,7 @@ $outcome = $state['outcome'];
 <section id="<?php echo esc_attr(OptelyaSection::Contact->value); ?>" class="section section--contact">
     <div class="contact">
         <div class="contact__intro">
-            <h2 class="section-title"><?php echo esc_html((string) ($args['title'] ?? '')); ?></h2>
+            <h2 class="section-title"><?php echo esc_html($title); ?></h2>
             <?php if ($lead !== '') : ?>
                 <p class="contact__lead"><?php echo esc_html($lead); ?></p>
             <?php endif; ?>

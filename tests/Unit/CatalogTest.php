@@ -53,3 +53,37 @@ it('links to all the solutions of a vendor only beyond the cards shown', functio
         ->and(OptelyaCatalog::solutionsLabel(3, 'Sigmetrix', 3))->toBe('')
         ->and(OptelyaCatalog::solutionsLabel(5, 'Sigmetrix', 3))->toBe('Voir les 5 solutions Sigmetrix');
 });
+
+it('puts the name of the page in a heading written for every page', function (): void {
+    expect(OptelyaCatalog::withName('{nom} en situation', 'Sigmetrix'))->toBe('Sigmetrix en situation')
+        ->and(OptelyaCatalog::withName('Vos enjeux, nos réponses', 'Sigmetrix'))->toBe('Vos enjeux, nos réponses');
+});
+
+it('proves a product by its first figure, else by its number of studies from 3 on', function (): void {
+    $figure = ['figure' => '−17 %', 'label' => 'de masse'];
+
+    expect(OptelyaCatalog::proofLine([$figure, ['figure' => 'x', 'label' => 'y']], 9))->toBe($figure)
+        ->and(OptelyaCatalog::proofLine([], 3))->toBe(['figure' => '3 études', 'label' => 'de cas publiées'])
+        ->and(OptelyaCatalog::proofLine([], 2))->toBeNull()
+        ->and(OptelyaCatalog::proofLine([], 0))->toBeNull();
+});
+
+it('offers to compare the tools of an issue only when one vendor makes them all', function (): void {
+    expect(OptelyaCatalog::compareLabel(['Sigmetrix', 'Sigmetrix', 'Sigmetrix', 'Sigmetrix']))->toBe('Comparer les 4 outils Sigmetrix')
+        ->and(OptelyaCatalog::compareLabel(['Sigmetrix']))->toBe('')
+        ->and(OptelyaCatalog::compareLabel(['Sigmetrix', 'FunctionBay']))->toBe('')
+        ->and(OptelyaCatalog::compareLabel(['', '']))->toBe('')
+        ->and(OptelyaCatalog::compareLabel([]))->toBe('');
+});
+
+it('counts the solutions with the French plural', function (): void {
+    expect(OptelyaCatalog::solutionsCount(1))->toBe('1 solution')
+        ->and(OptelyaCatalog::solutionsCount(0))->toBe('0 solution')
+        ->and(OptelyaCatalog::solutionsCount(8))->toBe('8 solutions');
+});
+
+it('orders the issues as chosen in the admin, then by name', function (): void {
+    $issue = static fn(string $name, int $order): array => ['slug' => $name, 'name' => $name, 'order' => $order];
+
+    expect(array_column(OptelyaCatalog::sortIssues([$issue('C', 2), $issue('B', 1), $issue('A', 2)]), 'name'))->toBe(['B', 'A', 'C']);
+});

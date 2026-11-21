@@ -10,7 +10,7 @@ est propre à Optelya.
 | Navigateur (CSS, JS, polices, images) | `.htaccess`, voir [`performance.md`](performance.md) | en place |
 | OPcache (code PHP compilé) | serveur | en place, vidé seulement au rechargement de PHP-FPM |
 | **Cache de page** (HTML complet) | WP Super Cache, `website/app/wp-cache-config.php` | **activé par `PAGE_CACHE`** |
-| **Cache applicatif** (requêtes coûteuses) | `rapkalin-cache` | prêt, **aucune clé** pour l'instant |
+| **Cache applicatif** (requêtes coûteuses) | `rapkalin-cache` | une clé : **le catalogue** (`OptelyaCacheKey::Catalog`) |
 | Cache objet persistant (Redis) | — | inutile à ce poids de site |
 
 Mesuré en local (06/11/2026) : l'accueil passe de **459 ms à 40 ms**, une fiche
@@ -99,11 +99,33 @@ Les fichiers sont sous `website/app/cache/supercache/<hôte>/`.
 
 ## Cache applicatif
 
-Prêt, sans clé : aucune requête du site ne le justifie aujourd'hui. Les clés
-seront ajoutées avec l'archive des solutions, l'archive des industries et la
-bibliothèque d'études (39 études, filtres) : une enum `OptelyaCacheKey` dans
-le thème (`inc/enums/`), qui implémente `RapkalinCacheEntry` et s'enregistre
-par le filtre `rapkalin_cache_entries`. Mode d'emploi : `README.md` du module.
+Une enum `OptelyaCacheKey` (`inc/enums/`) implémente `RapkalinCacheEntry` et
+s'enregistre par le filtre `rapkalin_cache_entries`. Mode d'emploi : `README.md`
+du module.
+
+| Clé | Contenu | Vidée par | Durée |
+| --- | --- | --- | --- |
+| `Catalog` | Tout le catalogue publié en valeurs simples (`optelya_catalog()`) : éditeurs, solutions, industries, études, enjeux, dans l'ordre d'affichage | publication, modification ou retrait d'un contenu des 4 types ; écriture d'un de leurs champs lus ; modification d'un enjeu | 24 h |
+
+Lu par les listes, les fiches et les étiquettes d'éditeur de **toutes** les
+cartes (accueil compris) : une lecture au lieu d'une requête par carte.
+Mesuré en local (21/11/2026) : construire le catalogue coûte **11 ms et 10
+requêtes**, le relire **0,3 ms et 1 requête**. Sans le module, le thème le
+calcule à chaque page (même résultat).
+
+Ajouter un champ lu par `optelya_build_catalog()` : l'ajouter aussi à
+`OptelyaCacheKey::metaKeys()`, sinon une écriture de ce seul champ par un
+script ne viderait pas le cache (la saisie dans l'admin le vide de toute façon).
+`tests/Unit/CacheKeyTest.php` échoue si l'un manque.
+
+Deux cas que le module ne voit pas, à vider à la main
+(`wp rapkalin-cache flush`) :
+
+- l'**ordre d'un enjeu** écrit par un script (`update_field('order', …,
+  'term_…')`) : le module n'écoute pas les métadonnées de terme. Modifié dans
+  l'admin, il vide le cache ; le déploiement vide tout après l'amorçage ;
+- un **changement d'adresse** (structure des permaliens, domaine, `www`) : le
+  catalogue garde les adresses des pages jusqu'à 24 h.
 
 ## Commandes
 

@@ -13,23 +13,58 @@ if (! defined('ABSPATH')) {
 
 /**
  * Content types whose page is built: indexed and listed in the sitemap. The
- * others (studies, vendors, industries) and every list answer `noindex` until
- * their template ships — then add the type here.
+ * others (studies) and their list answer `noindex` until their template
+ * ships — then add the type here.
  */
-const OPTELYA_INDEXED_POST_TYPES = ['page', OptelyaPostType::Solution->value];
+const OPTELYA_INDEXED_POST_TYPES = ['page', OptelyaPostType::Solution->value, OptelyaPostType::Industry->value, OptelyaPostType::Vendor->value];
 
 /**
- * Pages worth describing and sharing: not the 404, the search or an archive.
+ * Lists of the catalogue whose page is built, indexed and in the sitemap.
+ */
+const OPTELYA_INDEXED_ARCHIVES = [OptelyaPostType::Solution->value, OptelyaPostType::Industry->value];
+
+function optelya_is_indexed_archive(): bool
+{
+    return is_post_type_archive(OPTELYA_INDEXED_ARCHIVES) && ! is_paged();
+}
+
+/**
+ * Pages worth describing and sharing: not the 404, the search or a bare list.
  */
 function optelya_is_shareable(): bool
 {
-    return is_front_page() || is_singular();
+    return is_front_page() || is_singular() || optelya_is_indexed_archive();
 }
 
 function optelya_is_indexable(): bool
 {
-    return is_front_page() || is_singular(OPTELYA_INDEXED_POST_TYPES);
+    return is_front_page() || is_singular(OPTELYA_INDEXED_POST_TYPES) || optelya_is_indexed_archive();
 }
+
+/**
+ * Address of the current page without its parameters (a list filtered by
+ * ?enjeu=… is the same page).
+ */
+function optelya_current_url(): string
+{
+    return match (true) {
+        is_front_page() => home_url('/'),
+        optelya_is_indexed_archive() => (string) get_post_type_archive_link((string) get_query_var('post_type')),
+        default => (string) wp_get_canonical_url(),
+    };
+}
+
+/**
+ * WordPress marks the canonical address of single pages only: the lists get
+ * theirs here.
+ */
+function optelya_print_archive_canonical(): void
+{
+    if (optelya_is_indexed_archive()) {
+        printf('<link rel="canonical" href="%s">' . "\n", esc_url(optelya_current_url()));
+    }
+}
+add_action('wp_head', 'optelya_print_archive_canonical', 1);
 
 /**
  * An empty page in the search results does more harm than no page: the ones
@@ -43,6 +78,37 @@ function optelya_noindex_unbuilt_pages(array $robots): array
     return optelya_is_indexable() || is_404() || is_search() ? $robots : wp_robots_no_robots($robots);
 }
 add_filter('wp_robots', 'optelya_noindex_unbuilt_pages');
+
+/**
+ * A list is titled by its head (« 7 logiciels, 1 formation : partez de votre
+ * enjeu »), a vendor by its products (« Sigmetrix : CETOL 6σ, EZtol… »): the
+ * words searched, not a bare « Solutions ».
+ *
+ * @param array<string, string> $parts
+ * @return array<string, string>
+ */
+function optelya_catalog_document_title(array $parts): array
+{
+    foreach (['solutions_head' => OptelyaPostType::Solution, 'industries_head' => OptelyaPostType::Industry] as $selector => $type) {
+        $title = is_post_type_archive($type->value) ? rtrim(optelya_page_head($selector)['title'], ' .') : '';
+
+        if ($title !== '') {
+            return ['title' => $title] + $parts;
+        }
+    }
+
+    if (is_singular(OptelyaPostType::Vendor->value)) {
+        $products = array_column(optelya_solutions_of((int) get_queried_object_id()), 'title');
+
+        if ($products !== []) {
+            /* translators: 1: vendor name, 2: its products */
+            $parts['title'] = sprintf(__('%1$s : %2$s', 'optelya'), $parts['title'] ?? '', implode(', ', $products));
+        }
+    }
+
+    return $parts;
+}
+add_filter('document_title_parts', 'optelya_catalog_document_title');
 
 function optelya_front_page_title(array $parts): array
 {
@@ -73,18 +139,27 @@ function optelya_meta_description(): string
         return optelya_site_description();
     }
 
-    return is_singular(OptelyaPostType::Solution->value) ? optelya_text(optelya_field('promise', (int) get_queried_object_id())) : '';
+    $id = (int) get_queried_object_id();
+
+    return optelya_text(match (true) {
+        is_singular(OptelyaPostType::Solution->value) => optelya_field('promise', $id),
+        is_singular(OptelyaPostType::Industry->value) => optelya_field('lead', $id),
+        is_singular(OptelyaPostType::Vendor->value) => optelya_field('tagline', $id),
+        is_post_type_archive(OptelyaPostType::Solution->value) => optelya_page_head('solutions_head')['lead'],
+        is_post_type_archive(OptelyaPostType::Industry->value) => optelya_page_head('industries_head')['lead'],
+        default => '',
+    });
 }
 
 /**
- * The solution's visual on its page, the site's sharing image elsewhere,
- * cropped to the size of the previews.
+ * The visual of a solution, industry or vendor on its page, the site's
+ * sharing image elsewhere, cropped to the size of the previews.
  *
  * @return array{url: string, width: int, height: int, alt: string}|null
  */
 function optelya_share_image(): ?array
 {
-    $id = is_singular(OptelyaPostType::Solution->value) ? optelya_attachment_id(optelya_field('visual', (int) get_queried_object_id())) : 0;
+    $id = is_singular([OptelyaPostType::Solution->value, OptelyaPostType::Industry->value, OptelyaPostType::Vendor->value]) ? optelya_attachment_id(optelya_field('visual', (int) get_queried_object_id())) : 0;
     $id = $id > 0 ? $id : optelya_attachment_id(optelya_option(OptelyaSetting::ShareImage));
     $source = $id > 0 ? wp_get_attachment_image_src($id, OPTELYA_SHARE_IMAGE_SIZE) : false;
 
@@ -101,8 +176,9 @@ function optelya_share_image(): ?array
 }
 
 /**
- * schema.org graph: the organisation and its website on every page, then
- * the page, its breadcrumb and its product on a solution.
+ * schema.org graph: the organisation and its website on every page, then on a
+ * page of the catalogue the page itself, its breadcrumb and, on a solution,
+ * its product.
  *
  * @param array{url: string, width: int, height: int, alt: string}|null $image
  * @return array{'@context': string, '@graph': list<array<string, mixed>>}
@@ -123,11 +199,17 @@ function optelya_structured_data(string $url, ?array $image): array
         OptelyaShareTags::website($name, $home, get_bloginfo('language')),
     ];
 
-    if (is_singular(OptelyaPostType::Solution->value)) {
+    $breadcrumb = optelya_catalog_breadcrumb();
+    $isSolution = is_singular(OptelyaPostType::Solution->value);
+
+    if ($breadcrumb !== []) {
+        $nodes[] = OptelyaShareTags::webPage($url, wp_get_document_title(), $home, $isSolution ? OptelyaShareTags::productId($url) : '', is_post_type_archive() ? 'CollectionPage' : 'WebPage');
+        $nodes[] = OptelyaShareTags::breadcrumb($breadcrumb, $url);
+    }
+
+    if ($isSolution) {
         $solutionId = (int) get_queried_object_id();
         $vendorId = (int) optelya_field('vendor', $solutionId);
-        $nodes[] = OptelyaShareTags::webPage($url, wp_get_document_title(), $home, OptelyaShareTags::productId($url));
-        $nodes[] = OptelyaShareTags::breadcrumb(optelya_solution_breadcrumb($solutionId), $url);
         $nodes[] = OptelyaShareTags::product(
             get_the_title($solutionId),
             optelya_meta_description(),
@@ -152,7 +234,7 @@ function optelya_print_head_meta(): void
         printf('<meta name="description" content="%s">' . "\n", esc_attr($description));
     }
 
-    $url = is_front_page() ? home_url('/') : (string) wp_get_canonical_url();
+    $url = optelya_current_url();
     $image = optelya_share_image();
 
     foreach (OptelyaShareTags::meta(wp_get_document_title(), $description, $url, get_bloginfo('name'), get_locale(), $image) as [$attribute, $key, $content]) {
@@ -177,11 +259,12 @@ add_filter('wp_sitemaps_taxonomies', '__return_empty_array');
 /**
  * Archives, feeds and attachment pages answer 404: the site has no blog, and
  * they only duplicate or thin out its content (SEO audit, 05/11/2026). So do
- * the « pages » of the homepage (/page/2/), copies of it (SEO audit, 08/11/2026).
+ * the « pages » of the homepage (/page/2/) and of the lists, copies of them
+ * (SEO audit, 08/11/2026): a list shows all its content on one page.
  */
 function optelya_refuse_unused_archives(): void
 {
-    if (! (is_date() || is_category() || is_tag() || is_attachment() || is_feed() || (is_front_page() && is_paged()))) {
+    if (! (is_date() || is_category() || is_tag() || is_attachment() || is_feed() || ((is_front_page() || is_post_type_archive()) && is_paged()))) {
         return;
     }
 
@@ -195,3 +278,52 @@ function optelya_remove_feed_links(): void
     remove_action('wp_head', 'feed_links_extra', 3);
 }
 add_action('init', 'optelya_remove_feed_links');
+
+/**
+ * The lists read the cached catalogue (optelya_catalog()): their main query
+ * only needs to know the list exists.
+ */
+function optelya_light_archive_query(WP_Query $query): void
+{
+    if ($query->is_main_query() && ! is_admin() && $query->is_post_type_archive(OPTELYA_INDEXED_ARCHIVES)) {
+        $query->set('posts_per_page', 1);
+        $query->set('no_found_rows', true);
+    }
+}
+add_action('pre_get_posts', 'optelya_light_archive_query');
+
+/**
+ * The built lists in the sitemap: WordPress lists the contents, not their lists.
+ */
+function optelya_register_archives_sitemap(): void
+{
+    if (! class_exists('WP_Sitemaps_Provider')) {
+        return;
+    }
+
+    wp_register_sitemap_provider('archives', new class extends WP_Sitemaps_Provider {
+        public function __construct()
+        {
+            $this->name = 'archives';
+            $this->object_type = 'archive';
+        }
+
+        /**
+         * `mixed`: WP_Sitemaps_Provider types none of its parameters.
+         *
+         * @return list<array{loc: string}>
+         */
+        public function get_url_list(mixed $page_num, mixed $object_subtype = ''): array
+        {
+            // One page: a second one answers 404 instead of repeating the first.
+            return (int) $page_num === 1 ? array_map(static fn(string $type): array => ['loc' => (string) get_post_type_archive_link($type)], OPTELYA_INDEXED_ARCHIVES) : [];
+        }
+
+        public function get_max_num_pages(mixed $object_subtype = ''): int
+        {
+            return 1;
+        }
+    });
+}
+// Registered everywhere; served only where the sitemaps are on (production).
+add_action('wp_sitemaps_init', 'optelya_register_archives_sitemap');

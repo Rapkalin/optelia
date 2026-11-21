@@ -107,12 +107,36 @@ Quatre types de contenu, liés entre eux par des **relations** (on choisit un
 | Type | Adresse | Porte |
 | --- | --- | --- |
 | **Solution** (logiciel ou formation) | `/solutions/<nom>/` | éditeur, promesse, **phrase de carte**, visuel, 3 bénéfices, vidéo, études de preuve **ou** applications + industries, détails techniques, fiche PDF, titre du bloc contact |
-| **Éditeur** | `/editeurs/<nom>/` | ancienneté (« développe ses logiciels depuis 1996 ») |
-| **Industrie** | `/industries/<nom>/` | champs de la future page industrie |
+| **Éditeur** | `/editeurs/<nom>/` | positionnement (sous son nom, texte de sa carte), ancienneté (« développe ses logiciels depuis 1996 »), visuel, introduction du tableau des outils, vidéo, titre du bloc contact |
+| **Industrie** | `/industries/<nom>/` | accroche (sous le nom du secteur), texte d'introduction, visuel ; sa **carte** (phrase, exemples d'applications, étude citée) ; ses **enjeux et réponses** (titre, texte, logiciels, étude preuve) ; sans étude : titre, texte et cas proches ; vidéo ; titre du bloc contact |
 | **Étude de cas** | `/etudes-de-cas/` | fiche minimale : chiffre, libellé, source, solutions liées, PDF |
 
 La taxonomie **Enjeux** (optimiser, données, tolérances, mécanismes) classe
-solutions et études ; elle n'a pas de page publique.
+solutions et études ; elle n'a pas de page publique. Son **nom** est le bouton
+du filtre de la liste des solutions et le titre du bloc, sa **description**
+l'introduction du bloc, son **ordre d'affichage** l'ordre des boutons.
+
+### Les réglages : ce qui est écrit une fois
+
+Ce qui est commun à toutes les fiches d'un type, ou propre à une liste, se
+saisit **une fois**, dans le menu du type :
+
+| Écran | Onglets |
+| --- | --- |
+| **Solutions → Réglages** | *Fiches solution et éditeur* (« Ce qu'Optelya ajoute ») · *Liste des solutions* (en-tête, bandeau d'aide, libellé du filtre, section de toutes les solutions, section des éditeurs, titre du bloc contact) · *Fiche éditeur* (lien vers les outils, titres des sections, titre du bloc contact par défaut) |
+| **Industries → Réglages** | *Liste des industries* (en-tête, section des secteurs, bandeau, titre du bloc contact) · *Fiche industrie* (liens de l'en-tête, titres des sections, titre du bloc contact par défaut) |
+
+Dans un titre de section commun, **« {nom} »** est remplacé par le nom de la
+fiche : « {nom} en situation » devient « Sigmetrix en situation ».
+
+**Un même élément se saisit partout de la même manière** : l'en-tête d'une liste
+(surtitre, titre, introduction, bouton, lien), un titre de section (titre,
+introduction), le bandeau d'aide (phrase, lien, pastilles), le visuel et la
+vidéo d'une fiche sont des **composants de champs** définis une seule fois
+(`acf-json/group_optelya_part_*.json`, groupes inactifs) et **clonés** là où ils
+servent. Changer un libellé ou une consigne dans le composant le change sur
+tous les écrans. Le visuel et la vidéo de l'éditeur et de l'industrie
+reprennent les noms de champs de la solution.
 
 **Champs fixes par type**, pas de contenu flexible : une fiche solution a
 toujours la même structure, dans le même ordre. Un champ facultatif laissé vide
@@ -120,6 +144,20 @@ retire sa zone (vidéo, détails), et le fond alterné se recale
 sur les zones affichées.
 
 **Ce qui est calculé, pas saisi** :
+
+- les **cartes des listes** : une solution par sa phrase de carte et sa preuve
+  (le chiffre de sa première étude chiffrée, sinon « N études » à partir de 3),
+  un éditeur par son positionnement, ses logiciels et son ancienneté, un
+  secteur par sa carte ;
+- le **filtre par enjeu** de la liste des solutions : un bouton par enjeu qui a
+  des solutions publiées ; « Comparer les N outils <éditeur> » quand toutes les
+  solutions d'un enjeu viennent du même éditeur ;
+- sur une **fiche industrie** : ses chiffres (études chiffrées du secteur, 3 au
+  plus), puis ses autres études (3 au plus) ; sans étude publiée, l'état « pas
+  encore d'étude » et les cas proches choisis ;
+- sur une **fiche éditeur** : le tableau de ses outils (ses solutions publiées,
+  avec leur phrase de carte) et ses chiffres (études de ses logiciels) ;
+- une carte d'étude ne mène à l'étude qu'une fois la page étude construite (G6) ;
 
 - le fil d'Ariane (Accueil › Solutions › éditeur › produit) — une étape dont la
   page n'est pas encore construite s'affiche sans lien ;
@@ -144,9 +182,11 @@ médiathèque, sous-titres WebVTT en français, transcription facultative).
 **Titre et description pour les moteurs** : « Optimus – Noesis Solutions –
 Optelya », et la promesse comme description (sinon celle du site).
 
-Gabarit : `single-optelya_solution.php`. Les pages d'archive, industrie et
-éditeur ne sont pas encore faites : leurs adresses affichent pour l'instant la
-page générique.
+Gabarits : `single-optelya_solution.php`, `single-optelya_industry.php`,
+`single-optelya_vendor.php`, `archive-optelya_solution.php` (`/solutions/`) et
+`archive-optelya_industry.php` (`/industries/`). Pas de liste des éditeurs :
+`/editeurs/` répond 404 ; on les atteint par la liste des solutions et les
+fiches. La bibliothèque et la page des études ne sont pas encore faites (G3, G6).
 
 ## Le contenu initial
 
@@ -166,6 +206,11 @@ Le **catalogue** a sa propre garde, `optelya_catalog_seeded`
 vérifiés** dans un PDF d'étude sont posés ; les valeurs entre crochets restent à
 fournir. Une ligne de répéteur doit porter les noms de ses sous-champs, sinon
 ACF l'ignore sans erreur : `tests/Unit/SeedCatalogDataTest.php` le vérifie.
+
+Les **textes des listes et des fiches industrie et éditeur** (2.1.0) ont leur
+garde, `optelya_catalog_pages_seeded` (`inc/seed-catalog-pages-data.php`) : ils ne
+remplissent **que les champs vides**, une fois, au déploiement — rien de ce qui
+a été saisi n'est remplacé.
 
 Les liens amorcés sont des URL absolues (`http://localhost:8040/#expert`) :
 après un import de base d'un environnement à l'autre, passer

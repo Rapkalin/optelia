@@ -140,10 +140,10 @@ final class OptelyaShareTags
      *
      * @return array<string, mixed>
      */
-    public static function webPage(string $url, string $title, string $homeUrl, string $aboutId): array
+    public static function webPage(string $url, string $title, string $homeUrl, string $aboutId, string $type = 'WebPage'): array
     {
         return array_filter([
-            '@type' => 'WebPage',
+            '@type' => $type,
             '@id' => $url . '#webpage',
             'url' => $url,
             'name' => $title,
