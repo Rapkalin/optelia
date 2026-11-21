@@ -42,6 +42,19 @@ enum OptelyaPostType: string
         return $this !== self::Vendor;
     }
 
+    /**
+     * Key of the type's entries in the cached catalogue (optelya_catalog()).
+     */
+    public function catalogKey(): string
+    {
+        return match ($this) {
+            self::Solution => 'solutions',
+            self::Vendor => 'vendors',
+            self::Industry => 'industries',
+            self::Study => 'studies',
+        };
+    }
+
     public function singular(): string
     {
         return match ($this) {

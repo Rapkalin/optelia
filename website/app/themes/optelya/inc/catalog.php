@@ -52,7 +52,10 @@ add_action('acf/init', 'optelya_register_catalogue_settings');
  */
 function optelya_has_contact_block(): bool
 {
-    return is_front_page() || is_singular(optelya_built_types()) || is_post_type_archive(optelya_built_types(true));
+    $builtPages = optelya_built_types();
+
+    // A list of types, never an empty one: WordPress reads [] as « any ».
+    return is_front_page() || ($builtPages !== [] && is_singular($builtPages)) || optelya_current_list() !== null;
 }
 
 /**
@@ -96,6 +99,26 @@ function optelya_built_types(bool $archive = false): array
 }
 
 /**
+ * Whether a content type's list is shown: built, and with something
+ * published in it. Otherwise it answers 404 (inc/seo.php) and nothing links
+ * to it — a list emptied for review (21/11/2026) left a bare page indexed.
+ */
+function optelya_is_live_list(OptelyaPostType $type): bool
+{
+    return optelya_is_built($type, true) && optelya_catalog()[$type->catalogKey()] !== [];
+}
+
+/**
+ * The content types whose list is shown (optelya_is_live_list()).
+ *
+ * @return list<string>
+ */
+function optelya_live_lists(): array
+{
+    return array_values(array_filter(optelya_built_types(true), static fn(string $type): bool => optelya_is_live_list(OptelyaPostType::from($type))));
+}
+
+/**
  * Address of a content's page, or '' while that page is not built.
  */
 function optelya_built_url(OptelyaPostType $type, string $url): string
@@ -122,11 +145,11 @@ function optelya_breadcrumb_list(OptelyaPostType $type): array
 }
 
 /**
- * Address of a content type's list, or '' while it is not built.
+ * Address of a content type's list, or '' while it is not shown.
  */
 function optelya_list_url(OptelyaPostType $type): string
 {
-    return optelya_is_built($type, true) ? (string) get_post_type_archive_link($type->value) : '';
+    return optelya_is_live_list($type) ? (string) get_post_type_archive_link($type->value) : '';
 }
 
 /**
@@ -178,9 +201,11 @@ function optelya_catalog_breadcrumb(): array
  */
 function optelya_current_list(): ?OptelyaPostType
 {
-    $type = is_post_type_archive(optelya_built_types(true)) ? OptelyaPostType::tryFrom((string) get_query_var('post_type')) : null;
+    // Never is_post_type_archive() with a list of types: an EMPTY list means
+    // « any archive » to WordPress (with nothing published, every list showed).
+    $type = is_post_type_archive() ? OptelyaPostType::tryFrom((string) get_query_var('post_type')) : null;
 
-    return $type instanceof OptelyaPostType ? $type : null;
+    return $type instanceof OptelyaPostType && optelya_is_live_list($type) ? $type : null;
 }
 
 /**
@@ -296,12 +321,12 @@ function optelya_catalog(): array
  */
 function optelya_build_catalog(): array
 {
-    $ids = array_map(static fn(OptelyaPostType $type): array => optelya_published_ids($type), [
-        'vendors' => OptelyaPostType::Vendor,
-        'solutions' => OptelyaPostType::Solution,
-        'industries' => OptelyaPostType::Industry,
-        'studies' => OptelyaPostType::Study,
-    ]);
+    $ids = [];
+
+    foreach (OptelyaPostType::cases() as $type) {
+        $ids[$type->catalogKey()] = optelya_published_ids($type);
+    }
+
     // Posts, fields and issues in a few queries, not one per card.
     _prime_post_caches(array_merge(...array_values($ids)), false, true);
     update_object_term_cache($ids['solutions'], OptelyaPostType::Solution->value);
@@ -581,6 +606,22 @@ function optelya_solution_card(array $solution): array
         'link' => optelya_view_link($solution, OptelyaPostType::Solution),
         'filters' => array_filter([OptelyaCatalog::ALL_ISSUES, $solution['issue']]),
     ];
+}
+
+/**
+ * Pills of the published industries among these IDs, linked to their page.
+ *
+ * @param list<int> $industryIds
+ * @return list<array{label: string, url: string, target: string}>
+ */
+function optelya_industry_links(array $industryIds): array
+{
+    $industries = optelya_catalog()['industries'];
+
+    return array_map(
+        static fn(int $id): array => optelya_card_link($industries[$id]['title'], OptelyaPostType::Industry, $industries[$id]['url']),
+        array_values(array_filter($industryIds, static fn(int $id): bool => isset($industries[$id]))),
+    );
 }
 
 /**

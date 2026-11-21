@@ -21,7 +21,10 @@ $anchor = (string) ($args['id'] ?? '');
 $helpText = (string) ($args['help_text'] ?? '');
 $helpLink = (array) ($args['help_link'] ?? []);
 $label = (string) ($args['label'] ?? '');
-$links = (array) ($args['links'] ?? []);
+// A pill without address (a page not built or not published) is not shown.
+$links = array_values(array_filter((array) ($args['links'] ?? []), static fn(mixed $link): bool => is_array($link) && ($link['url'] ?? '') !== '' && ($link['label'] ?? '') !== ''));
+// A label introduces the pills: alone, it says nothing.
+$label = $links === [] ? '' : $label;
 
 if ($helpText === '' && ($helpLink['label'] ?? '') === '' && $label === '' && $links === []) {
     return;

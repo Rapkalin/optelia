@@ -84,7 +84,7 @@ $sectionClass = optelya_section_classes();
                 <?php get_template_part('components/card-grid', null, ['cards' => $applications]); ?>
                 <?php get_template_part('components/sectors-band', null, [
                     'label' => optelya_catalog_text(OptelyaCatalogSetting::SolutionSectorsLabel),
-                    'links' => array_map(static fn(int $industryId): array => optelya_card_link(get_the_title($industryId), OptelyaPostType::Industry, (string) get_permalink($industryId)), optelya_ids(optelya_field('industries', $solutionId))),
+                    'links' => optelya_industry_links(optelya_ids(optelya_field('industries', $solutionId))),
                 ]); ?>
             </div>
         </section>

@@ -10,7 +10,17 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
-## 2.3.0
+## 2.3.1
+
+### Corrigé
+
+- **Une liste sans contenu publié répond 404** au lieu d'une page vide indexée
+  (`/solutions/` et `/industries/` avec tout le catalogue en relecture) ; elle
+  sort du plan du site et n'est plus liée, puis revient seule à la première
+  publication. `/etudes-de-cas/`, pas encore construite, répond 404 aussi.
+- Une fiche solution ne montre plus en pastille une industrie non publiée, ni
+  « Industries concernées : » seul.
+
 
 ### Ajouté
 

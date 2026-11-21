@@ -269,11 +269,14 @@ add_filter('wp_sitemaps_taxonomies', '__return_empty_array');
  * Archives, feeds and attachment pages answer 404: the site has no blog, and
  * they only duplicate or thin out its content (SEO audit, 05/11/2026). So do
  * the « pages » of the homepage (/page/2/) and of the lists, copies of them
- * (SEO audit, 08/11/2026): a list shows all its content on one page.
+ * (SEO audit, 08/11/2026): a list shows all its content on one page. A list
+ * not shown (no template yet, nothing published) answers 404 too.
  */
 function optelya_refuse_unused_archives(): void
 {
-    if (! (is_date() || is_category() || is_tag() || is_attachment() || is_feed() || ((is_front_page() || is_post_type_archive()) && is_paged()))) {
+    $hiddenList = is_post_type_archive() && optelya_current_list() === null;
+
+    if (! ($hiddenList || is_date() || is_category() || is_tag() || is_attachment() || is_feed() || ((is_front_page() || is_post_type_archive()) && is_paged()))) {
         return;
     }
 
@@ -294,7 +297,10 @@ add_action('init', 'optelya_remove_feed_links');
  */
 function optelya_light_archive_query(WP_Query $query): void
 {
-    if ($query->is_main_query() && ! is_admin() && $query->is_post_type_archive(optelya_built_types(true))) {
+    $builtLists = optelya_built_types(true);
+
+    // A list of types, never an empty one: WordPress reads [] as « any ».
+    if ($builtLists !== [] && $query->is_main_query() && ! is_admin() && $query->is_post_type_archive($builtLists)) {
         $query->set('posts_per_page', 1);
         $query->set('no_found_rows', true);
     }
@@ -325,7 +331,7 @@ function optelya_register_archives_sitemap(): void
         public function get_url_list(mixed $page_num, mixed $object_subtype = ''): array
         {
             // One page: a second one answers 404 instead of repeating the first.
-            return (int) $page_num === 1 ? array_map(static fn(string $type): array => ['loc' => (string) get_post_type_archive_link($type)], optelya_built_types(true)) : [];
+            return (int) $page_num === 1 ? array_map(static fn(string $type): array => ['loc' => (string) get_post_type_archive_link($type)], optelya_live_lists()) : [];
         }
 
         public function get_max_num_pages(mixed $object_subtype = ''): int
