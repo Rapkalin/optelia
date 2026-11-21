@@ -99,6 +99,18 @@ Côté code : champ `coming_soon` des liens de menu
 seulement si la page a un tel lien), `assets/scripts/coming-soon.js`, textes par
 défaut dans `inc/enums/OptelyaComingSoon.php` (`tests/Unit/ComingSoonTest.php`).
 
+## Le sous-menu « Solutions »
+
+Dans *Apparence → Menus*, la case **« Sous-menu des solutions »** d'un lien de
+l'en-tête lui ajoute un bouton (chevron) qui ouvre la liste des **éditeurs et
+de leurs solutions**, remplie toute seule depuis les contenus publiés, et un
+lien « Toutes les solutions ». Le lien lui-même mène toujours à sa page : à
+cocher sur « Solutions », relié à `/solutions/`. Sans JavaScript, le bouton
+n'apparaît pas et le lien mène à la liste.
+
+Un « ▾ » tapé à la fin d'un titre de menu est retiré : la flèche est dessinée
+par le site là où il y a un sous-menu, et nulle part ailleurs (décision 1).
+
 ## Le catalogue
 
 Quatre types de contenu, liés entre eux par des **relations** (on choisit un

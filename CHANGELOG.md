@@ -10,7 +10,20 @@ elle que le pied de page du site affiche, via `optelya_site_version()`.
 Versions `0.x` : développement initial, avant la mise en ligne. La `1.0.0`
 marque la mise en production, le 09/11/2026.
 
-## 2.2.1
+## 2.3.0
+
+### Ajouté
+
+- **Sous-menu « Solutions »** dans l'en-tête : les éditeurs et leurs
+  solutions, en colonnes sur ordinateur, dépliés dans le menu sur mobile, avec
+  un lien vers toutes les solutions. Rempli tout seul depuis les contenus
+  publiés ; il apparaît sur le lien de menu où la case « Sous-menu des
+  solutions » est cochée (*Apparence → Menus*).
+
+### Modifié
+
+- Un « ▾ » tapé à la fin d'un titre de menu n'est plus affiché.
+
 
 ### Corrigé
 

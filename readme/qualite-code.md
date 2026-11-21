@@ -75,6 +75,7 @@ paramètre, jamais une copie ni une surcharge CSS.
 | Cadre sans lien (formulaire, panneaux) | `.card` | Même cadre que les cartes |
 | Pastille cliquable (secteur, filtre) | `.pill` | Un filtre est un `button.pill` à `aria-pressed` |
 | Filtre par enjeu (liste des solutions) | `components/issue-filter.php` + `assets/scripts/issue-filter.js` | Un bloc à la fois (titre, cartes, lien de comparaison), choix gardé dans l'adresse (`?enjeu=`) ; sans script, toutes les cartes |
+| Sous-menu de l'en-tête | `components/catalog-submenu.php` + `assets/scripts/submenu.js` | Bouton à `aria-expanded` à côté du lien (motif « disclosure », pas de menu ARIA) ; Échap, clic ailleurs ou sortie au clavier le ferment ; panneau suspendu sous l'en-tête |
 | État vide | `components/empty-state.php` | Dans un cadre `.card`, toujours suivi de contenus proches : jamais une impasse |
 | En-tête de page | `components/hero.php` | Titre = nom de la fiche ; `claim` en sous-titre (industrie) ; sans visuel : texte seul (listes) |
 | Saisie d'un élément commun | `acf-json/group_optelya_part_*.json`, clonés | En-tête de liste, titre de section, bandeau d'aide, visuel, vidéo : définis une fois, lus par `optelya_page_head()`, `optelya_heading()`, `optelya_band()`, `optelya_head_media()`, `optelya_video()` ; les réglages du catalogue sont nommés par `OptelyaCatalogSetting` (`CatalogSettingTest` le garde aligné sur le JSON) |

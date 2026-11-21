@@ -29,6 +29,15 @@ enum OptelyaMenuLocation: string
     }
 
     /**
+     * A menu title as shown: an arrow typed in it (« Solutions ▾ ») goes,
+     * the site draws its own where there is a submenu.
+     */
+    public static function linkLabel(string $title): string
+    {
+        return trim((string) preg_replace('/\s*[▾▼⌄˅]\s*$/u', '', $title));
+    }
+
+    /**
      * @return list<self>
      */
     public static function footerColumns(): array

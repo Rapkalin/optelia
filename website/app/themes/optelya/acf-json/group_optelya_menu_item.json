@@ -21,6 +21,26 @@
             "ui": 0,
             "ui_on_text": "",
             "ui_off_text": ""
+        },
+        {
+            "key": "field_optelya_menu_item_catalog_submenu",
+            "label": "Sous-menu des solutions",
+            "name": "catalog_submenu",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Dans l'en-tête : le lien ouvre aussi la liste des éditeurs et de leurs solutions, remplie toute seule depuis les solutions publiées. À cocher sur le lien « Solutions » (qui mène à la liste des solutions). Un « ▾ » écrit dans le titre est retiré : la flèche est dessinée par le site.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Ouvrir la liste des éditeurs et de leurs solutions",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         }
     ],
     "location": [

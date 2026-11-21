@@ -1,0 +1,149 @@
+@use '../basics/variables' as *;
+@use '../basics/mixins' as *;
+
+// Catalogue submenu of the header (components/catalog-submenu.php): the link,
+// a chevron button, and a panel of the vendors with their solutions. The
+// panel keeps the page's colours whatever the header's background.
+$submenu-chevron: 7px;
+$submenu-toggle: 32px;
+
+.submenu {
+  // The panel hangs from the header (sticky, so positioned), right under its
+  // border whatever the height of the logo; horizontally, from its own place.
+  position: static;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  &__toggle {
+    display: inline-flex;
+    // Taller than the line: kept out of its height, the menu links stay aligned.
+    margin: -8px 0;
+    align-items: center;
+    justify-content: center;
+    width: $submenu-toggle;
+    height: $submenu-toggle;
+    padding: 0;
+    border: 0;
+    border-radius: $radius-control;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+
+    &[hidden] {
+      display: none;
+    }
+
+    // Chevron down, up once open.
+    &::before {
+      content: '';
+      width: $submenu-chevron;
+      height: $submenu-chevron;
+      margin-top: -4px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+    }
+
+    &[aria-expanded='true']::before {
+      margin-top: 4px;
+      transform: rotate(-135deg);
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    top: calc(100% + 1px);
+    margin-left: -28px;
+    z-index: 1;
+    display: grid;
+    gap: 20px;
+    width: max-content;
+    max-width: min(90vw, $container-width);
+    padding: 24px 28px;
+    background: $color-white;
+    color: $color-ink;
+    border: 1px solid $color-card-border;
+    border-radius: $radius-card;
+    box-shadow: 0 12px 32px rgb(15 29 43 / 14%);
+    font-weight: normal;
+    letter-spacing: normal;
+    text-transform: none;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__groups {
+    @include list-reset;
+    display: grid;
+    grid-auto-columns: minmax(150px, auto);
+    grid-auto-flow: column;
+    gap: 16px 40px;
+  }
+
+  &__group {
+    @include stack(10px);
+  }
+
+  &__vendor {
+    @include eyebrow($letter-spacing-wide);
+    color: $color-text-muted;
+  }
+
+  &__links {
+    @include list-reset;
+    @include stack(8px);
+    font-size: $font-size-base;
+  }
+
+  // The divider spans the panel, the link only its words.
+  &__all {
+    justify-self: start;
+  }
+
+  &__groups + &__all {
+    margin-top: -4px;
+  }
+
+  &__panel > &__groups {
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-card-divider;
+  }
+
+  // Folded menu (small screens): the panel opens in the flow, one column.
+  @include below($breakpoint-nav) {
+    &__trigger {
+      gap: 0;
+
+      a {
+        flex: 1 1 auto;
+      }
+    }
+
+    &__toggle {
+      width: $touch-target;
+      height: $touch-target;
+      margin: 0;
+    }
+
+    &__panel {
+      position: static;
+      width: auto;
+      max-width: none;
+      margin-left: 0;
+      margin-bottom: 12px;
+      padding: 16px 20px;
+      box-shadow: none;
+    }
+
+    &__groups {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+    }
+  }
+}

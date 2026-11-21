@@ -11,9 +11,11 @@ import { initComingSoon } from './coming-soon';
 import { initHeroVideo } from './hero-video';
 import { initIssueFilter } from './issue-filter';
 import { initNavToggle } from './nav-toggle';
+import { initSubmenus } from './submenu';
 import { initVideoCards } from './video-card';
 
 initNavToggle();
+initSubmenus();
 initComingSoon();
 initVideoCards();
 initHeroVideo();
